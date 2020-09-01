@@ -1,4 +1,4 @@
-exports.up = function(knex) {
+exports.up = async function(knex) {
     // CRIAR A TABELA
     return knex.schema.createTable('personal', table => {
       table.increments('id').primary();
@@ -8,7 +8,7 @@ exports.up = function(knex) {
     })
 }
 
-exports.down = function(knex) {
+exports.down = async function(knex) {
     // VOLTAR ATRAS (DELETAR A TABELA)
     return knex.schema.dropTable('personal');
 }
