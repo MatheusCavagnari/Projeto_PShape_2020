@@ -15,7 +15,7 @@ exports.up = async function(knex) {
       table.float('dobra_subescapular').notNullable();
       table.float('dobra_supra_iliaca').notNullable();
       table.float('dobra_axilar').notNullable();
-      table.binary('foto').notNullable();
+      table.binary('foto');
     })
   }
   
