@@ -3,11 +3,7 @@ exports.up = async function(knex) {
     return knex.schema.createTable('tempo', table => {
       table.increments('id').primary();
       table.string('observacoes');
-      table.specificType('tempo', 'char(30)').notNullable();
- 
-
-  
-      
+      table.integer('tempo').notNullable();    
     })
   }
   

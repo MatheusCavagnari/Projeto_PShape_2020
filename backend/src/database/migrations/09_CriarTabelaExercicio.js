@@ -4,10 +4,7 @@ exports.up = async function(knex) {
       table.increments('id').primary();
       table.string('nome').notNullable();
       table.string('maquina').notNullable();
-      table.specificType('tipo', 'char(1)').notNullable();
-
-  
-      
+      table.specificType('tipo', 'char(1)').notNullable();     
     })
   }
   

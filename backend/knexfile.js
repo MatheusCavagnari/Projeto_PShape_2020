@@ -3,9 +3,11 @@
 module.exports = {
   client: 'mysql',
   connection: {
-    database: 'PShape',
+    database: 'pshape',
     user: 'root',
-    password: 'katriel'
+    password: 'password',
+    timezone: 'UTC',
+    dateStrings: true
   },
   pool: {
     min: 2,

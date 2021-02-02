@@ -2,7 +2,7 @@ exports.up = async function(knex) {
     // CRIAR A TABELA
     return knex.schema.createTable('avaliacao', table => {
       table.increments('id').primary();
-      table.integer('aluno_id').references('id').inTable('aluno').notNullable().unsigned();
+      table.integer('aluno_id').references('id').inTable('alunos').notNullable().unsigned().onDelete('CASCADE');
       table.date('data_avaliacao').notNullable();
       table.float('altura').notNullable();
       table.float('peso').notNullable();
@@ -15,8 +15,7 @@ exports.up = async function(knex) {
       table.float('dobra_subescapular').notNullable();
       table.float('dobra_supra_iliaca').notNullable();
       table.float('dobra_axilar').notNullable();
-      table.blob('foto').notNullable();
-      
+      table.binary('foto').notNullable();
     })
   }
   

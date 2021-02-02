@@ -8,10 +8,8 @@ exports.up = async function(knex) {
     table.specificType('sexo', 'char(1)').notNullable();
     table.specificType('telefone', 'char(11)').notNullable();
     table.specificType('whatsapp', 'char(14)').notNullable();
-    table.integer('personal_id').references('id').inTable('personal').notNullable().unsigned();
-    table.date('data_nasc').notNullable();
-
-    
+    table.integer('personal_id').references('id').inTable('personal').notNullable().unsigned().onDelete('CASCADE');
+    table.date('data_nasc').notNullable();  
   })
 }
 

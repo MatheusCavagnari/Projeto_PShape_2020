@@ -3,13 +3,11 @@ exports.up = async function(knex) {
     return knex.schema.createTable('agendamento', table => {
       table.increments('id').primary();
       table.string('observacoes');
-      table.date('data_hora_agendamento').notNullable();
-      table.date('data_hora_execucao').notNullable();
-      table.string('string').notNullable();
-      table.integer('personal_id').references('id').inTable('personal').notNullable().unsigned();
-      table.integer('aluno_id').references('id').inTable('aluno').notNullable().unsigned();
-
-      
+      table.datetime('data_hora_agendamento').notNullable();
+      table.datetime('data_hora_execucao');
+      table.specificType('tipo', 'char(1)').notNullable();
+      table.integer('personal_id').references('id').inTable('personal').notNullable().unsigned().onDelete('CASCADE');
+      table.integer('aluno_id').references('id').inTable('alunos').notNullable().unsigned().onDelete('CASCADE');
     })
   }
   

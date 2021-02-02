@@ -2,10 +2,9 @@ exports.up = async function(knex) {
     // CRIAR A TABELA
     return knex.schema.createTable('aluno_treino', table => {
       table.increments('id').primary();
-      table.integer('aluno_id').references('id').inTable('aluno').notNullable().unsigned();
-      table.integer('treino_id').references('id').inTable('treino').notNullable().unsigned();
+      table.integer('aluno_id').references('id').inTable('alunos').unsigned().onDelete('CASCADE');
+      table.integer('treino_id').references('id').inTable('treino').notNullable().unsigned().onDelete('CASCADE');
       table.date('data').notNullable();
-
     })
 }
 

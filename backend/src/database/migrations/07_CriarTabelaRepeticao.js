@@ -4,12 +4,8 @@ exports.up = async function(knex) {
       table.increments('id').primary();
       table.string('observacoes').notNullable();
       table.integer('series').notNullable();
-      table.integer('serepeticaoies').notNullable();
-      table.integer('carga');
-      
-
-  
-      
+      table.integer('repeticao').notNullable();
+      table.integer('carga');      
     })
   }
   

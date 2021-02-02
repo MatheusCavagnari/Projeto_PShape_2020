@@ -1,0 +1,57 @@
+const connection = require('../database/connection')
+
+module.exports = {
+  async create( request, response ) {
+    const { tipo, observacoes, data_hora_agendamento, data_hora_execucao } = request.body
+    const personal_id = request.headers.personal
+    const aluno_id = request.query.aluno
+
+    const agendamento = await connection('agendamento').insert({
+      tipo,
+      observacoes,
+      data_hora_agendamento,
+      data_hora_execucao,
+      personal_id,
+      aluno_id
+    })
+    
+    return response.json( agendamento )
+  },
+
+  async update(request, response) {
+    const { tipo, observacoes, data_hora_agendamento, data_hora_execucao } = request.body
+    const aluno_id = request.query.aluno
+    const { id } = request.params
+
+    const agendemento = await connection('agendamento')
+      .where('agendamento.id', '=', id)
+      .update({
+        tipo,
+        observacoes,
+        data_hora_agendamento,
+        data_hora_execucao,
+        aluno_id
+      })
+
+    return response.json(agendemento)
+  },
+
+  async delete(request, response) {
+    const { id } = request.params
+
+    await connection('agendamento')
+      .where('id', id)
+      .delete()
+
+    return response.status(204).send()
+  },
+
+  async index(request, response) {
+    const personal_id = request.headers.personal
+
+    const agendamentos = await connection('agendamento')
+      .where('agendamento.personal_id', '=', personal_id)
+
+    return response.json(agendamentos)
+  }
+}
