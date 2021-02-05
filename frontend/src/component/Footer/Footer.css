@@ -1,0 +1,15 @@
+.footer{
+    width: 100%;
+    background-color: #022D50;
+    margin: 0;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex: 1;
+    position: absolute;
+}
+
+#tel{
+    text-align: center;
+    color: white;
+}
