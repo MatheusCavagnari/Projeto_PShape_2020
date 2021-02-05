@@ -23,7 +23,7 @@ function Home() {
                     </div>
                     <div className="card1">
                         <div>
-                            <a href="./"><img src={Vetor} alt="some text" /></a>
+                            <a href="./avaliacao"><img src={Vetor} alt="some text" /></a>
                             <p id="subtitulo"> Avaliação</p>
                         </div>
                     </div>

@@ -1,0 +1,32 @@
+.containerAva{
+    height: 100vh;
+    background-color: #F5F5F5;
+}
+
+.divSuperior{
+    flex-direction: row;
+    display: flex;
+    align-items: center;
+}
+
+.divButton{
+    justify-content: flex-end;
+    display: flex;
+    width: 100%;
+
+}
+
+.txtF{
+    width: 100%;
+}
+
+.selectAluno{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    width: 100%;
+}
+
+.tableAluno{
+    margin-top: 20px;
+}
