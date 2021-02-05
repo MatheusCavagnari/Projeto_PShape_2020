@@ -1,0 +1,35 @@
+
+.container{
+    flex-direction: row;
+    display: flex;
+    
+}
+
+.btn{
+
+    justify-content: flex-end;
+    display: flex;
+    width: 100%;
+}
+
+.inputDiv{
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+#aluno{
+   
+}
+
+.dviBtn{
+    justify-content: flex-end;
+    display: flex;
+    width: 100%;
+}
+
+.tabela{
+    margin-top: 20px;
+}
+
+

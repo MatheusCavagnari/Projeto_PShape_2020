@@ -1,10 +1,10 @@
 import React from 'react';
-import User from '../../img/Group.svg';
-import Vetor from '../../img/Vector.svg';
-import Footer from '../Footer/Footer';
-import Braco from '../../img/braco.svg';
-import Peso from '../../img/peso.svg';
-import Agenda from '../../img/agenda.svg';
+import User from '../../../img/Group.svg';
+import Vetor from '../../../img/Vector.svg';
+import Footer from '../../Footer/Footer';
+import Braco from '../../../img/braco.svg';
+import Peso from '../../../img/peso.svg';
+import Agenda from '../../../img/agenda.svg';
 
 
 import './Home.css';
@@ -35,7 +35,7 @@ function Home() {
                     </div>
                     <div className="card1">
                         <div>
-                            <a href="./"><img src={Peso} alt="some text" /></a>
+                            <a href="./exercicio"><img src={Peso} alt="some text" /></a>
                             <p id="subtitulo"> Execícios</p>
                         </div>
                     </div>
