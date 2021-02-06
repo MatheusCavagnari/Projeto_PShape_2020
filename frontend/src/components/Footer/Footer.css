@@ -1,0 +1,10 @@
+.footer{
+    margin: 0;
+    background-color: #022D50;
+    width: 100%;
+    height: 30px;
+}
+
+#footerTitulo{
+    color: #ffffff;
+}
