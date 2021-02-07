@@ -38,8 +38,12 @@ module.exports = {
     return response.json(aluno)
   },
 
-  async delete() {
+  async delete(request, response) {
+    const { id } = request.params
 
+    await connection ('alunos').where('id', id).delete()
+
+    return response.status(204).send()
   },
 
   async index(request, response) {

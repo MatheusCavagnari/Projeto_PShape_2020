@@ -12,8 +12,15 @@ module.exports = {
       return response.json(personal)
   },
 
-  async update() {
+  async update(request, response ) {
+    const { nome } = request.body
+    const { id } = request.params
 
+    const personal = await connection('personal')
+      .where('personal.id', '=', id)
+      .update({ nome })
+
+    return response.json(personal)
   },
 
   async delete() {
