@@ -8,10 +8,13 @@ import Agenda from '../../../img/agenda.svg';
 
 
 import './Home.css';
+import Header from '../../Header';
+
 
 function Home() {
     return (
         <>
+            <Header/> 
             <div className="home">
                 <div className="container"><h1 id="title">Seja bem vindo!</h1></div>
                 <div className="meio">

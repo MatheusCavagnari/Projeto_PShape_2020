@@ -6,6 +6,8 @@ import Treino from './component/Pages/Treino/Treino';
 import Exercicio from './component/Pages/Exercicio/Exercicio';
 import Avaliacao from './component/Pages/Avaliacao/Avaliacao';
 import Menu from './component/Menu/Menu';
+import Login from './component/Pages/Login'
+import Cadastro from './component/Pages/Cadastro'
 
 
 export default function Routes() {
@@ -16,6 +18,8 @@ export default function Routes() {
       <Route path="/menu" component={Menu} />
       <Route path="/exercicio" component={Exercicio} />
       <Route path="/avaliacao" component={Avaliacao} />
+      <Route path="/login" component={Login} />
+      <Route path="/cadastro" component={Cadastro} />
     </Router>
   );
 }
