@@ -1,5 +1,6 @@
 import { TextField } from '@material-ui/core'
-import React from 'react'
+import React, {useState} from 'react'
+import api from '../../../services/api'
 
 import './styles.css'
 
@@ -7,6 +8,22 @@ import Header from '../../Header'
 import Footer from '../../Footer/Footer'
 
 export default function Login() {
+  const [ email, setEmail ] = useState('')
+  const [ senha, setSenha ] = useState('')
+
+  async function btnLoginClick(e) {
+    e.preventDefault()
+
+    // console.log('teste')
+
+    const response = await api.get('/personal/login', {
+      email,
+      senha
+    })
+
+    console.log(response.data)
+  }
+
   return (
     <div id="page">
     <Header className="header"/> 
@@ -17,15 +34,28 @@ export default function Login() {
           <div className="linha"></div>
         </div>
         <div className="dados">
-          <form action="submit">
-            <TextField id="standard-basic" label="E-mail" />
-            <TextField id="standard-basic" label="Senha" type="password" />
+          <form onSubmit={btnLoginClick} >
+            <TextField id="standard-basic email" 
+              label="E-mail" 
+              name="email" 
+              required 
+              value={email}
+              onChange={e => setEmail(e.target.value)} />
+            <TextField id="standard-basic senha"
+              label="Senha"
+              type="password" 
+              name="senha" 
+              required 
+              value={senha}
+              onChange={e => setSenha(e.target.value)} />
+
+            <button type="submit">Entrar</button>
           </form>
 
         </div>
         <div className="botoes">
-          <button>Entrar</button>
-          <a href="./">Não tem cadastro? Entre aqui</a>
+          
+          <a href="./cadastro">Não tem cadastro? Entre aqui</a>
           <a href="./">Esqueci minha senha</a>
         </div>
       </div>

@@ -26,7 +26,7 @@ export default function Login() {
         </div>
         <div className="botoes">
           <button>Cadastrar</button>
-          <a href="./">Já tem cadastro? Entre aqui</a>
+          <a href="./login">Já tem cadastro? Entre aqui</a>
         </div>
       </div>
     </div>

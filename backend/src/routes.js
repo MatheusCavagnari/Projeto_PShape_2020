@@ -5,9 +5,12 @@ const AvaliacaoController = require('./controllers/AvaliacaoController')
 const AgendamentoController = require('./controllers/AgendamentoController')
 const ExercicioController = require('./controllers/ExercicioController')
 const TreinoController = require('./controllers/TreinoController')
+const Autenticacao = require('./controllers/Autenticacao')
 
 
 const routes = express.Router()
+
+routes.get('/personal/login', Autenticacao.login)
 
 routes.post('/personal', PersonalController.create)
 routes.put('/personal/:id', PersonalController.update)
