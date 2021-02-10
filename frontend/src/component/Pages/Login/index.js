@@ -1,6 +1,7 @@
 import { TextField } from '@material-ui/core'
 import React, {useState} from 'react'
 import api from '../../../services/api'
+import {useHistory} from 'react-router-dom'
 
 import './styles.css'
 
@@ -11,17 +12,25 @@ export default function Login() {
   const [ email, setEmail ] = useState('')
   const [ senha, setSenha ] = useState('')
 
+  const history = useHistory()
+
   async function btnLoginClick(e) {
     e.preventDefault()
+    try{
+      const response = await api.post('/personal/login', {
+        email,
+        senha
+      })
 
-    // console.log('teste')
+      localStorage.setItem('personal', response.data.id)
+      localStorage.setItem('nomeUsuario', response.data.nome)
 
-    const response = await api.get('/personal/login', {
-      email,
-      senha
-    })
+      history.push('/')
 
-    console.log(response.data)
+      alert(`usuario ${response.data.nome} entrou`)
+    }catch (err) {
+      alert(`${err.response.data}`)
+    }
   }
 
   return (

@@ -75,7 +75,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  margin: 8px;
+  margin: 0px 10px;
   width: 100%;
 }
 
@@ -86,7 +86,7 @@
 
 }
 
-.botoes button {
+form button {
   border: none;
   background-color: #0689F4;
   color: white;
@@ -96,7 +96,7 @@
   height: 50px;
   width: 100%;
   margin-bottom: 8px;
-  margin-top: 20px;
+  margin-top: 50px;
 }
 
 .botoes button:hover {

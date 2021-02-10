@@ -89,7 +89,7 @@
 
 }
 
-.botoes button {
+form button {
   border: none;
   background-color: #0689F4;
   color: white;
@@ -99,7 +99,7 @@
   height: 50px;
   width: 100%;
   margin-bottom: 8px;
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 .botoes button:hover {

@@ -10,7 +10,7 @@ const Autenticacao = require('./controllers/Autenticacao')
 
 const routes = express.Router()
 
-routes.get('/personal/login', Autenticacao.login)
+routes.post('/personal/login', Autenticacao.login)
 
 routes.post('/personal', PersonalController.create)
 routes.put('/personal/:id', PersonalController.update)
