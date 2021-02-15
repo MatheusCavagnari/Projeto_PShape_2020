@@ -13,6 +13,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
+import Header from '../../Header'
+import Footer from '../../Footer/Footer'
+
 
 function createData(name, calories, fat, carbs, protein) {
     return { name, calories, fat, carbs, protein };
@@ -64,6 +67,8 @@ export default function Execicios() {
 
     const classes = useStyles();
     return (
+        <>
+        <Header />
         <Container maxWidth="xl" className="container">
             <div>
                 <h1 id="title">Exercício</h1>
@@ -102,6 +107,7 @@ export default function Execicios() {
                 </TableContainer>
             </div>
         </Container>
-
+        <Footer />
+    </>                         
     );
 }

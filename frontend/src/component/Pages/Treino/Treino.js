@@ -14,6 +14,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
+import Header from '../../Header'
+import Footer from '../../Footer/Footer'
+
 import './Treino.css';
 
 const useStyles = makeStyles((theme) => ({
@@ -69,7 +72,8 @@ export default function Treino() {
   };
 
   return (
-    <div className="">
+    <>
+      <Header/>
       <div className="container">
 
         <h1 id="title">Treino</h1>
@@ -146,7 +150,8 @@ export default function Treino() {
 
         </div>
       </Container >
-    </div>
+      <Footer/>
+    </>
   );
 }
 

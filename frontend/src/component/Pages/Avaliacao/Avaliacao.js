@@ -18,6 +18,9 @@ import Paper from '@material-ui/core/Paper';
 
 import './Avaliacao.css';
 
+import Header from '../../Header'
+import Footer from '../../Footer/Footer'
+
 //aqui vc usa o banco coloquei essa informaçoes de sabe so pra ver
 const rows = [
     createData('Frozen yoghurt', '15/09/2020', 6.0),
@@ -73,6 +76,8 @@ export default function Avaliacao() {
 
 
     return (
+        <>
+        <Header></Header>
         <Container maxWidth="xl" className="containerAva">
             <div className="divSuperior">
                 <h1>Avaliação</h1>
@@ -123,6 +128,8 @@ export default function Avaliacao() {
             </div>
 
         </Container>
+        <Footer/>
+        </>
     );
 
 }

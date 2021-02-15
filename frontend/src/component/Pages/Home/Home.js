@@ -1,14 +1,16 @@
 import React from 'react';
-import User from '../../../img/Group.svg';
-import Vetor from '../../../img/Vector.svg';
-import Footer from '../../Footer/Footer';
-import Braco from '../../../img/braco.svg';
-import Peso from '../../../img/peso.svg';
-import Agenda from '../../../img/agenda.svg';
 
+import User from "../../../img/Group.svg";
+import Vetor from "../../../img/Vector.svg";
+import Braco from "../../../img/braco.svg";
+import Peso from "../../../img/peso.svg";
+import Agenda from "../../../img/agenda.svg";
 
 import './Home.css';
+
 import Header from '../../Header';
+import Footer from '../../Footer/Footer';
+import BotaoIcone from '../../BotaoIcone'
 
 
 function Home() {
@@ -17,39 +19,14 @@ function Home() {
             <Header/> 
             <div className="home">
                 <div className="container"><h1 id="title">Seja bem vindo!</h1></div>
-                <div className="meio">
-                    <div className="card1">
-                        <div>
-                            <a href="./"><img src={User} alt="some text" /></a>
-                            <p id="subtitulo"> Aluno</p>
-                        </div>
-                    </div>
-                    <div className="card1">
-                        <div>
-                            <a href="./avaliacao"><img src={Vetor} alt="some text" /></a>
-                            <p id="subtitulo"> Avaliação</p>
-                        </div>
-                    </div>
-                    <div className="card1">
-                        <div>
-                            <a href="./treino"><img src={Braco} alt="some text" /></a>
-                            <p id="subtitulo"> Treino</p>
-                        </div>
-                    </div>
-                    <div className="card1">
-                        <div>
-                            <a href="./exercicio"><img src={Peso} alt="some text" /></a>
-                            <p id="subtitulo"> Execícios</p>
-                        </div>
-                    </div>
-                    <div className="card1">
-                        <div>
-                            <a href="./"><img src={Agenda} alt="some text" /></a>
-                            <p id="subtitulo"> Agenda</p>
-                        </div>
-                    </div>
+                <div className="meio">               
+                    <BotaoIcone icone={User} nome="Aluno" path="/" />
+                    <BotaoIcone icone={Vetor} nome="Avaliação" path="/avaliacao" />
+                    <BotaoIcone icone={Braco} nome="Treino" path="/treino" />
+                    <BotaoIcone icone={Peso} nome="Exercícios" path="/exercicio" />
+                    <BotaoIcone icone={Agenda} nome="Agenda" path="/" />
                 </div>
-                <Footer />
+                <Footer/>
             </div>
 
         </>
