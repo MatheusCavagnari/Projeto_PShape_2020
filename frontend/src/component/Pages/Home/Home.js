@@ -11,6 +11,7 @@ import './Home.css';
 import Header from '../../Header';
 import Footer from '../../Footer/Footer';
 import BotaoIcone from '../../BotaoIcone'
+import Titulo from '../../Titulo'
 
 
 function Home() {
@@ -18,7 +19,7 @@ function Home() {
         <>
             <Header/> 
             <div className="home">
-                <div className="container"><h1 id="title">Seja bem vindo!</h1></div>
+                <Titulo titulo="Seja bem vindo!" />
                 <div className="meio">               
                     <BotaoIcone icone={User} nome="Aluno" path="/" />
                     <BotaoIcone icone={Vetor} nome="Avaliação" path="/avaliacao" />

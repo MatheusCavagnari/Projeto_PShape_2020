@@ -8,6 +8,7 @@ import Avaliacao from './component/Pages/Avaliacao/Avaliacao';
 import Menu from './component/Menu/Menu';
 import Login from './component/Pages/Login'
 import Cadastro from './component/Pages/Cadastro'
+import AlterarUsuario from './component/Pages/AlterarUsuario'
 
 
 export default function Routes() {
@@ -20,6 +21,7 @@ export default function Routes() {
       <Route path="/avaliacao" component={Avaliacao} />
       <Route path="/login" component={Login} />
       <Route path="/cadastro" component={Cadastro} />
+      <Route path="/alterar_usuario" component={AlterarUsuario} />
     </Router>
   );
 }

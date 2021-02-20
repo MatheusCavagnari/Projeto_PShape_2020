@@ -1,3 +1,4 @@
+import { ClickAwayListener } from '@material-ui/core';
 import React, {  useState } from 'react';
 import {useHistory} from 'react-router-dom'
 
@@ -5,17 +6,10 @@ import {useHistory} from 'react-router-dom'
 import './styles.css';
 
 function Header() {
-  // const [usuario, setUsuario] = useState(localStorage.getItem('nomeUsuario'))
   const [toggleOptions, setToggleOptions] = useState(false)
   const history = useHistory()
-
-  // useEffect(() => {
-  //   if(localStorage.getItem('nomeUsuario') === null ){
-  //     setUsuario(true)
-  //   } else {
-  //     setUsuario(false)
-  //   } 
-  // }, [usuario])
+  const anchorRef = React.useRef(null);
+  
 
   function logOut(e) {
     e.preventDefault()
@@ -25,10 +19,24 @@ function Header() {
     history.push('/login')
   }
 
+  function alterar(e) {
+    e.preventDefault()
+    history.push('/alterar_usuario')
+  }
+
   function options(e) {
     e.preventDefault()
-    setToggleOptions(!toggleOptions)
+    setToggleOptions((toggleOptions) => !toggleOptions)
   }
+  
+  
+  const handleClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+
+    setToggleOptions(false);
+  };
 
   return (
     <div className="header">
@@ -39,25 +47,25 @@ function Header() {
           </a>
         </div>
         { localStorage.getItem('nomeUsuario') !== '' &&
-          
+          <ClickAwayListener onClickAway={handleClose}>
             <div className="usuario">   
             <button onClick={options} >
               <h2 className="nome">Olá, {localStorage.getItem('nomeUsuario')}</h2>
               <img src="https://image.flaticon.com/icons/png/512/271/271210.png" alt="seta"/>
             </button>
+          { toggleOptions ? (
+            <div className="opcoes">
+              <div className="opcao" onClick={alterar} >
+                <h4>Alterar Usuário</h4>
+              </div>
+              <div className="opcao" onClick={logOut}>
+                <h4>Sair</h4>
+              </div>
+            </div>) : null
+          }
           </div>
-           
+          </ClickAwayListener>
        }
-        { toggleOptions !== false &&
-          <div className="opcoes">
-            <div className="opcao">
-              <a href="/">Alterar Usuário</a>
-            </div>
-            <div className="opcao" onClick={logOut}>
-              <a href="/login" >Sair</a>
-            </div>
-          </div>
-        }
     </div>
   );
 }

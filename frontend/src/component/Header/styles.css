@@ -99,7 +99,7 @@
   transition-duration: 0.2s;
 }
 
-.opcao a {
-  text-decoration: none;
+.opcao h4 {
   color: white;
+  font-weight: normal;
 }
