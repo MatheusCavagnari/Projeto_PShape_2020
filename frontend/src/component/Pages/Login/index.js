@@ -6,7 +6,7 @@ import {useHistory} from 'react-router-dom'
 import './styles.css'
 
 import Header from '../../Header'
-import Footer from '../../Footer/Footer'
+import Footer from '../../Footer'
 
 export default function Login() {
   const [ email, setEmail ] = useState('')

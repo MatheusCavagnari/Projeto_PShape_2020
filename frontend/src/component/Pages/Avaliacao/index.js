@@ -16,10 +16,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
-import './Avaliacao.css';
+import './styles.css';
 
 import Header from '../../Header'
-import Footer from '../../Footer/Footer'
+import Footer from '../../Footer'
 
 //aqui vc usa o banco coloquei essa informaçoes de sabe so pra ver
 const rows = [

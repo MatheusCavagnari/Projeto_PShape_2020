@@ -3,7 +3,7 @@ import {withStyles, makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import './Exercicio.css'
+import './styles.css'
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -14,7 +14,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
 import Header from '../../Header'
-import Footer from '../../Footer/Footer'
+import Footer from '../../Footer'
 
 
 function createData(name, calories, fat, carbs, protein) {

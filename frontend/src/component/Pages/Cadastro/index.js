@@ -5,7 +5,7 @@ import {useHistory} from 'react-router-dom'
 import './styles.css'
 
 import Header from '../../Header'
-import Footer from '../../Footer/Footer'
+import Footer from '../../Footer'
 import api from '../../../services/api'
 
 export default function Login() {

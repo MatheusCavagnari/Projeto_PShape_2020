@@ -1,11 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
-import Home from './component/Pages/Home/Home';
-import Treino from './component/Pages/Treino/Treino';
-import Exercicio from './component/Pages/Exercicio/Exercicio';
-import Avaliacao from './component/Pages/Avaliacao/Avaliacao';
-import Menu from './component/Menu/Menu';
+import Home from './component/Pages/Home';
+import Treino from './component/Pages/Treino';
+import Exercicio from './component/Pages/Exercicio';
+import Avaliacao from './component/Pages/Avaliacao';
+import Menu from './component/Menu';
 import Login from './component/Pages/Login'
 import Cadastro from './component/Pages/Cadastro'
 import AlterarUsuario from './component/Pages/AlterarUsuario'

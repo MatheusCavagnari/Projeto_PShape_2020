@@ -6,10 +6,10 @@ import Braco from "../../../img/braco.svg";
 import Peso from "../../../img/peso.svg";
 import Agenda from "../../../img/agenda.svg";
 
-import './Home.css';
+import './styles.css';
 
 import Header from '../../Header';
-import Footer from '../../Footer/Footer';
+import Footer from '../../Footer';
 import BotaoIcone from '../../BotaoIcone'
 import Titulo from '../../Titulo'
 

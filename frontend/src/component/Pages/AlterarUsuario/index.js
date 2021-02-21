@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 import './styles.css'
 
 import Header from '../../Header'
-import Footer from '../../Footer/Footer'
+import Footer from '../../Footer'
 import { TextField } from '@material-ui/core'
 import api from '../../../services/api'
 
@@ -25,7 +25,7 @@ function AlterarUsuario() {
     e.preventDefault()
 
     try{
-      const response = await api.put(`/personal/${localStorage.getItem('personal')}`, {
+      await api.put(`/personal/${localStorage.getItem('personal')}`, {
         nome, 
         senhaAntiga: senha,
         novaSenha,

@@ -15,9 +15,9 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
 import Header from '../../Header'
-import Footer from '../../Footer/Footer'
+import Footer from '../../Footer'
 
-import './Treino.css';
+import './styles.css';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
