@@ -3,7 +3,6 @@
   padding-right: 20px;
   padding-top: 20px;
   padding-bottom: 20px;
-  flex: 1 auto;
   margin-bottom: 0;
   
 }
@@ -17,4 +16,32 @@
 
 #title{
   margin: 0;
+}
+
+.hidden {
+  visibility: hidden;
+  height: 0;
+  width: 0;
+}
+
+.mainTitle {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.btntitulo {
+  border: none;
+  background-color: #0689F4;
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.3);
+  height: 40px;
+  width: 150px;
+}
+
+.btntitulo:hover {
+  background-color: #0678d6;
+  transition-duration: 0.2s;
 }

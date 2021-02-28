@@ -77,7 +77,7 @@ export default function Avaliacao() {
 
     return (
         <>
-        <Header></Header>
+        <Header/>
         <Container maxWidth="xl" className="containerAva">
             <div className="divSuperior">
                 <h1>Avaliação</h1>

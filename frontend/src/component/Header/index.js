@@ -21,7 +21,7 @@ function Header() {
 
   function alterar(e) {
     e.preventDefault()
-    history.push('/alterar_usuario')
+    history.push('/alterarUsuario')
   }
 
   function options(e) {

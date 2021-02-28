@@ -19,9 +19,9 @@ function Home() {
         <>
             <Header/> 
             <div className="home">
-                <Titulo titulo="Seja bem vindo!" />
+                <Titulo titulo="Seja bem vindo!" classBotao="hidden" />
                 <div className="meio">               
-                    <BotaoIcone icone={User} nome="Aluno" path="/" />
+                    <BotaoIcone icone={User} nome="Aluno" path="/aluno" />
                     <BotaoIcone icone={Vetor} nome="Avaliação" path="/avaliacao" />
                     <BotaoIcone icone={Braco} nome="Treino" path="/treino" />
                     <BotaoIcone icone={Peso} nome="Exercícios" path="/exercicio" />
