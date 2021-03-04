@@ -11,6 +11,8 @@ import Login from './component/Pages/Login'
 import Cadastro from './component/Pages/Cadastro'
 import AlterarUsuario from './component/Pages/AlterarUsuario' 
 import CadastroAluno from './component/Pages/CadastroAluno' 
+import CadastroTreino from './component/Pages/CadastroTreino' 
+import CadastroExercicio from './component/Pages/CadastroExercicio' 
 
 
 export default function Routes() {
@@ -26,6 +28,8 @@ export default function Routes() {
       <Route path="/cadastro" component={Cadastro} />
       <Route path="/alterarUsuario" component={AlterarUsuario} /> 
       <Route path="/cadastroAluno" component={CadastroAluno} /> 
+      <Route path="/cadastroTreino" component={CadastroTreino} />
+      <Route path="/cadastroExercicio" component={CadastroExercicio} />
     </Router>
   );
 }

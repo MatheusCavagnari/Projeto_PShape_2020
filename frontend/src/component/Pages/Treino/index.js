@@ -71,9 +71,10 @@ export default function Treino() {
     setAge(event.target.value);
   };
 
+
   return (
     <>
-      <Header/>
+      <Header />
       <div className="container">
 
         <h1 id="title">Treino</h1>
@@ -84,73 +85,75 @@ export default function Treino() {
         </div>
       </div>
       <Container maxWidth="xl">
-        <div className="inputDiv">
-          <FormControl className={classes.formControl}>
-            <InputLabel id="demo-simple-select-label aluno" className={classes.formControl}>Aluno</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={age}
-              onChange={handleChange}
-            >
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
-          </FormControl>
+       
+          <div className="inputDiv">
+            <FormControl className={classes.formControl}>
+              <InputLabel id="demo-simple-select-label aluno" className={classes.formControl}>Aluno</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={age}
+                onChange={handleChange}
+              >
+                <MenuItem value={10}>Ten</MenuItem>
+                <MenuItem value={20}>Twenty</MenuItem>
+                <MenuItem value={30}>Thirty</MenuItem>
+              </Select>
+            </FormControl>
 
-          <FormControl className={classes.formControl}>
-            <InputLabel id="demo-simple-select-label aluno" className={classes.formControl}>Nome</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={age}
-              onChange={handleChange}
-            >
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
+            <FormControl className={classes.formControl}>
+              <InputLabel id="demo-simple-select-label aluno" className={classes.formControl}>Nome</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={age}
+                onChange={handleChange}
+              >
+                <MenuItem value={10}>Ten</MenuItem>
+                <MenuItem value={20}>Twenty</MenuItem>
+                <MenuItem value={30}>Thirty</MenuItem>
+              </Select>
 
 
-          </FormControl>
-          <div className="dviBtn">
-            <Button id="criarTreino" variant="contained" color="primary">
-              Criar Treino
+            </FormControl>
+            <div className="dviBtn">
+              <Button id="criarTreino" variant="contained" color="primary">
+                Criar Treino
             </Button>
+            </div>
+
           </div>
 
-        </div>
+          <div className="tabela">
+            <TableContainer component={Paper}>
+              <Table className={classes.table} aria-label="customized table">
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell>Nome </StyledTableCell>
+                    <StyledTableCell align="right">Data de inicio</StyledTableCell>
+                    <StyledTableCell align="right">Açôes)</StyledTableCell>
 
-        <div className="tabela">
-          <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="customized table">
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell>Nome </StyledTableCell>
-                  <StyledTableCell align="right">Data de inicio</StyledTableCell>
-                  <StyledTableCell align="right">Açôes)</StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {rows.map((row) => (
+                    <StyledTableRow key={row.name}>
+                      <StyledTableCell component="th" scope="row">
+                        {row.name}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">{row.calories}</StyledTableCell>
+                      <StyledTableCell align="right">{row.fat}</StyledTableCell>
 
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows.map((row) => (
-                  <StyledTableRow key={row.name}>
-                    <StyledTableCell component="th" scope="row">
-                      {row.name}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                    <StyledTableCell align="right">{row.fat}</StyledTableCell>
+                    </StyledTableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
 
-                  </StyledTableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-
-        </div>
+          </div>
+        
       </Container >
-      <Footer/>
+      <Footer />
     </>
   );
 }
