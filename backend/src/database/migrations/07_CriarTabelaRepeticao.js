@@ -2,10 +2,10 @@ exports.up = async function(knex) {
     // CRIAR A TABELA
     return knex.schema.createTable('repeticao', table => {
       table.increments('id').primary();
-      table.string('observacoes').notNullable();
+      table.string('observacoes');
       table.integer('series').notNullable();
       table.integer('repeticao').notNullable();
-      table.integer('carga');      
+      table.integer('carga').notNullable();      
     })
   }
   

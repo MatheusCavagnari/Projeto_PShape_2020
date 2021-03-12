@@ -47,7 +47,7 @@ module.exports = {
   },
 
   async index(request, response) {
-    const personal_id = request.headers.personal
+    //const personal_id = request.headers.personal
     const alunos = await connection('alunos')
       .where('alunos.personal_id', '=', personal_id)
 

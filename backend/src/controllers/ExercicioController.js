@@ -4,11 +4,13 @@ const connection = require('../database/connection')
 module.exports = {
   async create( request, response ) {
     const { nome, maquina, tipo } = request.body
+    const personal_id = request.headers.personal
 
     const exercicio = await connection('exercicio').insert({
       nome, 
       maquina,
-      tipo
+      tipo, 
+      personal_id
     })
 
     return response.json(exercicio)
@@ -41,7 +43,8 @@ module.exports = {
   },
 
   async index(request, response) {
-    const exercicios = await connection('exercicio').select('nome')
+    const exercicios = await connection('exercicio')
+      .where('exercicio.personal_id', '=', personal_id)
 
     return response.json(exercicios)
 
