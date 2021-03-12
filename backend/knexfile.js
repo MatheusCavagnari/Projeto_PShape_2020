@@ -4,7 +4,7 @@ module.exports = {
   client: 'mysql',
   connection: {
     database: 'pshape',
-    user: 'root', 
+    user: 'root',
     password: 'password',
     timezone: 'UTC',
     dateStrings: true
