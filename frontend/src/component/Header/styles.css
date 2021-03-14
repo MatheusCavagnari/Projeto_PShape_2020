@@ -32,9 +32,10 @@
 }
 
 .usuario h2 {
-  margin-right: 20px;
+  margin-right: 5px;
   color: whitesmoke;
   text-shadow: 2px 1px #0689F4;
+  width: 200px;
 }
 
 .usuario button {
@@ -49,12 +50,14 @@
     align-items: center;
     justify-content: center;
     outline: none;
+    flex-wrap: wrap;
 }
 
 .usuario img {
   height: 15px;
   width: 15px;
   filter: invert(1);
+  margin-right: 5px;
 }
 
 .usuario:hover {

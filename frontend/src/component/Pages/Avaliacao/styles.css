@@ -1,32 +1,50 @@
-.containerAva{
-    height: 80vh;
-    background-color: #F5F5F5;
-}
-
-.divSuperior{
-    flex-direction: row;
-    display: flex;
-    align-items: center;
-}
-
-.divButton{
-    justify-content: flex-end;
-    display: flex;
+#page {
+    height: 100vh;
     width: 100vw;
-
-}
-
-.txtF{
+    display: grid;
+    grid-template-areas: "header"
+                         "main"
+                         "footer";
+    grid-template-rows: 80px 1fr 80px;
+  }
+  
+  .header {
+    grid-area: "header";
+  }
+  
+  .footer {
+    grid-area: "footer";
+  }
+  
+  .main {
+    background-color: #f5f5f5;
+    grid-area: "main";
+    justify-content: flex-start !important;
+  }
+  
+  .content {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  
     width: 100%;
-}
-
-.selectAluno{
+  }
+  
+  .btntitulo {
+      margin-left: 10px;
+  }
+  
+  .buscaInput {
+    width: 90%;
+    display: flex;
     align-items: center;
     justify-content: center;
-    display: flex;
-    width: 100%;
-}
-
-.tableAluno{
-    margin-top: 20px;
-}
+  }
+  
+  .tabela {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }

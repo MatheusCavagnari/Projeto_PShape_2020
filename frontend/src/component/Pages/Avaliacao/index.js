@@ -1,38 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
 import { withStyles, makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
+import Header from "../../Header";
+import Footer from "../../Footer";
+import Titulo from "../../Titulo";
+import api from '../../../services/api'
 
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import "./styles.css";
 
-import './styles.css';
-
-import Header from '../../Header'
-import Footer from '../../Footer'
-
-//aqui vc usa o banco coloquei essa informaçoes de sabe so pra ver
-const rows = [
-    createData('Frozen yoghurt', '15/09/2020', 6.0),
-    createData('Ice cream sandwich', '15/09/2020', 9.0),
-    createData('Eclair', '15/09/2020', 16.0),
-  
-  ];
-
-  function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-  }
-  
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -45,91 +30,169 @@ const useStyles = makeStyles((theme) => ({
     },
     table: {
         minWidth: 700,
+
     },
 }));
 
 const StyledTableRow = withStyles((theme) => ({
     root: {
-      '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
-      },
+        '&:nth-of-type(odd)': {
+            backgroundColor: theme.palette.action.hover,
+        },
+        container: {
+            minHeight: 440,
+        },
     },
-  }))(TableRow);
-  
-  const StyledTableCell = withStyles((theme) => ({
+}))(TableRow);
+
+const StyledTableCell = withStyles((theme) => ({
     head: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
+        backgroundColor: theme.palette.common.black,
+        color: theme.palette.common.white,
     },
     body: {
-      fontSize: 14,
+        fontSize: 14,
     },
-  }))(TableCell);
+}))(TableCell);
 
-export default function Avaliacao() {
-    const [age, setAge] = React.useState('');
+
+
+
+
+function Avaliacao() {
+    const [db, setdb] = useState([]);
+    const [alunos, setAlunos] = useState([]);
+    const [aluno, setAluno] = useState('');
     const classes = useStyles();
+    const history = useHistory();
 
-    const handleChange = (event) => {
-        setAge(event.target.value);
-    };
+    function btnGerarRelatorio(e) {
+        e.preventDefault();
+        history.push("/");
+    }
 
+    function selecionaAluno(e) {
+        const abc = e.target.id;
+        const index = abc.slice(22);
+        
+        setAluno(alunos[parseInt(index)].id)
+    }
+
+    // function useQuery() {
+    //     return new URLSearchParams(useLocation().search); 
+    // }
+    // let query = useQuery();
+    // let alunoId = query.get("aluno")
+
+    useEffect(() => {
+        const listaDeAlunos = async () => {
+                // console.log(query.get("aluno"))
+                await api.get(`/avaliacao?aluno=${aluno}`, { headers: { personal: localStorage.getItem('personal') } })
+                    .then(response => {
+                        setdb(response.data)
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+        }
+        listaDeAlunos()
+    }, [aluno])
+
+    useEffect(() => {
+        // const listaDeAlunos = async () => {
+        //     if(alunoId){
+        //         // console.log(query.get("aluno"))
+        //         await api.get(`/avaliacao?aluno=${alunoId}`, { headers: { personal: localStorage.getItem('personal') } })
+        //             .then(response => {
+        //                 setdb(response.data)
+        //             })
+        //             .catch(err => {
+        //                 console.log(err)
+        //             })
+        //     }
+        // }
+        const avalAluno = async () => {
+            await api.get('/alunos', { headers: { personal: localStorage.getItem('personal') } })
+                .then(response => {
+                    setAlunos(response.data)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        }
+
+        avalAluno()
+    }, [])
+
+    // useEffect(() => {
+    //     const dadosBanco = async () => {
+    //         const bancoBusca = await api.get('/alunos', { headers: { personal: localStorage.getItem('personal') } })
+    //         const filtrado = bancoBusca.data.filter((linha) => {
+    //             return linha.nome.toLowerCase().includes(busca.toLowerCase())
+    //         })
+    //         setdb(filtrado)
+    //     }
+    //     dadosBanco()
+
+    // }, [busca])
+
+    
 
     return (
-        <>
-        <Header/>
-        <Container maxWidth="xl" className="containerAva">
-            <div className="divSuperior">
-                <h1>Avaliação</h1>
-                <div className="divButton">
-                    <Button id="btnRelatorio" variant="contained" color="primary">
-                        Relatório
-                </Button>
+        <div id="page">
+            <Header className="header" />
+            <div className="main">
+                <Titulo
+                    titulo="Avaliação"
+                    textoBotao="Gerar Relatório"
+                    classBotao="btntitulo"
+                    btnClick={btnGerarRelatorio}
+                />
+                <div className="content">
+                    <div className="buscaInput">
+                        <Autocomplete
+                            id="combo-box-demo"
+                            // inputValue={aluno}
+                            options={alunos}
+                            getOptionLabel={(option) => option.nome}
+                            style={{ width: "90%" }}
+                            renderInput={(params) => <TextField {...params} label="Aluno" variant="outlined" />}
+                            onInputChange={selecionaAluno}
+                        />
+                        <button className="btntitulo">Adicionar</button>
+                    </div>
+                    <div className="tabela">
+                        <TableContainer component={Paper} className={classes.container}>
+                            <Table className={classes.table} aria-label="customized table">
+                                <TableHead>
+                                    <TableRow>
+                                        <StyledTableCell align="left">Data Avaliação</StyledTableCell>
+                                        <StyledTableCell align="center">Ações</StyledTableCell>
+
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {db.map((row) => (
+                                        <StyledTableRow key={row.id}>
+                                            <StyledTableCell align="left">
+                                                {row.data_avaliacao}
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                <button>Detail</button>
+                                                <button>Edit</button>
+                                            </StyledTableCell>
+
+                                        </StyledTableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </div>
                 </div>
             </div>
-            <div className="selectAluno">
-                <FormControl className={classes.formControl}>
-                    <InputLabel id="demo-simple-select-label aluno" >Aluno</InputLabel>
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={age}
-                        onChange={handleChange}
-                    >
-                        <MenuItem value={10}>Ten</MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
-                    </Select>
-                </FormControl>
-            </div>
-            <div className="tableAluno">
-                <TableContainer component={Paper}>
-                    <Table className={classes.table} aria-label="customized table">
-                        <TableHead>
-                            <TableRow>
-                                <StyledTableCell align="center">Datas</StyledTableCell>
-                                <StyledTableCell align="center">Açôes</StyledTableCell>
-
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {rows.map((row) => (
-                                <StyledTableRow key={row.name}>
-                                    <StyledTableCell align="center">
-                                        {row.name}
-                                    </StyledTableCell>
-                                    <StyledTableCell align="center">{row.calories}</StyledTableCell>
-                                    
-                                </StyledTableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </div>
-
-        </Container>
-        <Footer/>
-        </>
+            <Footer className="footer" />
+        </div>
     );
-
 }
+
+export default Avaliacao;

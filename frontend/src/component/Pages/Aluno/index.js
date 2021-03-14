@@ -126,8 +126,8 @@ function Aluno() {
                       <Table className={classes.table} aria-label="customized table">
                           <TableHead>
                               <TableRow>
-                                  <StyledTableCell align="center">Nome</StyledTableCell>
-                                  <StyledTableCell align="center">Telefone</StyledTableCell>
+                                  <StyledTableCell align="left">Nome</StyledTableCell>
+                                  <StyledTableCell align="left">Telefone</StyledTableCell>
                                   <StyledTableCell align="center">Ações</StyledTableCell>
 
                               </TableRow>

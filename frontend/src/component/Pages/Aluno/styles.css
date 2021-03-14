@@ -19,7 +19,7 @@
 .main {
   background-color: #f5f5f5;
   grid-area: "main";
-  justify-content: flex-start;
+  justify-content: flex-start !important;
 }
 
 .content {

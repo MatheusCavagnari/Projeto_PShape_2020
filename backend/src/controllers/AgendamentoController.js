@@ -2,15 +2,16 @@ const connection = require('../database/connection')
 
 module.exports = {
   async create( request, response ) {
-    const { tipo, observacoes, data_hora_agendamento, data_hora_execucao } = request.body
+    const { tipo, observacoes, data_hora_agendamento, data_hora_execucao, aluno_id } = request.body
     const personal_id = request.headers.personal
-    const aluno_id = request.query.aluno
+
+    const execucao = data_hora_execucao ? data_hora_execucao : null
 
     const agendamento = await connection('agendamento').insert({
       tipo,
       observacoes,
       data_hora_agendamento,
-      data_hora_execucao,
+      data_hora_execucao: execucao,
       personal_id,
       aluno_id
     })
@@ -19,9 +20,10 @@ module.exports = {
   },
 
   async update(request, response) {
-    const { tipo, observacoes, data_hora_agendamento, data_hora_execucao } = request.body
-    const aluno_id = request.query.aluno
+    const { tipo, observacoes, data_hora_agendamento, data_hora_execucao, aluno_id } = request.body
     const { id } = request.params
+
+    const execucao = data_hora_execucao ? data_hora_execucao : null
 
     const agendemento = await connection('agendamento')
       .where('agendamento.id', '=', id)
@@ -29,7 +31,7 @@ module.exports = {
         tipo,
         observacoes,
         data_hora_agendamento,
-        data_hora_execucao,
+        data_hora_execucao: execucao,
         aluno_id
       })
 
