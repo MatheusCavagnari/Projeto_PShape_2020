@@ -184,10 +184,26 @@ module.exports = {
 
   async index(request, response) {
     const aluno_id = request.query.aluno
-    const treinos = await connection('aluno_treino')
-      .join('treino', 'aluno_treino.treino_id', '=', 'treino.id')
-      .where('aluno_treino.id', '=', aluno_id )
+    const nomeTreino = request.query.nome
+    console.log(aluno_id)
+    if(aluno_id){
+      const treinos = await connection('aluno_treino')
+        .join('treino', 'aluno_treino.treino_id', '=', 'treino.id')
+        .where('aluno_treino.aluno_id', '=', aluno_id )
+      return response.json(treinos)
+    }else if(nomeTreino) {
+      const treinos = await connection('aluno_treino')
+        // .join('treino', 'aluno_treino.treino_id', '=', 'treino.id')
+        .whereNull('aluno_treino.aluno_id')
+        .join('treino', 'aluno_treino.treino_id', '=', 'treino.id')
+        .andWhere("treino.nome", "=", nomeTreino)
+      return response.json(treinos)
+    }else {
+      const treinos = await connection('treino')
+        .whereNotNull('treino.nome')
+      return response.json(treinos)
+    }
     
-    return response.json(treinos)
+    // return response.json(treinos)
   }
 }

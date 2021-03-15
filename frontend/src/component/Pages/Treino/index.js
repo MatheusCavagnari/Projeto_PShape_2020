@@ -1,45 +1,46 @@
-import React from 'react';
-import Button from '@material-ui/core/Button';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
 import { withStyles, makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
-import Header from '../../Header'
-import Footer from '../../Footer'
+import Header from "../../Header";
+import Footer from "../../Footer";
+import Titulo from "../../Titulo";
+import api from '../../../services/api'
 
-import './styles.css';
+import "./styles.css";
+
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
-    minWidth: 400,
+    width: 1000,
+
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
   table: {
     minWidth: 700,
+
   },
 }));
-
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
 
 const StyledTableRow = withStyles((theme) => ({
   root: {
     '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.action.hover,
+    },
+    container: {
+      minHeight: 440,
     },
   },
 }))(TableRow);
@@ -55,106 +56,176 @@ const StyledTableCell = withStyles((theme) => ({
 }))(TableCell);
 
 
-//aqui vc usa o banco coloquei essa informaçoes de sabe so pra ver
-const rows = [
-  createData('Frozen yoghurt', '15/09/2020', 6.0),
-  createData('Ice cream sandwich', '15/09/2020', 9.0),
-  createData('Eclair', '15/09/2020', 16.0),
-
-];
 
 
-export default function Treino() {
-  const [age, setAge] = React.useState('');
+
+function Treino() {
+  const [db, setdb] = useState([]);
+  const [alunos, setAlunos] = useState([]);
+  const [aluno, setAluno] = useState('');
+  const [nomesTreinos, setNomesTreinos] = useState([])
+  const [treino, setTreino] = useState('');
   const classes = useStyles();
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
+  const history = useHistory();
+
+  function btnGerarTreinoPdf(e) {
+    e.preventDefault();
+    history.push("/");
+  }
+
+  function selecionaAluno(e) {
+    const abc = e.target.id;
+    const index = abc.slice(22);
+    if (index) {
+      setAluno(alunos[parseInt(index)].id)
+    } else {
+      setAluno([])
+    }
+  }
+
+  function selecionaTreino(e) {
+    const abc = e.target.id;
+    const index = abc.slice(22);
+    if (index) {
+      console.log(nomesTreinos[parseInt(index)].nome)
+      setTreino(nomesTreinos[parseInt(index)].nome)
+    } else {
+      setAluno([])
+    }
+  }
+
+  // function useQuery() {
+  //     return new URLSearchParams(useLocation().search); 
+  // }
+  // let query = useQuery();
+  // let alunoId = query.get("aluno")
+  
+  useEffect(() => {
+    const listaAlunosETreino = async () => {
+      
+      var unique = function (a) {
+        return a.reduce(function (p, c) {
+          if (p.indexOf(c) < 0) p.push(c);
+          return p;
+        }, []);
+      };
+
+      // console.log(query.get("aluno"))
+      const treinosAluno = await api.get(`/treino?aluno=${aluno}`, { headers: { personal: localStorage.getItem('personal') } })
+      const treinosSemAluno = await api.get(`/treino?nome=${treino}`, { headers: { personal: localStorage.getItem('personal') } })
+      const concat = [...treinosAluno.data, ...treinosSemAluno.data]
+      const concat2 = concat.map((el) =>  el.id)
+      console.log(concat2)
+      console.log(unique(concat2))
+      // const final = concat.reduce((final, vez) => {
+      //   if(final.id )
+      // })
+
+
+      
+
+      try {
+        setdb(treinosSemAluno.data)
+      } catch (e) {
+        setdb([])
+      }
+    }
+    listaAlunosETreino()
+  }, [aluno, treino])
+
+  useEffect(() => {
+    const ListAlunos = async () => {
+      await api.get('/alunos', { headers: { personal: localStorage.getItem('personal') } })
+        .then(response => {
+          setAlunos(response.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
+    const ListTreinos = async () => {
+      await api.get('/treino', { headers: { personal: localStorage.getItem('personal') } })
+        .then(response => {
+          setNomesTreinos(response.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
+
+    ListAlunos()
+    ListTreinos()
+  }, [])
+
 
 
   return (
-    <>
-      <Header />
-      <div className="container">
-
-        <h1 id="title">Treino</h1>
-        <div className="btn">
-          <Button id="btnPdf" variant="contained" color="primary">
-            Gerar PDF
-          </Button>
-        </div>
-      </div>
-      <Container maxWidth="xl">
-       
-          <div className="inputDiv">
-            <FormControl className={classes.formControl}>
-              <InputLabel id="demo-simple-select-label aluno" className={classes.formControl}>Aluno</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={age}
-                onChange={handleChange}
-              >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
-            </FormControl>
-
-            <FormControl className={classes.formControl}>
-              <InputLabel id="demo-simple-select-label aluno" className={classes.formControl}>Nome</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={age}
-                onChange={handleChange}
-              >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
-
-
-            </FormControl>
-            <div className="dviBtn">
-              <Button id="criarTreino" variant="contained" color="primary">
-                Criar Treino
-            </Button>
-            </div>
-
+    <div id="page">
+      <Header className="header" />
+      <div className="main">
+        <Titulo
+          titulo="Treino"
+          textoBotao="Treino em PDF"
+          classBotao="btntitulo"
+          btnClick={btnGerarTreinoPdf}
+        />
+        <div className="content">
+          <div className="buscaInput">
+            <Autocomplete
+              id="combo-box-demo"
+              options={alunos}
+              getOptionLabel={(option) => option.nome}
+              style={{ width: "90%" }}
+              renderInput={(params) => <TextField {...params} label="Aluno" variant="outlined" />}
+              onChange={selecionaAluno}
+            />
+            <Autocomplete
+              id="combo-box-demo"
+              options={nomesTreinos}
+              getOptionLabel={(option) => option.nome}
+              style={{ width: "90%" }}
+              renderInput={(params) => <TextField {...params} label="Nome" variant="outlined" />}
+              onChange={selecionaTreino}
+            />
+            <button className="btntitulo">Adicionar</button>
           </div>
-
           <div className="tabela">
-            <TableContainer component={Paper}>
+            <TableContainer component={Paper} className={classes.container}>
               <Table className={classes.table} aria-label="customized table">
                 <TableHead>
                   <TableRow>
-                    <StyledTableCell>Nome </StyledTableCell>
-                    <StyledTableCell align="right">Data de inicio</StyledTableCell>
-                    <StyledTableCell align="right">Açôes)</StyledTableCell>
+                    <StyledTableCell align="left">Nome</StyledTableCell>
+                    <StyledTableCell align="left">Data início</StyledTableCell>
+                    <StyledTableCell align="center">Ações</StyledTableCell>
 
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {rows.map((row) => (
-                    <StyledTableRow key={row.name}>
-                      <StyledTableCell component="th" scope="row">
-                        {row.name}
+                  {db.map((row) => (
+                    <StyledTableRow key={row.id}>
+                      <StyledTableCell align="left">
+                        {row.nome}
                       </StyledTableCell>
-                      <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                      <StyledTableCell align="right">{row.fat}</StyledTableCell>
+                      <StyledTableCell align="left">
+                        {row.data}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        <button>Detail</button>
+                        <button>Edit</button>
+                      </StyledTableCell>
 
                     </StyledTableRow>
                   ))}
                 </TableBody>
               </Table>
             </TableContainer>
-
           </div>
-        
-      </Container >
-      <Footer />
-    </>
+        </div>
+      </div>
+      <Footer className="footer" />
+    </div>
   );
 }
+
+export default Treino;
 

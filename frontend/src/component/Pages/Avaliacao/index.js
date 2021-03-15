@@ -74,8 +74,11 @@ function Avaliacao() {
     function selecionaAluno(e) {
         const abc = e.target.id;
         const index = abc.slice(22);
-        
-        setAluno(alunos[parseInt(index)].id)
+        if(index){
+            setAluno(alunos[parseInt(index)].id)
+          } else {
+            setAluno([])
+          }
     }
 
     // function useQuery() {
@@ -157,7 +160,7 @@ function Avaliacao() {
                             getOptionLabel={(option) => option.nome}
                             style={{ width: "90%" }}
                             renderInput={(params) => <TextField {...params} label="Aluno" variant="outlined" />}
-                            onInputChange={selecionaAluno}
+                            onChange={selecionaAluno}
                         />
                         <button className="btntitulo">Adicionar</button>
                     </div>
