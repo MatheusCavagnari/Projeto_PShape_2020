@@ -85,9 +85,9 @@ function Treino() {
 
   function selecionaTreino(e) {
     const abc = e.target.id;
-    const index = abc.slice(22);
+    const index = abc.slice(17);
     if (index) {
-      console.log(nomesTreinos[parseInt(index)].nome)
+      // console.log(nomesTreinos[parseInt(index)].nome)
       setTreino(nomesTreinos[parseInt(index)].nome)
     } else {
       setAluno([])
@@ -102,30 +102,11 @@ function Treino() {
   
   useEffect(() => {
     const listaAlunosETreino = async () => {
-      
-      var unique = function (a) {
-        return a.reduce(function (p, c) {
-          if (p.indexOf(c) < 0) p.push(c);
-          return p;
-        }, []);
-      };
 
-      // console.log(query.get("aluno"))
-      const treinosAluno = await api.get(`/treino?aluno=${aluno}`, { headers: { personal: localStorage.getItem('personal') } })
-      const treinosSemAluno = await api.get(`/treino?nome=${treino}`, { headers: { personal: localStorage.getItem('personal') } })
-      const concat = [...treinosAluno.data, ...treinosSemAluno.data]
-      const concat2 = concat.map((el) =>  el.id)
-      console.log(concat2)
-      console.log(unique(concat2))
-      // const final = concat.reduce((final, vez) => {
-      //   if(final.id )
-      // })
-
-
-      
+      const treinosFiltrados = await api.get(`/treino?aluno=${aluno}&nome=${treino}`, { headers: { personal: localStorage.getItem('personal') } })
 
       try {
-        setdb(treinosSemAluno.data)
+        setdb(treinosFiltrados.data)
       } catch (e) {
         setdb([])
       }
@@ -180,7 +161,7 @@ function Treino() {
               onChange={selecionaAluno}
             />
             <Autocomplete
-              id="combo-box-demo"
+              id="combo-box"
               options={nomesTreinos}
               getOptionLabel={(option) => option.nome}
               style={{ width: "90%" }}

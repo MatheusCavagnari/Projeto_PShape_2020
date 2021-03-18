@@ -4,6 +4,17 @@ module.exports = {
   async create( request, response ) {
     const { nome, exercicios } = request.body
     const aluno_id = request.query.aluno
+    const treino = request.query.treino
+
+  if(treino) {
+    const data = new Date()
+    await connection('aluno_treino').insert({
+      aluno_id,
+      treino_id: treino,
+      data 
+    })
+    return response.status(204).send()
+  }
 
     const treino_id = await connection('treino').insert({
       nome
@@ -185,8 +196,14 @@ module.exports = {
   async index(request, response) {
     const aluno_id = request.query.aluno
     const nomeTreino = request.query.nome
-    console.log(aluno_id)
-    if(aluno_id){
+    
+    if(aluno_id && nomeTreino){
+      const treinos = await connection('aluno_treino')
+        .join('treino', 'aluno_treino.treino_id', '=', 'treino.id')
+        .where('aluno_treino.aluno_id', '=', aluno_id )
+        .andWhere('treino.nome', '=', nomeTreino)
+      return response.json(treinos)
+    }else if(aluno_id){
       const treinos = await connection('aluno_treino')
         .join('treino', 'aluno_treino.treino_id', '=', 'treino.id')
         .where('aluno_treino.aluno_id', '=', aluno_id )
