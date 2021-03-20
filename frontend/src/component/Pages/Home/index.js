@@ -25,7 +25,7 @@ function Home() {
                     <BotaoIcone icone={Vetor} nome="Avaliação" path="/avaliacao" />
                     <BotaoIcone icone={Braco} nome="Treino" path="/treino" />
                     <BotaoIcone icone={Peso} nome="Exercícios" path="/exercicio" />
-                    <BotaoIcone icone={Agenda} nome="Agenda" path="/" />
+                    <BotaoIcone icone={Agenda} nome="Agenda" path="/agenda" />
                 </div>
                 <Footer/>
             </div>

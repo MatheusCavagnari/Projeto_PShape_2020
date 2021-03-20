@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import Home from './component/Pages/Home'; 
+import Agenda from './component/Pages/Agenda'; 
 import Aluno from './component/Pages/Aluno'; 
 import Treino from './component/Pages/Treino';
 import Exercicio from './component/Pages/Exercicio';
@@ -20,6 +21,7 @@ export default function Routes() {
     <Router>
       <Route exact path="/" component={Home} />
       <Route exact path="/aluno" component={Aluno} />
+      <Route exact path="/agenda" component={Agenda} />
       <Route path="/treino" component={Treino} />
       <Route path="/menu" component={Menu} />
       <Route path="/exercicio" component={Exercicio} />
