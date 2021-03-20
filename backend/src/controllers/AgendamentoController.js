@@ -54,6 +54,14 @@ module.exports = {
     const agendamentos = await connection('agendamento')
       .where('agendamento.personal_id', '=', personal_id)
 
+    agendamentos.forEach((agend) => {
+      const date = agend.data_hora_agendamento.substr(0,10)
+      // estes 3 campos sao adicionados para funcionar o calendario
+      agend.date = date
+      agend.url = date
+      agend.title = "Agendamentos"
+    })
+    
     return response.json(agendamentos)
   }
 }
