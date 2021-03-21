@@ -11,6 +11,9 @@ import { withStyles, makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus, faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+
 import Header from "../../Header";
 import Footer from "../../Footer";
 import Titulo from "../../Titulo";
@@ -99,7 +102,7 @@ function Treino() {
   // }
   // let query = useQuery();
   // let alunoId = query.get("aluno")
-  
+
   useEffect(() => {
     const listaAlunosETreino = async () => {
 
@@ -191,8 +194,15 @@ function Treino() {
                         {row.data}
                       </StyledTableCell>
                       <StyledTableCell align="center">
-                        <button>Detail</button>
-                        <button>Edit</button>
+                        <button className="btnAzul">
+                          <FontAwesomeIcon icon={faPlus} className="icone" />
+                        </button>
+                        <button className="btnEdit">
+                          <FontAwesomeIcon icon={faEdit} className="icone" />
+                        </button>
+                        <button className="btnDelete">
+                          <FontAwesomeIcon icon={faTrashAlt} className="icone"/>
+                        </button>
                       </StyledTableCell>
 
                     </StyledTableRow>

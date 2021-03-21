@@ -9,6 +9,12 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrashAlt, faEdit, faChartPie } from '@fortawesome/free-solid-svg-icons'
+
+import Vetor from "../../../img/vetorBtn.svg";
+import Braco from "../../../img/bracoBtn.svg";
+
 import Header from "../../Header";
 import Footer from "../../Footer";
 import Titulo from "../../Titulo";
@@ -140,11 +146,24 @@ function Aluno() {
                                       </StyledTableCell>
                                       <StyledTableCell align="left">{row.telefone}</StyledTableCell>
                                       <StyledTableCell align="center">
-                                        <button>trei</button>
-                                        <button>aval</button>
-                                        <button>relat</button>
-                                        <button>edit</button>
-                                        <button>del</button>
+                                        {/* <button>trei</button>
+                                        <button></button> */}
+                                        
+                                        <button className="btnAzul">
+                                            <img src={Braco} alt="Treino" className="icone"/>
+                                        </button>
+                                        <button className="btnAzul">
+                                          <img src={Vetor} alt="Treino" className="icone"/>
+                                        </button>
+                                        <button className="btnAzul">
+                                            <FontAwesomeIcon icon={faChartPie} className="icone"/>
+                                        </button>
+                                        <button className="btnEdit">
+                                            <FontAwesomeIcon icon={faEdit} className="icone"/>
+                                        </button>
+                                        <button className="btnDelete">
+                                            <FontAwesomeIcon icon={faTrashAlt} className="icone"/>
+                                        </button>
                                       </StyledTableCell>
                                       
                                   </StyledTableRow>

@@ -9,6 +9,9 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons'
+
 import Header from "../../Header";
 import Footer from "../../Footer";
 import Titulo from "../../Titulo";
@@ -140,8 +143,12 @@ function Aluno() {
                                       </StyledTableCell>
                                       <StyledTableCell align="left">{row.maquina}</StyledTableCell>
                                       <StyledTableCell align="center">
-                                        <button>edit</button>
-                                        <button>del</button>
+                                        <button className="btnEdit">
+                                            <FontAwesomeIcon icon={faEdit} className="icone"/>
+                                        </button>
+                                        <button className="btnDelete">
+                                            <FontAwesomeIcon icon={faTrashAlt} className="icone"/>
+                                        </button>
                                       </StyledTableCell>
                                       
                                   </StyledTableRow>
