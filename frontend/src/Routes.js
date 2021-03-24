@@ -15,6 +15,8 @@ import CadastroAluno from './component/Pages/CadastroAluno'
 import CadastroTreino from './component/Pages/CadastroTreino' 
 import CadastroExercicio from './component/Pages/CadastroExercicio' 
 import Relatorio from './component/Pages/Relatorio' 
+import CadastroAvaliacao from './component/Pages/CadastroAvaliacao' 
+
 
 
 export default function Routes() {
@@ -34,6 +36,7 @@ export default function Routes() {
       <Route path="/cadastroTreino" component={CadastroTreino} />
       <Route path="/cadastroExercicio" component={CadastroExercicio} />
       <Route path="/relatorio" component={Relatorio} />
+      <Route path="/cadastroAvaliacao" component={CadastroAvaliacao} />
       
     </Router>
   );

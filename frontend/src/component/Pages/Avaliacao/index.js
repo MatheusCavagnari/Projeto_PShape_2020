@@ -75,6 +75,11 @@ function Avaliacao() {
         history.push("/relatorio");
     }
 
+    function btnAdicionarClick(e) {
+        e.preventDefault();
+        history.push("/cadastroAvaliacao");
+      }
+
     function selecionaAluno(e) {
         const abc = e.target.id;
         const index = abc.slice(22);
@@ -154,7 +159,7 @@ function Avaliacao() {
                     titulo="Avaliação"
                     textoBotao="Adicionar"
                     classBotao="btntitulo"
-                    // btnClick={}
+                    btnClick={btnAdicionarClick}
                 />
                 <div className="content">
                     <div className="buscaInput">
