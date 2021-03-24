@@ -5,6 +5,7 @@ import './styles.css'
 
 import Header from '../../Header'
 import Footer from '../../Footer'
+
 import { TextField } from '@material-ui/core'
 import api from '../../../services/api'
 
@@ -44,10 +45,10 @@ function AlterarUsuario() {
   }
 
   return (
-    <div id="page">
-      <Header className="header"/>
+    <div id="pageAlt">
+      <Header className="header"/>  
       <div className="container">
-        <div className="box">
+        <div className="boxAlt">
         <div className="titulo">
           <h1>Alterar meus dados</h1>
           <div className="linha"></div>

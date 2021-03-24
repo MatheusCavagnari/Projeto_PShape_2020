@@ -12,6 +12,7 @@ import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons'
 
+import Menu from "../../Menu";
 import Header from "../../Header";
 import Footer from "../../Footer";
 import Titulo from "../../Titulo";
@@ -108,6 +109,7 @@ function Aluno() {
   return (
     <div id="page">
       <Header className="header" />
+      <Menu page="3"/>
       <div className="main">
         <Titulo
           titulo="Exercícios"

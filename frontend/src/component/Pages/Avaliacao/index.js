@@ -14,6 +14,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faEdit } from '@fortawesome/free-solid-svg-icons'
 
+import Menu from "../../Menu";
 import Header from "../../Header";
 import Footer from "../../Footer";
 import Titulo from "../../Titulo";
@@ -71,7 +72,7 @@ function Avaliacao() {
 
     function btnGerarRelatorio(e) {
         e.preventDefault();
-        history.push("/");
+        history.push("/relatorio");
     }
 
     function selecionaAluno(e) {
@@ -147,25 +148,25 @@ function Avaliacao() {
     return (
         <div id="page">
             <Header className="header" />
+            <Menu page="1"/> 
             <div className="main">
                 <Titulo
                     titulo="Avaliação"
-                    textoBotao="Gerar Relatório"
+                    textoBotao="Adicionar"
                     classBotao="btntitulo"
-                    btnClick={btnGerarRelatorio}
+                    // btnClick={}
                 />
                 <div className="content">
                     <div className="buscaInput">
                         <Autocomplete
                             id="combo-box-demo"
-                            // inputValue={aluno}
                             options={alunos}
                             getOptionLabel={(option) => option.nome}
                             style={{ width: "90%" }}
                             renderInput={(params) => <TextField {...params} label="Aluno" variant="outlined" />}
                             onChange={selecionaAluno}
                         />
-                        <button className="btntitulo">Adicionar</button>
+                        <button className="btntitulo" onClick={btnGerarRelatorio}>Gerar Relatório</button>
                     </div>
                     <div className="tabela">
                         <TableContainer component={Paper} className={classes.container}>

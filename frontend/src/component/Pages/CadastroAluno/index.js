@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 
 import Header from '../../Header'
 import Footer from '../../Footer'
+import Menu from '../../Menu'
 
 import './styles.css'
 import { TextField } from '@material-ui/core'
@@ -18,6 +19,7 @@ function CadastroAluno() {
   return (
     <div id="page">
       <Header classname="header" />
+      <Menu page="0"/>
       <div className="main">
         <div className="box">
           <h2>Cadastro de aluno</h2>

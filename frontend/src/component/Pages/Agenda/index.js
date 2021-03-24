@@ -3,6 +3,7 @@ import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from "@fullcalendar/interaction";
 
+import Menu from '../../Menu'
 import Header from '../../Header'
 import Footer from '../../Footer'
 import Titulo from '../../Titulo'
@@ -41,6 +42,7 @@ export default function Agenda() {
   return (
     <div id="page">
       <Header className="header" />
+      <Menu page="4"/>
       <div className="main"> 
         <Titulo
           titulo="Agenda"

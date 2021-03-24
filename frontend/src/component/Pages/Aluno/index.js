@@ -15,6 +15,7 @@ import { faTrashAlt, faEdit, faChartPie } from '@fortawesome/free-solid-svg-icon
 import Vetor from "../../../img/vetorBtn.svg";
 import Braco from "../../../img/bracoBtn.svg";
 
+import Menu from "../../Menu";
 import Header from "../../Header";
 import Footer from "../../Footer";
 import Titulo from "../../Titulo";
@@ -111,6 +112,7 @@ function Aluno() {
   return (
     <div id="page">
       <Header className="header" />
+      <Menu className="menu" page="0"/>
       <div className="main">
         <Titulo
           titulo="Alunos"

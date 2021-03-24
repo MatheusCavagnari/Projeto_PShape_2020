@@ -14,6 +14,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 
+import Menu from "../../Menu";
 import Header from "../../Header";
 import Footer from "../../Footer";
 import Titulo from "../../Titulo";
@@ -71,7 +72,7 @@ function Treino() {
   const classes = useStyles();
   const history = useHistory();
 
-  function btnGerarTreinoPdf(e) {
+  function btnAdicionarTreino(e) {
     e.preventDefault();
     history.push("/");
   }
@@ -146,12 +147,13 @@ function Treino() {
   return (
     <div id="page">
       <Header className="header" />
+      <Menu page="2"/>
       <div className="main">
         <Titulo
           titulo="Treino"
-          textoBotao="Treino em PDF"
+          textoBotao="Adicionar"
           classBotao="btntitulo"
-          btnClick={btnGerarTreinoPdf}
+          btnClick={btnAdicionarTreino}
         />
         <div className="content">
           <div className="buscaInput">
@@ -171,7 +173,6 @@ function Treino() {
               renderInput={(params) => <TextField {...params} label="Nome" variant="outlined" />}
               onChange={selecionaTreino}
             />
-            <button className="btntitulo">Adicionar</button>
           </div>
           <div className="tabela">
             <TableContainer component={Paper} className={classes.container}>

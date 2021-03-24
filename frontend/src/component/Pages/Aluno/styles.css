@@ -3,9 +3,14 @@
   width: 100vw;
   display: grid;
   grid-template-areas: "header"
+                       "menu"
                        "main"
-                       "footer";
-  grid-template-rows: 80px 1fr 80px;
+                       "footer" !important;
+  grid-template-rows: 80px 50px 1fr 80px !important;
+}
+
+.menu {
+  grid-area: "menu";
 }
 
 .header {

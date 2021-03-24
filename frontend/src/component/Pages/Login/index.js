@@ -34,7 +34,7 @@ export default function Login() {
   }
 
   return (
-    <div id="page">
+    <div id="pageAlt">
     <Header className="header"/> 
     <div className="container">
       <div className="login">

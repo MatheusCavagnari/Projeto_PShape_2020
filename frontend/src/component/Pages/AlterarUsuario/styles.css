@@ -1,4 +1,4 @@
-#page {
+#pageAlt {
   display: grid;
   height: 100vh;
   width: 100vw;
@@ -27,7 +27,7 @@
   grid-area: "footer";
 }
 
-.box {
+.boxAlt {
   display: flex;
   align-items: center;
   justify-content: space-around;
