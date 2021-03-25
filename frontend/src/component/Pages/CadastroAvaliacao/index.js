@@ -10,6 +10,10 @@ import './styles.css'
 import { TextField } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus, faEdit } from '@fortawesome/free-solid-svg-icons'
+
+
 import api from '../../../services/api'
 
 function CadastroAvaliacao() {
@@ -33,6 +37,23 @@ function CadastroAvaliacao() {
 
 
     const history = useHistory()
+
+
+    
+const useStyles = makeStyles((theme) => ({
+    formControl: {
+        margin: theme.spacing(1),
+        width: 1000,
+  
+    },
+    selectEmpty: {
+        marginTop: theme.spacing(2),
+    },
+    table: {
+        minWidth: 700,
+        
+    },
+  }));
 
 
     useEffect(() => {
@@ -60,18 +81,8 @@ function CadastroAvaliacao() {
     async function btnAddAvalicao(e) {
         e.preventDefault()
 
-        console.log(data_avaliacao);
-        console.log(peso);
-        console.log(dobra_tricipal);
-        console.log(dobra_bicipal);
-        console.log(aluno_id);
-        console.log(aluno_id);
-        console.log(aluno_id);
-        console.log(aluno_id);
-        console.log(aluno_id);
-
         try{
-            await api.post(`/avaliacao`, {
+            await api.post(`/avaliacao?aluno=${aluno_id} `, {
                 peso, 
                 altura, 
                 dobra_tricipal, 
@@ -84,14 +95,11 @@ function CadastroAvaliacao() {
                 dobra_supra_iliaca,
                 dobra_axilar,
                 data_avaliacao,
-                aluno_id
             })
-      
-            
       
             alert(`Usuário alterado com sucesso!`)
         //     // console.log(response.data)
-              history.push('/')
+              history.push('/avaliacao')
           } catch (err) {
             alert(`Aconteceu algum erro ${err.response.data}`)
             console.log(err)
@@ -118,12 +126,12 @@ function CadastroAvaliacao() {
                 <div className="boxAlt">
                     <h2>Cadastro de Avaliacao</h2>
                     <form onSubmit={btnAddAvalicao}>
-                        <div>
+                        <div > 
                         <Autocomplete
                             id="combo-box-demo"
                             options={alunos}
                             getOptionLabel={(option) => option.nome}
-                            style={{ width: "50%" }}
+                            
                             renderInput={(params) => <TextField {...params} label="Aluno" variant="outlined" />}
                             onChange={selecionaAluno}
                         />
@@ -150,6 +158,11 @@ function CadastroAvaliacao() {
                                 required
                                 value={data_avaliacao}
                                 onChange={e => setData(e.target.value)}
+                                type="date"
+
+                                InputLabelProps={{
+                                    shrink: true,
+                                  }}
                             />
 
                         </div>
