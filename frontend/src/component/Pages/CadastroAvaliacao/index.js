@@ -25,7 +25,7 @@ function CadastroAvaliacao() {
             <Header classname="header" />
             <Menu page="1" />
             <div className="main">
-                <div className="box">
+                <div className="boxAlt">
                     <h2>Cadastro de Avaliacao</h2>
                     <form action="">
                         <TextField id="standard-basic nome"

@@ -21,10 +21,10 @@ function CadastroExercicio() {
     };
 
     return (
-        <div id="page">
+        <div id="pageAlt">
             <Header classname="header" />
             <div className="main">
-                <div className="box">
+                <div className="boxAlt">
                     <h2>Cadastro de Exercício</h2>
                     <form action="">
                         <TextField id="standard-basic nome"

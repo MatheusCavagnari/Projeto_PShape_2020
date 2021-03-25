@@ -82,7 +82,7 @@ function AlterarUsuario() {
               // required 
               value={confirmarNovaSenha}
               onChange={e => setconfirmarNovaSenha(e.target.value)} />
-              <div className="botaos">
+              <div className="botoes">
                 <button type="submit" className="salvar" >Salvar</button>
                 <button onClick={cancelar} className="cancel" >Cancelar</button>
               </div>
