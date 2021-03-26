@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from 'react-router-dom'
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { useHistory } from 'react-router-dom';
 
 import Header from '../../Header'
 import Footer from '../../Footer'
@@ -9,10 +8,6 @@ import './styles.css'
 
 import { TextField } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faEdit } from '@fortawesome/free-solid-svg-icons'
-
 
 import api from '../../../services/api'
 
@@ -31,29 +26,11 @@ function CadastroAvaliacao() {
     const [altura, setAltura] = useState('');
     const [data_avaliacao, setData] = useState('');
 
-
    
     const [alunos, setAlunos] = useState([]);
 
 
-    const history = useHistory()
-
-
-    
-const useStyles = makeStyles((theme) => ({
-    formControl: {
-        margin: theme.spacing(1),
-        width: 1000,
-  
-    },
-    selectEmpty: {
-        marginTop: theme.spacing(2),
-    },
-    table: {
-        minWidth: 700,
-        
-    },
-  }));
+    const history = useHistory();
 
 
     useEffect(() => {

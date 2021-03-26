@@ -14,7 +14,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 
 import api from '../../../services/api'
 
-function CadastroExercicio() {
+function EditarExercicio() {
     const [nome, setNome] = useState('');
     const [maquina, setMaquina] = useState('');
 
@@ -108,4 +108,4 @@ function CadastroExercicio() {
     )
 }
 
-export default CadastroExercicio
+export default EditarExercicio

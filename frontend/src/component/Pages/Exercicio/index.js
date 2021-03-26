@@ -9,15 +9,15 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
 
 import Menu from "../../Menu";
 import Header from "../../Header";
 import Footer from "../../Footer";
 import Titulo from "../../Titulo";
 import Lupa from "../../../img/lupa.svg";
-import api from '../../../services/api'
+import api from '../../../services/api';
 
 import "./styles.css";
 
@@ -70,7 +70,7 @@ const StyledTableCell = withStyles((theme) => ({
   },
 }))(TableCell);
 
-function Aluno() {
+function Exercicio() {
   const [db, setdb] = useState([]);
   const [busca, setBusca] = useState('');
   const classes = useStyles();
@@ -78,19 +78,44 @@ function Aluno() {
 
   function btnAdicionarClick(e) {
     e.preventDefault();
-    history.push("/");
+    history.push(`/cadastroExercicio`);
   }
 
+  const listaDeExercicios = async () => {
+    await api.get('/exercicio', { headers: { personal: localStorage.getItem('personal') } })
+      .then(response => {
+        setdb(response.data)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
+  async function btnDeletarClick(id) {
+    console.log(id);
+
+    try{
+      const resposta =
+        await api.delete(`/exercicio/${id}`)
+  
+        alert(`Exercicio alterado com sucesso!`)
+
+        if(resposta.status == 204 ){
+          console.log(resposta);
+          listaDeExercicios();
+        }
+        history.push('/exercicio')
+      } catch (err) {
+        alert(`Aconteceu algum erro ${err.response.data}`)
+        console.log(err)
+      }
+
+  }
+
+
+
   useEffect(() => {
-    const listaDeExercicios = async () => {
-      await api.get('/exercicio', { headers: { personal: localStorage.getItem('personal') } })
-        .then(response => {
-          setdb(response.data)
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    }
+    
     listaDeExercicios()
   }, [])
 
@@ -149,7 +174,7 @@ function Aluno() {
                                             <FontAwesomeIcon icon={faEdit} className="icone"/>
                                         </button>
                                         <button className="btnDelete">
-                                            <FontAwesomeIcon icon={faTrashAlt} className="icone"/>
+                                            <FontAwesomeIcon onClick={()=>btnDeletarClick(row.id)} icon={faTrashAlt} className="icone"/>
                                         </button>
                                       </StyledTableCell>
                                       
@@ -166,4 +191,4 @@ function Aluno() {
   );
 }
 
-export default Aluno;
+export default Exercicio;
