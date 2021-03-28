@@ -37,30 +37,13 @@
   width: 100%;
 }
 
-.buscaInput input {
-  width: 85%;
-  border-top: none;
-  border-left: none;
-  border-right: none;
-  outline: none;
-  height: 25px;
-  background-color: #f5f5f5;
-  border-bottom-color: darkgray;
-  border-bottom-width: 2px;
-}
+
 
 .buscaInput {
   width: 90%;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.buscaInput img {
-  height: 15px;
-  width: 15px;
-  color: gray;
-  margin-left: 8px;
 }
 
 .tabela {

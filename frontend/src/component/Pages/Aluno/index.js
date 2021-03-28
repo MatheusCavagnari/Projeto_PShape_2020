@@ -8,9 +8,13 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { withStyles, makeStyles } from '@material-ui/core/styles';
+import swal from 'sweetalert2'
+
+
+
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrashAlt, faEdit, faChartPie } from '@fortawesome/free-solid-svg-icons'
+import { faTrashAlt, faEdit, faChartPie, faAward } from '@fortawesome/free-solid-svg-icons'
 
 import Vetor from "../../../img/vetorBtn.svg";
 import Braco from "../../../img/bracoBtn.svg";
@@ -23,6 +27,7 @@ import Lupa from "../../../img/lupa.svg";
 import api from '../../../services/api'
 
 import "./styles.css";
+
 
 
 // const rows = [
@@ -73,15 +78,53 @@ const StyledTableCell = withStyles((theme) => ({
   },
 }))(TableCell);
 
+
+
+
+
+
 function Aluno() {
   const [db, setdb] = useState([]);
   const [busca, setBusca] = useState('');
   const classes = useStyles();
   const history = useHistory();
-
+  
   function btnAdicionarClick(e) {
     e.preventDefault();
     history.push("/cadastroAluno");
+  }
+
+  function AlterarAluno(id) {
+    console.log(id)
+    // history.push(`/editarAluno?aluno=${id}`);
+  }
+  
+  async function deletarAluno(id) {
+    swal.fire({
+      title: 'Você tem certeza?',
+      text: "Você não pode reverter isso!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sim, deletar!'
+    }).then(async (result) => {
+      if(result.isConfirmed) {
+        await api.delete(`/alunos/${id}`)
+        swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        )
+        await api.get('/alunos', { headers: { personal: localStorage.getItem('personal') } })
+        .then(response => {
+          setdb(response.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      }
+    })
   }
 
   useEffect(() => {
@@ -107,6 +150,10 @@ function Aluno() {
     dadosBanco()
 
   }, [busca])
+
+
+
+
 
 
   return (
@@ -147,10 +194,7 @@ function Aluno() {
                                           {row.nome}
                                       </StyledTableCell>
                                       <StyledTableCell align="left">{row.telefone}</StyledTableCell>
-                                      <StyledTableCell align="center">
-                                        {/* <button>trei</button>
-                                        <button></button> */}
-                                        
+                                      <StyledTableCell align="center">                                        
                                         <button className="btnAzul">
                                             <img src={Braco} alt="Treino" className="icone"/>
                                         </button>
@@ -160,10 +204,10 @@ function Aluno() {
                                         <button className="btnAzul">
                                             <FontAwesomeIcon icon={faChartPie} className="icone"/>
                                         </button>
-                                        <button className="btnEdit">
+                                        <button className="btnEdit" onClick={() => AlterarAluno(row.id)}>
                                             <FontAwesomeIcon icon={faEdit} className="icone"/>
                                         </button>
-                                        <button className="btnDelete">
+                                        <button className="btnDelete" onClick={() => deletarAluno(row.id)} >
                                             <FontAwesomeIcon icon={faTrashAlt} className="icone"/>
                                         </button>
                                       </StyledTableCell>
