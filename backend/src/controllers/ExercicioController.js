@@ -37,7 +37,7 @@ module.exports = {
     const { id } = request.params
     const exercicios = await connection('exercicio')
     .where('exercicio.personal_id', '=', personal_id )
-    .andwhere('exercicio.id', '=', id)
+    .andWhere('exercicio.id', '=', id)
 
     return response.json(exercicios)
   },

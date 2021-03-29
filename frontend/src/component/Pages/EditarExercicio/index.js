@@ -39,19 +39,16 @@ function EditarExercicio() {
         console.log(tipo);
 
         try { 
+            const bancoBusca =
             axios({
                 url: `http://localhost:3333/exercicio/${id}`,
                 method: 'get',
-                data: {
-                    nome,
-                    maquina,
-                    tipo
-                }, headers: { personal: personal_id }
+                headers: { personal: personal_id }
             })
+           
+            bancoBusca.then( (array)=> console.log(array.data))
 
-            alert(`Exercicio alterado com sucesso!`)
-
-            history.push('/exercicio')
+           
         } catch (err) {
             alert(`Aconteceu algum erro ${err.response.data}`)
             console.log(err)
