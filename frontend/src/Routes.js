@@ -38,7 +38,7 @@ export default function Routes() {
       <Route path="/cadastroExercicio" component={CadastroExercicio} />
       <Route path="/relatorio" component={Relatorio} />
       <Route path="/cadastroAvaliacao" component={CadastroAvaliacao} />
-      <Route path="/editarExercicio" component={EditarExercicio} />
+      <Route path="/editarExercicio/:id" component={EditarExercicio} />
       <Route path="/editarAluno" component={AlterarAluno} />
     </Router>
   );

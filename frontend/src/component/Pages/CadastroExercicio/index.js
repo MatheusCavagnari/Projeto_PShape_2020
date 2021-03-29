@@ -11,6 +11,7 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
+import swal from 'sweetalert2'
 
 import api from '../../../services/api'
 
@@ -46,15 +47,18 @@ function CadastroExercicio() {
                 }, headers: { personal: personal_id }
             })
 
-
-
-
-
-
-
-            alert(`Exercicio alterado com sucesso!`)
+            swal.fire(
+                'Adicionado!',
+                'Seu Exercício foi adicionado com sucesso.',
+                'success'
+              ).then(async (result) => {
+                if(result.isConfirmed) {
+                    history.push('/exercicio')
+                }
+            })
+            
             //     // console.log(response.data)
-            history.push('/exercicio')
+            
         } catch (err) {
             alert(`Aconteceu algum erro ${err.response.data}`)
             console.log(err)

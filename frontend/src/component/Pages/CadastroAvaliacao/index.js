@@ -5,6 +5,7 @@ import Header from '../../Header'
 import Footer from '../../Footer'
 import Menu from '../../Menu'
 import './styles.css'
+import swal from 'sweetalert2'
 
 import { TextField } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -50,7 +51,7 @@ function CadastroAvaliacao() {
     
     function cancelar(e) {
       e.preventDefault()
-      history.push('/')
+      history.push('/avaliacao')
     }
     
     
@@ -73,10 +74,18 @@ function CadastroAvaliacao() {
                 dobra_axilar,
                 data_avaliacao,
             })
+
+            swal.fire(
+                'Adicionado!',
+                'Sua Avaliação foi adicionada com sucesso.',
+                'success'
+              ).then(async (result) => {
+                if(result.isConfirmed) {
+                    history.push('/avaliacao')
+                }
+            })
       
-            alert(`Usuário alterado com sucesso!`)
-        //     // console.log(response.data)
-              history.push('/avaliacao')
+           
           } catch (err) {
             alert(`Aconteceu algum erro ${err.response.data}`)
             console.log(err)
