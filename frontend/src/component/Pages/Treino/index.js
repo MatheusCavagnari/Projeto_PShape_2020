@@ -74,7 +74,7 @@ function Treino() {
 
   function btnAdicionarTreino(e) {
     e.preventDefault();
-    history.push("/");
+    history.push("/cadastroTreino");
   }
 
   function selecionaAluno(e) {

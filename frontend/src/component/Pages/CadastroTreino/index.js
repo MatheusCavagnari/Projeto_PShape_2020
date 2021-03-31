@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
+import Menu from '../../Menu'
 import Header from '../../Header'
 import Footer from '../../Footer'
 import api from '../../../services/api'
@@ -16,6 +17,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
+import Swal from 'sweetalert2'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,7 +48,7 @@ function CadastroTreino() {
   const classes = useStyles();
   const [checked, setChecked] = React.useState([]);
   const [left, setLeft] = React.useState([0, 1, 2, 3]);
-  const [right, setRight] = React.useState([4, 5, 6, 7]);
+  const [right, setRight] = React.useState([]);
 
 
   const leftChecked = intersection(checked, left);
@@ -94,7 +96,7 @@ function CadastroTreino() {
           const labelId = `transfer-list-item-${value}-label`;
 
           return (
-            <ListItem key={value} role="listitem" button onClick={handleToggle(value)}>
+            <ListItem key={value.id} role="listitem" button onClick={handleToggle(value)}>
               <ListItemIcon>
                 <Checkbox
                   checked={checked.indexOf(value) !== -1}
@@ -103,7 +105,7 @@ function CadastroTreino() {
                   inputProps={{ 'aria-labelledby': labelId }}
                 />
               </ListItemIcon>
-              <ListItemText id={labelId} primary={`List item ${value + 1}`} />
+              <ListItemText id={labelId} primary={`${value.nome}`} />
             </ListItem>
           );
         })}
@@ -123,8 +125,92 @@ function CadastroTreino() {
     }
   }
 
+  let detalhes
+
+  function CadastroTreino(e) {
+    e.preventDefault()
+    right.forEach((exercicio) => {
+      const title = exercicio.nome
+      
+      if(exercicio.tipo === "R"){  
+        console.log(title)
+        Swal.mixin({
+          input: 'number',
+          confirmButtonText: 'Próximo &rarr;',
+          showCancelButton: true,
+          progressSteps: ['1', '2', "3", "4"]
+        }).queue([
+          {
+            title,
+            text: 'Selecione quantas sereis'
+          },
+          {
+            title,
+            text: 'Selecione quantas repetições'
+          },
+          {
+            title,
+            text: 'Selecione a carga'
+          },
+          {
+            title,
+            text: 'Observações',
+            input: 'textarea'
+          }
+        ]).then((result) => {
+          if (result.value) {
+            console.log(result.value)
+            const answers = JSON.stringify(result.value)
+            Swal.fire({
+              title: 'All done!',
+              html: `
+                Your answers:
+                <pre><code>${answers}</code></pre>
+              `,
+              confirmButtonText: 'Lovely!'
+            })
+          }
+        })
+      } else {
+        console.log(title)
+        Swal.mixin({
+          // input: 'text',
+          confirmButtonText: 'Próximo &rarr;',
+          showCancelButton: true,
+          progressSteps: ['1', '2']
+        }).queue([
+          {
+            title,
+            text: 'Selecione quanto tempo',
+            input: "number",
+            
+          },
+          {
+            title,
+            text: 'Observações',
+            input: 'textarea'
+          },
+        ]).then((result) => {
+          if (result.value) {
+            const answers = JSON.stringify(result.value)
+            Swal.fire({
+              title: 'All done!',
+              html: `
+                Your answers:
+                <pre><code>${answers}</code></pre>
+              `,
+              confirmButtonText: 'Lovely!'
+            })
+          }
+        })
+      }
+
+
+    })
+  }
+
   useEffect(() => {
-    const avalAluno = async () => {
+    const listAluno = async () => {
       await api.get('/alunos', { headers: { personal: localStorage.getItem('personal') } })
         .then(response => {
           setAlunos(response.data)
@@ -134,13 +220,25 @@ function CadastroTreino() {
         })
     }
 
-    avalAluno()
+    const listExercicio = async () => {
+      await api.get('/exercicio', { headers: { personal: localStorage.getItem('personal') } })
+        .then(response => {
+          // console.log(response.data)
+          setLeft(response.data)
+        }).catch(err => {
+          console.log(err)
+        })
+    }
+
+    listAluno()
+    listExercicio()
   }, [])
 
 
   return (
-    <div id="pageAlt">
+    <div id="page">
       <Header classname="header" />
+      <Menu page="2"/>
       <div className="main">
         <div className="boxAlt">
           <h2>Cadastro de Treino</h2>
@@ -150,12 +248,11 @@ function CadastroTreino() {
               <Autocomplete
                 id="combo-box-demo"
                 freeSolo
-
                 options={alunos}
                 getOptionLabel={(option) => option.nome}
                 style={{ width: "100%" }}
                 noOptionsText="Sem opções"
-                renderInput={(params) => <TextField {...params} label="Aluno"  />}
+                renderInput={(params) => <TextField {...params} label="Aluno" />}
                 onChange={selecionaAluno}
               />
             </div>
@@ -166,7 +263,7 @@ function CadastroTreino() {
               onChange={e => setNome(e.target.value)}
             />
             <Grid container spacing={2} justify="center" alignItems="center" className={classes.root}>
-              <Grid item>{customList(left)}</Grid>
+              <Grid  item>Exercícios{customList(left)}</Grid>
               <Grid item>
                 <Grid container direction="column" alignItems="center">
                   <Button
@@ -211,10 +308,10 @@ function CadastroTreino() {
           </Button>
                 </Grid>
               </Grid>
-              <Grid item>{customList(right)}</Grid>
+              <Grid item>Exercícios Adicionados{customList(right)}</Grid>
             </Grid>
             <div className="horizontalBox buttons">
-              <button>Cadastrar</button>
+              <button onClick={CadastroTreino}>Cadastrar</button>
               <button className="cancel">Cancelar</button>
             </div>
           </form>
