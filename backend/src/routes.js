@@ -32,6 +32,7 @@ routes.delete('/agendamento/:id', AgendamentoController.delete)
 
 routes.post('/exercicio', ExercicioController.create)
 routes.get('/exercicio', ExercicioController.index)
+routes.get('/exercicio/:id', ExercicioController.getById)
 routes.put('/exercicio/:id', ExercicioController.update)
 routes.delete('/exercicio/:id', ExercicioController.delete)
 

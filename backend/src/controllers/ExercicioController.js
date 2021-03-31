@@ -32,6 +32,16 @@ module.exports = {
 
   },
 
+  async getById(request, response) {
+    const personal_id = request.headers.personal
+    const { id } = request.params
+    const exercicios = await connection('exercicio')
+    .where('exercicio.personal_id', '=', personal_id )
+    .andWhere('exercicio.id', '=', id)
+
+    return response.json(exercicios)
+  },
+
   async delete(request, response) {
     const { id } = request.params
 

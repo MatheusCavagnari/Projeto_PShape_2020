@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
+
 import { useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios'
 
 import Header from '../../Header'
@@ -17,14 +19,42 @@ import api from '../../../services/api'
 function EditarExercicio() {
     const [nome, setNome] = useState('');
     const [maquina, setMaquina] = useState('');
-
     const [tipo, setTipo] = React.useState('female');
-
     const personal_id = 1;
 
     const handleChange = (event) => {
         setTipo(event.target.value);
     };
+    
+    const { id }= useParams();
+    
+    
+     function carregarExercicio(e) {
+
+        console.log(id);
+
+        console.log(nome);
+        console.log(personal_id);
+        console.log(maquina);
+        console.log(tipo);
+
+        try { 
+            const bancoBusca =
+            axios({
+                url: `http://localhost:3333/exercicio/${id}`,
+                method: 'get',
+                headers: { personal: personal_id }
+            })
+           
+            bancoBusca.then( (array)=> console.log(array.data))
+
+           
+        } catch (err) {
+            alert(`Aconteceu algum erro ${err.response.data}`)
+            console.log(err)
+        }
+
+    }
 
 
     async function btnAddExercicio(e) {
@@ -46,14 +76,8 @@ function EditarExercicio() {
                 }, headers: { personal: personal_id }
             })
 
-
-
-
-
-
-
             alert(`Exercicio alterado com sucesso!`)
-            //     // console.log(response.data)
+
             history.push('/exercicio')
         } catch (err) {
             alert(`Aconteceu algum erro ${err.response.data}`)
@@ -68,13 +92,14 @@ function EditarExercicio() {
         e.preventDefault()
         history.push('/exercicio')
     }
+    
 
     return (
         <div id="pageAlt">
             <Header classname="header" />
             <div className="main">
                 <div className="boxAlt">
-                    <h2>Cadastro de Exercício</h2>
+                    <h2>Editar Exercício</h2>
                     <form onSubmit={btnAddExercicio}>
                         <TextField id="standard-basic nome"
                             label="Nome"
@@ -98,9 +123,11 @@ function EditarExercicio() {
 
                         <div className="horizontalBox buttons">
                             <button>Cadastrar</button>
+                            
                             <button onClick={cancelar} className="cancel">Cancelar</button>
                         </div>
                     </form>
+                    <button onClick={carregarExercicio}>tr</button>
                 </div>
             </div>
             <Footer classname="footer" />

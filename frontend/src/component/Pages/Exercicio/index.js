@@ -8,6 +8,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { withStyles, makeStyles } from '@material-ui/core/styles';
+import swal from 'sweetalert2'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
@@ -81,6 +82,11 @@ function Exercicio() {
     history.push(`/cadastroExercicio`);
   }
 
+  function btnEditarClick(id) {
+    
+    history.push(`/editarExercicio/${id}`);
+  }
+
   const listaDeExercicios = async () => {
     await api.get('/exercicio', { headers: { personal: localStorage.getItem('personal') } })
       .then(response => {
@@ -94,21 +100,41 @@ function Exercicio() {
   async function btnDeletarClick(id) {
     console.log(id);
 
-    try{
-      const resposta =
+    swal.fire({
+      title: 'Você tem certeza?',
+      text: "Você não pode reverter isso!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sim, deletar!',
+      cancelButtonText: 'Cancelar'
+    }).then(async (result) => {
+      if(result.isConfirmed) {
+        const resposta =
         await api.delete(`/exercicio/${id}`)
-  
-        alert(`Exercicio alterado com sucesso!`)
-
+        
         if(resposta.status == 204 ){
+          swal.fire(
+            'Excluído!',
+            'Seu exercício foi excluído.',
+            'success'
+          )
           console.log(resposta);
           listaDeExercicios();
+        }else{
+
+          swal.fire(
+            'Não Foi possivel excluir!',
+            'Seu exercício não foi excluído.',
+            'error'
+          )
+          
         }
         history.push('/exercicio')
-      } catch (err) {
-        alert(`Aconteceu algum erro ${err.response.data}`)
-        console.log(err)
+        
       }
+    })
 
   }
 
@@ -171,7 +197,7 @@ function Exercicio() {
                                       <StyledTableCell align="left">{row.maquina}</StyledTableCell>
                                       <StyledTableCell align="center">
                                         <button className="btnEdit">
-                                            <FontAwesomeIcon icon={faEdit} className="icone"/>
+                                            <FontAwesomeIcon onClick={()=>btnEditarClick(row.id)}  icon={faEdit} className="icone"/>
                                         </button>
                                         <button className="btnDelete">
                                             <FontAwesomeIcon onClick={()=>btnDeletarClick(row.id)} icon={faTrashAlt} className="icone"/>
