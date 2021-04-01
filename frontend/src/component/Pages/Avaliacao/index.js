@@ -70,6 +70,11 @@ function Avaliacao() {
     const classes = useStyles();
     const history = useHistory();
 
+    function btnEditarClick(id) {
+    
+        history.push(`/editarAvaliacao/${id}`);
+      }
+
     function btnGerarRelatorio(e) {
         e.preventDefault();
         history.push("/relatorio");
@@ -194,7 +199,7 @@ function Avaliacao() {
                                                     <FontAwesomeIcon icon={faPlus} className="icone"/>
                                                 </button>
                                                 <button className="btnEdit">
-                                                    <FontAwesomeIcon icon={faEdit} className="icone"/>
+                                                    <FontAwesomeIcon onClick={()=>btnEditarClick(row.id)} icon={faEdit} className="icone"/>
                                                 </button>
                                             </StyledTableCell>
 
