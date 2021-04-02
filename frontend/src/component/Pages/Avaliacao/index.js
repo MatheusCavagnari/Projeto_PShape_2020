@@ -71,9 +71,9 @@ function Avaliacao() {
     const history = useHistory();
 
     function btnEditarClick(id) {
-    
+
         history.push(`/editarAvaliacao/${id}`);
-      }
+    }
 
     function btnGerarRelatorio(e) {
         e.preventDefault();
@@ -83,16 +83,16 @@ function Avaliacao() {
     function btnAdicionarClick(e) {
         e.preventDefault();
         history.push("/cadastroAvaliacao");
-      }
+    }
 
     function selecionaAluno(e) {
         const abc = e.target.id;
         const index = abc.slice(22);
-        if(index){
+        if (index) {
             setAluno(alunos[parseInt(index)].id)
-          } else {
+        } else {
             setAluno([])
-          }
+        }
     }
 
     // function useQuery() {
@@ -103,31 +103,21 @@ function Avaliacao() {
 
     useEffect(() => {
         const listaDeAlunos = async () => {
-                // console.log(query.get("aluno"))
-                await api.get(`/avaliacao?aluno=${aluno}`, { headers: { personal: localStorage.getItem('personal') } })
-                    .then(response => {
-                        setdb(response.data)
-                    })
-                    .catch(err => {
-                        console.log(err)
-                    })
+            // console.log(query.get("aluno"))
+            await api.get(`/avaliacao?aluno=${aluno}`, { headers: { personal: localStorage.getItem('personal') } })
+                .then(response => {
+                    setdb(response.data)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
         }
         listaDeAlunos()
     }, [aluno])
 
+
     useEffect(() => {
-        // const listaDeAlunos = async () => {
-        //     if(alunoId){
-        //         // console.log(query.get("aluno"))
-        //         await api.get(`/avaliacao?aluno=${alunoId}`, { headers: { personal: localStorage.getItem('personal') } })
-        //             .then(response => {
-        //                 setdb(response.data)
-        //             })
-        //             .catch(err => {
-        //                 console.log(err)
-        //             })
-        //     }
-        // }
+        // console.log(searchPaams, )
         const avalAluno = async () => {
             await api.get('/alunos', { headers: { personal: localStorage.getItem('personal') } })
                 .then(response => {
@@ -136,6 +126,7 @@ function Avaliacao() {
                 .catch(err => {
                     console.log(err)
                 })
+
         }
 
         avalAluno()
@@ -153,12 +144,12 @@ function Avaliacao() {
 
     // }, [busca])
 
-    
+
 
     return (
         <div id="page">
             <Header className="header" />
-            <Menu page="1"/> 
+            <Menu page="1" />
             <div className="main">
                 <Titulo
                     titulo="Avaliação"
@@ -196,10 +187,10 @@ function Avaliacao() {
                                             </StyledTableCell>
                                             <StyledTableCell align="center">
                                                 <button className="btnAzul">
-                                                    <FontAwesomeIcon icon={faPlus} className="icone"/>
+                                                    <FontAwesomeIcon icon={faPlus} className="icone" />
                                                 </button>
                                                 <button className="btnEdit">
-                                                    <FontAwesomeIcon onClick={()=>btnEditarClick(row.id)} icon={faEdit} className="icone"/>
+                                                    <FontAwesomeIcon onClick={() => btnEditarClick(row.id)} icon={faEdit} className="icone" />
                                                 </button>
                                             </StyledTableCell>
 

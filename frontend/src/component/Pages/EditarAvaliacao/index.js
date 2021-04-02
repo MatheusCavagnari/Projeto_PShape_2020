@@ -13,7 +13,6 @@ import { TextField } from '@material-ui/core'
 import api from '../../../services/api'
 
 function EditarAvaliacao() {
-    const [ aluno_id, setAluno] = useState('');
     const [dobra_abdominal, setAbdominal] = useState('');
     const [dobra_axilar, setAxilar] = useState('');
     const [dobra_bicipal, setBiciptal] = useState('');
@@ -26,42 +25,38 @@ function EditarAvaliacao() {
     const [peso, setPeso] = useState('');
     const [altura, setAltura] = useState('');
     const [data_avaliacao, setData] = useState('');
-    const personal_id = 1;
-   
-    const [alunos, setAlunos] = useState([]);
 
 
     const history = useHistory();
-
     const { id } = useParams();
-    const bancoBusca = async () => {
-        await api.get(`/avaliacao/${id}` )
-            .then(response => {
-                setAltura(response.data[0]?.altura)
-                setAbdominal(response.data[0]?.dobra_abdominal)
-                setAxilar(response.data[0]?.dobra_axilar)
-                setBiciptal(response.data[0]?.dobra_bicipal)
-                setCoxa(response.data[0]?.dobra_coxa)
-                setPanturrilha(response.data[0]?.dobra_panturrilha)
-                setSubescapular(response.data[0]?.dobra_subescapular)
-                setSupraIliaca(response.data[0]?.dobra_supra_iliaca)
-                setToracica(response.data[0]?.dobra_toracica)
-                setTricipal(response.data[0]?.dobra_tricipal)
-                setPeso(response.data[0]?.peso)
-                setData(response.data[0]?.data_avaliacao)
-                setAluno(response.data[0]?.aluno_id)
 
-               
-            })
-            .catch(err => {
-                console.log(err)
-            })
-    }
-
-
+    
+    
     useEffect(() => {
+        
+        const bancoBusca = async () => {
+            await api.get(`/avaliacao/${id}` )
+                .then(response => {
+                    setAltura(response.data[0]?.altura)
+                    setAbdominal(response.data[0]?.dobra_abdominal)
+                    setAxilar(response.data[0]?.dobra_axilar)
+                    setBiciptal(response.data[0]?.dobra_bicipal)
+                    setCoxa(response.data[0]?.dobra_coxa)
+                    setPanturrilha(response.data[0]?.dobra_panturrilha)
+                    setSubescapular(response.data[0]?.dobra_subescapular)
+                    setSupraIliaca(response.data[0]?.dobra_supra_iliaca)
+                    setToracica(response.data[0]?.dobra_toracica)
+                    setTricipal(response.data[0]?.dobra_tricipal)
+                    setPeso(response.data[0]?.peso)
+                    setData(response.data[0]?.data_avaliacao)              
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        }
+
         bancoBusca()
-    }, [])
+    }, [id])
     
     function cancelar(e) {
       e.preventDefault()
@@ -103,17 +98,7 @@ function EditarAvaliacao() {
             console.log(err)
           }
 
-      }
-
-      function selecionaAluno(e) {
-        const abc = e.target.id;
-        const index = abc.slice(22);
-        if(index){
-            setAluno(alunos[parseInt(index)].id)
-          } else {
-            setAluno([])
-          }
-    }
+        }
 
 
     return (

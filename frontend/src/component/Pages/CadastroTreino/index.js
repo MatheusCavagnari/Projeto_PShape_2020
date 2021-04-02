@@ -18,6 +18,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Swal from 'sweetalert2'
+import { useHistory } from 'react-router'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,10 +46,12 @@ function CadastroTreino() {
   const [nome, setNome] = useState('');
   const [alunos, setAlunos] = useState([]);
   const [aluno, setAluno] = useState('');
+  const [exercicios, setExercicos] = useState([]);
   const classes = useStyles();
   const [checked, setChecked] = React.useState([]);
-  const [left, setLeft] = React.useState([0, 1, 2, 3]);
+  const [left, setLeft] = React.useState([]);
   const [right, setRight] = React.useState([]);
+  const history = useHistory();
 
 
   const leftChecked = intersection(checked, left);
@@ -56,7 +59,7 @@ function CadastroTreino() {
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
+    const newChecked = [];
 
     if (currentIndex === -1) {
       newChecked.push(value);
@@ -67,12 +70,103 @@ function CadastroTreino() {
     setChecked(newChecked);
   };
 
-  const handleAllRight = () => {
-    setRight(right.concat(left));
-    setLeft([]);
-  };
-
   const handleCheckedRight = () => {
+
+    const title = leftChecked[0].nome     
+      if(leftChecked[0].tipo === "R"){  
+        // console.log(title)
+        Swal.mixin({
+          input: 'number',
+          confirmButtonText: 'Próximo &rarr;',
+          showCancelButton: true,
+          progressSteps: ['1', '2', "3", "4"]
+        }).queue([
+          {
+            title,
+            text: 'Selecione quantas series'
+          },
+          {
+            title,
+            text: 'Selecione quantas repetições'
+          },
+          {
+            title,
+            text: 'Selecione a carga'
+          },
+          {
+            title,
+            text: 'Observações',
+            input: 'textarea'
+          }
+        ]).then((result) => {
+          if (result.value) {
+            // console.log(result.value)
+            // const answers = JSON.stringify(result.value)
+            // Swal.fire({
+            //   title: 'All done!',
+            //   html: `
+            //     Your answers:
+            //     <pre><code>${answers}</code></pre>
+            //   `,
+            //   confirmButtonText: 'Lovely!'
+            // })
+            const exercicioRepet = {
+              exercicio_id: leftChecked[0].id,
+              detalhes: {
+                series: result.value[0],
+                repeticao: result.value[1],
+                carga: result.value[2],
+                observacoes: result.value[3],
+              }
+            }
+            let concat = [...exercicios, exercicioRepet]
+            setExercicos(concat)
+            // console.log(concat)
+          }
+        })
+      } else {
+        Swal.mixin({
+          confirmButtonText: 'Próximo &rarr;',
+          showCancelButton: true,
+          progressSteps: ['1', '2']
+        }).queue([
+          {
+            title,
+            text: 'Selecione quanto tempo',
+            input: "number",
+            
+          },
+          {
+            title,
+            text: 'Observações',
+            input: 'textarea'
+          },
+        ]).then((result) => {
+          if (result.value) { 
+            // console.log(result.value)
+            // const answers = JSON.stringify(result.value)
+            // Swal.fire({
+            //   title: 'All done!',
+            //   html: `
+            //     Your answers:
+            //     <pre><code>${answers}</code></pre>
+            //   `,
+            //   confirmButtonText: 'Lovely!'
+            // })
+            const exercicioTempo = {
+              exercicio_id: leftChecked[0].id,
+              detalhes: {
+                tempo: result.value[0],
+                observacoes: result.value[1],
+              }
+            }
+            let concat = [...exercicios, exercicioTempo]
+            setExercicos(concat)
+            // console.log(concat)
+          }
+        })
+      }
+
     setRight(right.concat(leftChecked));
     setLeft(not(left, leftChecked));
     setChecked(not(checked, leftChecked));
@@ -82,19 +176,18 @@ function CadastroTreino() {
     setLeft(left.concat(rightChecked));
     setRight(not(right, rightChecked));
     setChecked(not(checked, rightChecked));
-  };
 
-  const handleAllLeft = () => {
-    setLeft(left.concat(right));
-    setRight([]);
-  };
+    const x = exercicios.map(ex => ex.exercicio_id)
+    exercicios.splice(x.indexOf(rightChecked[0].id), 1)
+
+    setExercicos(exercicios)
+   };
 
   const customList = (items) => (
     <Paper className={classes.paper}>
       <List dense component="div" role="list">
         {items.map((value) => {
           const labelId = `transfer-list-item-${value}-label`;
-
           return (
             <ListItem key={value.id} role="listitem" button onClick={handleToggle(value)}>
               <ListItemIcon>
@@ -102,6 +195,7 @@ function CadastroTreino() {
                   checked={checked.indexOf(value) !== -1}
                   tabIndex={-1}
                   disableRipple
+                  
                   inputProps={{ 'aria-labelledby': labelId }}
                 />
               </ListItemIcon>
@@ -120,93 +214,41 @@ function CadastroTreino() {
     const index = abc.slice(22);
     if (index) {
       setAluno(alunos[parseInt(index)].id)
+      console.log(alunos[parseInt(index)].id)
     } else {
       setAluno([])
     }
   }
 
-  let detalhes
 
-  function CadastroTreino(e) {
+  async function CadastroTreino(e) {
     e.preventDefault()
-    right.forEach((exercicio) => {
-      const title = exercicio.nome
-      
-      if(exercicio.tipo === "R"){  
-        console.log(title)
-        Swal.mixin({
-          input: 'number',
-          confirmButtonText: 'Próximo &rarr;',
-          showCancelButton: true,
-          progressSteps: ['1', '2', "3", "4"]
-        }).queue([
-          {
-            title,
-            text: 'Selecione quantas sereis'
-          },
-          {
-            title,
-            text: 'Selecione quantas repetições'
-          },
-          {
-            title,
-            text: 'Selecione a carga'
-          },
-          {
-            title,
-            text: 'Observações',
-            input: 'textarea'
-          }
-        ]).then((result) => {
-          if (result.value) {
-            console.log(result.value)
-            const answers = JSON.stringify(result.value)
-            Swal.fire({
-              title: 'All done!',
-              html: `
-                Your answers:
-                <pre><code>${answers}</code></pre>
-              `,
-              confirmButtonText: 'Lovely!'
-            })
-          }
+    try{
+      if(aluno){
+        await api.post(`/treino?aluno=${aluno}`, {
+          nome,
+          exercicios
         })
       } else {
-        console.log(title)
-        Swal.mixin({
-          // input: 'text',
-          confirmButtonText: 'Próximo &rarr;',
-          showCancelButton: true,
-          progressSteps: ['1', '2']
-        }).queue([
-          {
-            title,
-            text: 'Selecione quanto tempo',
-            input: "number",
-            
-          },
-          {
-            title,
-            text: 'Observações',
-            input: 'textarea'
-          },
-        ]).then((result) => {
-          if (result.value) {
-            const answers = JSON.stringify(result.value)
-            Swal.fire({
-              title: 'All done!',
-              html: `
-                Your answers:
-                <pre><code>${answers}</code></pre>
-              `,
-              confirmButtonText: 'Lovely!'
-            })
-          }
+        await api.post(`/treino`, {
+          nome,
+          exercicios
         })
       }
-
-
+      Swal.fire(
+        'Adicionado!',
+        'Seu Treino foi adicionado com sucesso.',
+        'success'
+      ).then(async (result) => {
+        if(result.isConfirmed) {
+            history.push('/treino')
+        }
     })
+
+    }catch (err) {
+      alert(`Aconteceu algum erro ${err.response.data}`)
+      console.log(err)
+    }
   }
 
   useEffect(() => {
@@ -233,6 +275,11 @@ function CadastroTreino() {
     listAluno()
     listExercicio()
   }, [])
+
+  function btnCancelar(e) {
+    e.preventDefault()
+    history.push('/treino')
+  }
 
 
   return (
@@ -270,16 +317,6 @@ function CadastroTreino() {
                     variant="outlined"
                     size="small"
                     className={classes.button}
-                    onClick={handleAllRight}
-                    disabled={left.length === 0}
-                    aria-label="move all right"
-                  >
-                    ≫
-          </Button>
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    className={classes.button}
                     onClick={handleCheckedRight}
                     disabled={leftChecked.length === 0}
                     aria-label="move selected right"
@@ -296,23 +333,13 @@ function CadastroTreino() {
                   >
                     &lt;
           </Button>
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    className={classes.button}
-                    onClick={handleAllLeft}
-                    disabled={right.length === 0}
-                    aria-label="move all left"
-                  >
-                    ≪
-          </Button>
                 </Grid>
               </Grid>
               <Grid item>Exercícios Adicionados{customList(right)}</Grid>
             </Grid>
             <div className="horizontalBox buttons">
               <button onClick={CadastroTreino}>Cadastrar</button>
-              <button className="cancel">Cancelar</button>
+              <button className="cancel" onClick={btnCancelar}>Cancelar</button>
             </div>
           </form>
         </div>

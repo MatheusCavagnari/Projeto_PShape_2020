@@ -114,7 +114,7 @@ function Exercicio() {
         const resposta =
         await api.delete(`/exercicio/${id}`)
         
-        if(resposta.status == 204 ){
+        if(resposta.status === 204 ){
           swal.fire(
             'Excluído!',
             'Seu exercício foi excluído.',

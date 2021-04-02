@@ -23,31 +23,29 @@ function EditarExercicio() {
     const [tipo, setTipo] = React.useState('');
     const personal_id = 1;
 
-    const [exercicio, setExercicios] = useState([]);
-
     const handleChange = (event) => {
         setTipo(event.target.value);
     };
 
     const { id } = useParams();
-    const bancoBusca = async () => {
-        await api.get(`/exercicio/${id}`, { headers: { personal: personal_id } })
-            .then(response => {
-
-                setNome(response.data[0]?.nome);
-                setMaquina(response.data[0]?.maquina);
-                setTipo(response.data[0]?.tipo);
-            })
-            .catch(err => {
-                console.log(err)
-            })
-    }
-
+    
     useEffect(() =>  {
+        const bancoBusca = async () => {
+            await api.get(`/exercicio/${id}`, { headers: { personal: personal_id } })
+                .then(response => {
+    
+                    setNome(response.data[0]?.nome);
+                    setMaquina(response.data[0]?.maquina);
+                    setTipo(response.data[0]?.tipo);
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        }
 
         bancoBusca();             
 
-    }, [])
+    }, [id])
 
     async function btnAddExercicio(e) {
         e.preventDefault()

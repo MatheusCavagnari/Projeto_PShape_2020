@@ -52,5 +52,15 @@ module.exports = {
       .where('alunos.personal_id', '=', personal_id)
 
     return response.json(alunos)
+  },
+  
+  async getById(request, response) {
+    const { id } = request.params
+    const personal_id = request.headers.personal
+    const alunos = await connection('alunos')
+      .where('alunos.personal_id', '=', personal_id)
+      .andWhere('alunos.id', '=', id)
+
+    return response.json(alunos)
   }
 }

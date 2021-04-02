@@ -14,7 +14,7 @@ import swal from 'sweetalert2'
 
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrashAlt, faEdit, faChartPie, faAward } from '@fortawesome/free-solid-svg-icons'
+import { faTrashAlt, faEdit, faChartPie, faPlus } from '@fortawesome/free-solid-svg-icons'
 
 import Vetor from "../../../img/vetorBtn.svg";
 import Braco from "../../../img/bracoBtn.svg";
@@ -96,7 +96,7 @@ function Aluno() {
 
   function AlterarAluno(id) {
     console.log(id)
-    // history.push(`/editarAluno?aluno=${id}`);
+    history.push(`/editarAluno/${id}`);
   }
   
   async function deletarAluno(id) {
@@ -195,19 +195,22 @@ function Aluno() {
                                       </StyledTableCell>
                                       <StyledTableCell align="left">{row.telefone}</StyledTableCell>
                                       <StyledTableCell align="center">                                        
-                                        <button className="btnAzul">
+                                        <button className="btnAzul" title="Treino">
                                             <img src={Braco} alt="Treino" className="icone"/>
                                         </button>
-                                        <button className="btnAzul">
-                                          <img src={Vetor} alt="Treino" className="icone"/>
+                                        <button className="btnAzul" title="Avaliação">
+                                          <img src={Vetor} alt="Avaliação" className="icone"/>
                                         </button>
-                                        <button className="btnAzul">
+                                        <button className="btnAzul" title="Relatório">
                                             <FontAwesomeIcon icon={faChartPie} className="icone"/>
                                         </button>
-                                        <button className="btnEdit" onClick={() => AlterarAluno(row.id)}>
+                                        <button className="btnAzul" title="Detalhes">
+                                            <FontAwesomeIcon icon={faPlus} className="icone"/>
+                                        </button>
+                                        <button className="btnEdit" onClick={() => AlterarAluno(row.id)} title="Editar">
                                             <FontAwesomeIcon icon={faEdit} className="icone"/>
                                         </button>
-                                        <button className="btnDelete" onClick={() => deletarAluno(row.id)} >
+                                        <button className="btnDelete" onClick={() => deletarAluno(row.id)} title="Deletar">
                                             <FontAwesomeIcon icon={faTrashAlt} className="icone"/>
                                         </button>
                                       </StyledTableCell>

@@ -136,7 +136,7 @@ function CadastroAluno() {
               onChange={e => setObservacoes(e.target.value)}
               />
             <div className="horizontalBox botoes">
-            <button type="submit" className="salvar" >Salvar</button>
+            <button type="submit" className="salvar" >Cadastrar</button>
                 <button onClick={btnCancelar} className="cancel" >Cancelar</button>
             </div>
           </form>

@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom';
-import axios from 'axios'
 
 import Header from '../../Header'
 import Footer from '../../Footer'
@@ -21,8 +20,6 @@ function CadastroExercicio() {
 
     const [tipo, setTipo] = React.useState('female');
 
-    const personal_id = 1;
-
     const handleChange = (event) => {
         setTipo(event.target.value);
     };
@@ -31,34 +28,26 @@ function CadastroExercicio() {
     async function btnAddExercicio(e) {
         e.preventDefault()
 
-        console.log(nome);
-        console.log(personal_id);
-        console.log(maquina);
-        console.log(tipo);
-
         try {
-            axios({
-                url: 'http://localhost:3333/exercicio',
-                method: 'post',
-                data: {
-                    nome,
-                    maquina,
-                    tipo
-                }, headers: { personal: personal_id }
-            })
+
+            await api.post('/exercicio', {
+                nome,
+                maquina,
+                tipo
+            }, {headers: { personal: localStorage.getItem('personal') }})
 
             swal.fire(
                 'Adicionado!',
                 'Seu Exercício foi adicionado com sucesso.',
                 'success'
-              ).then(async (result) => {
-                if(result.isConfirmed) {
+            ).then(async (result) => {
+                if (result.isConfirmed) {
                     history.push('/exercicio')
                 }
             })
-            
+
             //     // console.log(response.data)
-            
+
         } catch (err) {
             alert(`Aconteceu algum erro ${err.response.data}`)
             console.log(err)

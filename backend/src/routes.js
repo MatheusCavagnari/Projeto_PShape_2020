@@ -17,6 +17,7 @@ routes.put('/personal/:id', PersonalController.update)
 
 routes.post('/alunos', AlunoController.create)
 routes.get('/alunos', AlunoController.index)
+routes.get('/alunos/:id', AlunoController.getById)
 routes.put('/alunos/:id', AlunoController.update)
 routes.delete('/alunos/:id', AlunoController.delete)
 
