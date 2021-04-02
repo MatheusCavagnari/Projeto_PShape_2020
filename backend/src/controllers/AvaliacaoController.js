@@ -75,6 +75,14 @@ module.exports = {
     return response.json(avaliacao)
   },
 
+  async getById(request, response) {
+    const { id } = request.params
+    const avaliacao = await connection('avaliacao')
+    .where('avaliacao.id', '=', id)
+
+    return response.json(avaliacao)
+  },
+
   async delete(request, response) {
     const { id } = request.params
 

@@ -18,6 +18,7 @@ import Relatorio from './component/Pages/Relatorio'
 import CadastroAvaliacao from './component/Pages/CadastroAvaliacao' 
 import EditarExercicio from './component/Pages/EditarExercicio' 
 import AlterarAluno from './component/Pages/AlterarAluno' 
+import EditarAvaliacao from './component/Pages/EditarAvaliacao' 
 
 
 export default function Routes() {
@@ -40,6 +41,7 @@ export default function Routes() {
       <Route path="/cadastroAvaliacao" component={CadastroAvaliacao} />
       <Route path="/editarExercicio/:id" component={EditarExercicio} />
       <Route path="/editarAluno" component={AlterarAluno} />
+      <Route path="/editarAvaliacao/:id" component={EditarAvaliacao} />
     </Router>
   );
 }

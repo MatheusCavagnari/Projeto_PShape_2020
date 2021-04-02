@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import axios from 'axios'
+import swal from 'sweetalert2'
 
 import Header from '../../Header'
 import Footer from '../../Footer'
@@ -19,43 +20,34 @@ import api from '../../../services/api'
 function EditarExercicio() {
     const [nome, setNome] = useState('');
     const [maquina, setMaquina] = useState('');
-    const [tipo, setTipo] = React.useState('female');
+    const [tipo, setTipo] = React.useState('');
     const personal_id = 1;
+
+    const [exercicio, setExercicios] = useState([]);
 
     const handleChange = (event) => {
         setTipo(event.target.value);
     };
-    
-    const { id }= useParams();
-    
-    
-     function carregarExercicio(e) {
 
-        console.log(id);
+    const { id } = useParams();
+    const bancoBusca = async () => {
+        await api.get(`/exercicio/${id}`, { headers: { personal: personal_id } })
+            .then(response => {
 
-        console.log(nome);
-        console.log(personal_id);
-        console.log(maquina);
-        console.log(tipo);
-
-        try { 
-            const bancoBusca =
-            axios({
-                url: `http://localhost:3333/exercicio/${id}`,
-                method: 'get',
-                headers: { personal: personal_id }
+                setNome(response.data[0]?.nome);
+                setMaquina(response.data[0]?.maquina);
+                setTipo(response.data[0]?.tipo);
             })
-           
-            bancoBusca.then( (array)=> console.log(array.data))
-
-           
-        } catch (err) {
-            alert(`Aconteceu algum erro ${err.response.data}`)
-            console.log(err)
-        }
-
+            .catch(err => {
+                console.log(err)
+            })
     }
 
+    useEffect(() =>  {
+
+        bancoBusca();             
+
+    }, [])
 
     async function btnAddExercicio(e) {
         e.preventDefault()
@@ -67,18 +59,27 @@ function EditarExercicio() {
 
         try {
             axios({
-                url: 'http://localhost:3333/exercicio',
-                method: 'post',
+                url: `http://localhost:3333/exercicio/${id}`,
+                method: 'put',
                 data: {
                     nome,
                     maquina,
                     tipo
-                }, headers: { personal: personal_id }
+                }, 
             })
 
-            alert(`Exercicio alterado com sucesso!`)
 
-            history.push('/exercicio')
+            swal.fire(
+                'Alterado!',
+                'Sua Exercicio foi alterado com sucesso.',
+                'success'
+              ).then(async (result) => {
+                if(result.isConfirmed) {
+                    history.push('/exercicio')
+                }
+            })
+
+           
         } catch (err) {
             alert(`Aconteceu algum erro ${err.response.data}`)
             console.log(err)
@@ -86,15 +87,17 @@ function EditarExercicio() {
 
     }
 
+
+
     const history = useHistory();
 
     function cancelar(e) {
         e.preventDefault()
         history.push('/exercicio')
     }
-    
 
-    return (
+
+    return  (
         <div id="pageAlt">
             <Header classname="header" />
             <div className="main">
@@ -123,11 +126,11 @@ function EditarExercicio() {
 
                         <div className="horizontalBox buttons">
                             <button>Cadastrar</button>
-                            
+
                             <button onClick={cancelar} className="cancel">Cancelar</button>
                         </div>
                     </form>
-                    <button onClick={carregarExercicio}>tr</button>
+                   
                 </div>
             </div>
             <Footer classname="footer" />

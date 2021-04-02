@@ -22,6 +22,7 @@ routes.delete('/alunos/:id', AlunoController.delete)
 
 routes.post('/avaliacao', AvaliacaoController.create)
 routes.get('/avaliacao', AvaliacaoController.index)
+routes.get('/avaliacao/:id', AvaliacaoController.getById)
 routes.put('/avaliacao/:id', AvaliacaoController.update)
 routes.delete('/avaliacao/:id', AvaliacaoController.delete)
 
