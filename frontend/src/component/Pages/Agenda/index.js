@@ -40,7 +40,7 @@ function getModalStyle() {
 
 export default function Agenda() {
 
-  const [open, setOpen] = React.useState(false);
+  const [openModal, setOpenModal] = React.useState(false);
   const [agendamentos, setAgendamentos] = useState([])
   const classes = useStyles();
   const [modalStyle] = useState(getModalStyle);
@@ -61,7 +61,7 @@ export default function Agenda() {
   }]
 
   const handleClose = () => {
-    setOpen(false);
+    setOpenModal(false);
   };
 
   function selecionaAluno(e) {
@@ -184,7 +184,7 @@ export default function Agenda() {
       dataFormat: dataFormatada
     }
     setData(dataObj)
-    setOpen(true)
+    setOpenModal(true)
   }
 
   function ListaAgendamentosDia(arg) {
@@ -212,14 +212,15 @@ export default function Agenda() {
             locale="PT-BR"
             buttonText={{ today: "Hoje" }}
             events={agendamentos}
-            dayMaxEventRows="1"
             eventClick={ListaAgendamentosDia}
+            dayMaxEventRows={2}
+
           />
         </div>
       </div>
       <Footer className="footer" />
       <Modal
-        open={open}
+        open={openModal}
         onClose={handleClose}
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"

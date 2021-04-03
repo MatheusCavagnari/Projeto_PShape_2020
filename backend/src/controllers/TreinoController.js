@@ -1,13 +1,14 @@
 const connection = require('../database/connection')
+const { getById } = require('./AlunoController')
 
 module.exports = {
   async create( request, response ) {
     const { nome, exercicios } = request.body
     const aluno_id = request.query.aluno
     const treino = request.query.treino
+    const data = new Date()
 
   if(treino) {
-    const data = new Date()
     await connection('aluno_treino').insert({
       aluno_id,
       treino_id: treino,
@@ -20,7 +21,6 @@ module.exports = {
       nome
     })
 
-    const data = new Date()
     const aluno_treino_id = await connection('aluno_treino').insert({
       aluno_id,
       treino_id,
@@ -213,7 +213,7 @@ module.exports = {
         // .join('treino', 'aluno_treino.treino_id', '=', 'treino.id')
         .whereNull('aluno_treino.aluno_id')
         .join('treino', 'aluno_treino.treino_id', '=', 'treino.id')
-        .andWhere("treino.nome", "=", nomeTreino)
+        .where("treino.nome", "=", nomeTreino)
       return response.json(treinos)
     }else {
       const treinos = await connection('treino')
@@ -222,5 +222,33 @@ module.exports = {
     }
     
     // return response.json(treinos)
+  },
+
+  async getById(request, response) {
+    const {id} = request.params
+
+    const treino = await connection('treino')
+      .where('treino.id', '=', id )
+      .join('aluno_treino', 'treino.id', '=', 'aluno_treino.treino_id')
+
+    const exerciciosBco = await connection('treino_exercicio')
+      .where('treino_exercicio.treino_id', '=', id)
+      // .join('exercicio', 'treino_exercicio.exercicio_id', '=', 'exercicio.id')
+      // .join('tempo', 'treino_exercicio.tempo_id', '=', 'tempo.id')
+      .join('repeticao', 'treino_exercicio.repeticao_id', '=', 'repeticao.id')
+      
+
+
+    const final = {
+      nome: treino.nome,
+      exercicios:[{
+        exercicio_id: "",
+        detalhes: {
+
+        }
+      }]
+    }
+
+      return response.json(exerciciosBco)
   }
 }

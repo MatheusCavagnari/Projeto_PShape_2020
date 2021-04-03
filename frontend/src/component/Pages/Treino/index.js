@@ -142,6 +142,9 @@ function Treino() {
     ListTreinos()
   }, [])
 
+  function editarTreino(id) {
+    console.log(id)
+  }
 
 
   return (
@@ -198,7 +201,7 @@ function Treino() {
                         <button className="btnAzul">
                           <FontAwesomeIcon icon={faPlus} className="icone" />
                         </button>
-                        <button className="btnEdit">
+                        <button className="btnEdit" onClick={() => editarTreino(row.id)}>
                           <FontAwesomeIcon icon={faEdit} className="icone" />
                         </button>
                         <button className="btnDelete">

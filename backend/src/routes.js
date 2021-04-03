@@ -31,7 +31,6 @@ routes.delete('/avaliacao/:id', AvaliacaoController.delete)
 routes.post('/agendamento', AgendamentoController.create)
 routes.get('/agendamento', AgendamentoController.index)
 routes.get('/agendamento/:id', AgendamentoController.getById)
-
 routes.put('/agendamento/:id', AgendamentoController.update)
 routes.delete('/agendamento/:id', AgendamentoController.delete)
 
@@ -45,5 +44,6 @@ routes.post('/treino', TreinoController.create)
 routes.put('/treino/:id', TreinoController.update)
 routes.delete('/treino/:id', TreinoController.delete)
 routes.get('/treino', TreinoController.index)
+routes.get('/treino/:id', TreinoController.getById)
 
 module.exports =  routes

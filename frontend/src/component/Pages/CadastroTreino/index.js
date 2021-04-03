@@ -223,15 +223,16 @@ function CadastroTreino() {
 
   async function CadastroTreino(e) {
     e.preventDefault()
+    const nomeTreino = nome ? nome : null
     try{
       if(aluno){
         await api.post(`/treino?aluno=${aluno}`, {
-          nome,
+          nome: nomeTreino,
           exercicios
         })
       } else {
         await api.post(`/treino`, {
-          nome,
+          nome: nomeTreino,
           exercicios
         })
       }

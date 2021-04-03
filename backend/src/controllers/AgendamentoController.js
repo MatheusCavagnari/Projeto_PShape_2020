@@ -67,14 +67,22 @@ module.exports = {
       return response.json(agendData)
     }else {
       const agendamentos = await connection('agendamento')
+        .join('alunos', 'agendamento.aluno_id', '=', 'alunos.id')
         .where('agendamento.personal_id', '=', personal_id)
+        .select('agendamento.*', 'alunos.nome')
   
       agendamentos.forEach((agend) => {
+        let titulo 
+        if(agend.tipo === 'T'){
+          titulo = `Treino ${agend.nome}`
+        } else {
+          titulo = `Avaliação ${agend.nome}`
+        }
         const date = agend.data_hora_agendamento.substr(0,10)
         // estes 3 campos sao adicionados para funcionar o calendario
         agend.date = date
         agend.url = date
-        agend.title = "Agendamentos"
+        agend.title = titulo
       })
       
       return response.json(agendamentos)
