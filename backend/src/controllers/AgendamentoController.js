@@ -1,4 +1,5 @@
 const connection = require('../database/connection')
+const { getById } = require('./AlunoController')
 
 module.exports = {
   async create( request, response ) {
@@ -50,18 +51,47 @@ module.exports = {
 
   async index(request, response) {
     const personal_id = request.headers.personal
+    const data = request.query.data
+
+    if(data) {
+      const agendamentos = await connection('agendamento')
+      .where('agendamento.personal_id', '=', personal_id)
+
+      const agendData = agendamentos.filter(agend => {
+        const date = agend.data_hora_agendamento.substr(0,10) 
+        if(date === data){
+          return agend
+        }
+      })
+
+      return response.json(agendData)
+    }else {
+      const agendamentos = await connection('agendamento')
+        .where('agendamento.personal_id', '=', personal_id)
+  
+      agendamentos.forEach((agend) => {
+        const date = agend.data_hora_agendamento.substr(0,10)
+        // estes 3 campos sao adicionados para funcionar o calendario
+        agend.date = date
+        agend.url = date
+        agend.title = "Agendamentos"
+      })
+      
+      return response.json(agendamentos)
+
+    }
+
+  },
+
+  async getById(request, response){
+    const personal_id = request.headers.personal
+    const { id } = request.params
 
     const agendamentos = await connection('agendamento')
       .where('agendamento.personal_id', '=', personal_id)
-
-    agendamentos.forEach((agend) => {
-      const date = agend.data_hora_agendamento.substr(0,10)
-      // estes 3 campos sao adicionados para funcionar o calendario
-      agend.date = date
-      agend.url = date
-      agend.title = "Agendamentos"
-    })
-    
+      .andWhere('agendamento.id', '=', id)
+      
     return response.json(agendamentos)
-  }
+  },
+
 }

@@ -26,13 +26,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
 
 function getModalStyle() {
-  const top = 50 + rand();
-  const left = 50 + rand();
+  const top = 50 ;
+  const left = 50 ;
 
   return {
     top: `${top}%`,
@@ -49,46 +46,111 @@ export default function Agenda() {
   const [modalStyle] = useState(getModalStyle);
   const [data, setData] = useState({})
   const [alunos, setAlunos] = useState([]);
+  const [aluno, setAluno] = useState({})
+  const [tipo, setTipo] = useState("")
+  const [observacoes, setObservacoes] = useState("")
+  const [horario, setHoaraio] = useState("")
 
+
+  const tipos = [{
+    title: "Avaliação",
+    value: "A"
+  },{
+    title: "Treino",
+    value: "T"
+  }]
 
   const handleClose = () => {
     setOpen(false);
   };
 
+  function selecionaAluno(e) {
+    const abc = e.target.id;
+    const index = abc.slice(22);
+    if (index) {
+        setAluno(alunos[parseInt(index)])
+    } else {
+        setAluno([])
+    }
+  }
+
+  function selecionaTipo(e) {
+    const abc = e.target.id;
+    const index = abc.slice(23);
+    if (index) {
+        setTipo(tipos[parseInt(index)].value)
+    } else {
+        setAluno([])
+    }
+  }
+
   let body = (
     <div style={modalStyle} className={classes.paper}>
-      <h2>Cadastro de Agendamento</h2>
-      <h2 id="simple-modal-title">{data.dataFormat}</h2>
-      <Autocomplete
-        id="combo-box-demo"
-        options={alunos}
-        getOptionLabel={(option) => option.nome}
-        style={{ width: "100%" }}
-        noOptionsText="Sem opções"
-        renderInput={(params) => <TextField {...params} label="Aluno" />}
-        // onChange={selecionaAluno}
-      />
-      <Autocomplete
-        id="combo-box-demo"
-        options={[{
-          title: "Avaliação",
-          value: "A"
-        },{
-          title: "Treino",
-          value: "T"
-        }]}
-        getOptionLabel={(option) => option.title}
-        style={{ width: "100%" }}
-        renderInput={(params) => <TextField {...params} label="Tipo agendamento" />}
-        // onChange={selecionaAluno}
-      />
-      <label htmlFor="horarioAgned">Horário</label>
-      <TextField id="horarioAgned" type="time"></TextField>
-      <TextField multiline variant="outlined" placeholder="Observações"></TextField>
-      <button>Cadastrar</button>
-      <button>Cancelar</button>
+      <div className="modalBox">
+        <div className="tituloBox">
+          <h2>Cadastro de Agendamento</h2>
+          <h2 id="simple-modal-title">{data.dataFormat}</h2>
+        </div>
+        <Autocomplete
+          id="combo-box-demo"
+          options={alunos}
+          getOptionLabel={(option) => option.nome}
+          getOptionSelected={(option, value) => option.id === value.id}
+          style={{ width: "100%" }}
+          noOptionsText="Sem opções"
+          renderInput={(params) => <TextField {...params} label="Aluno" />}
+          onChange={selecionaAluno}
+        />
+        <Autocomplete
+          id="combo-box-demo-"
+          options={tipos}
+          getOptionLabel={(option) => option.title}
+          getOptionSelected={(option, value) => option.value === value.value}
+          style={{ width: "100%" }}
+          renderInput={(params) => <TextField {...params} label="Tipo agendamento" />}
+          onChange={selecionaTipo}
+        />
+        <div className="horzBox">
+          <label htmlFor="horarioAgned">Horário</label>
+          <TextField id="horarioAgned" type="time" onChange={e => setHoaraio(e.target.value)}></TextField>
+        </div>
+        <TextField 
+          multiline
+          variant="outlined" 
+          placeholder="Observações" 
+          className="txtArea"
+          onChange={e => setObservacoes(e.target.value)}
+        />
+        <div className="horzBox">
+          <button className="button" onClick={cadastroAgendamento}>Cadastrar</button>
+          <button className="btnCancelar" onClick={handleClose}>Cancelar</button>
+        </div>
+      </div>
     </div>
   );
+
+  async function cadastroAgendamento(e) {
+    e.preventDefault()
+    const dataHora = data.data + ' ' + horario
+    const final = {
+      tipo,
+      observacoes,
+      aluno_id: aluno.id,
+      data_hora_execucao: null,
+      data_hora_agendamento: dataHora
+    }
+
+    try{
+      await api.post('/agendamento', final, {headers: { personal: localStorage.getItem('personal') }})
+      alert(`Agendamento cadastrado com sucesso!`)
+
+      handleClose()
+    }catch (err) {
+      alert(`Aconteceu algum erro ${err.response.data}`)
+      console.log(err)
+    }
+  }
+
 
   useEffect(() => {
     const agendamentosBanco = async () => {
@@ -111,7 +173,7 @@ export default function Agenda() {
     }
     listAluno()
     agendamentosBanco()
-  }, [])
+  }, [agendamentos])
 
   function clicarData(arg) {
     const meses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];

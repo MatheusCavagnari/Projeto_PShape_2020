@@ -23,12 +23,15 @@ routes.delete('/alunos/:id', AlunoController.delete)
 
 routes.post('/avaliacao', AvaliacaoController.create)
 routes.get('/avaliacao', AvaliacaoController.index)
-routes.get('/avaliacao/:id', AvaliacaoController.getById)
+routes.get('/avaliacao/:id', AvaliacaoController.getById) 
+// routes.get('/avaliacao?data=:data', AvaliacaoController.getAgendamentoByData) 
 routes.put('/avaliacao/:id', AvaliacaoController.update)
 routes.delete('/avaliacao/:id', AvaliacaoController.delete)
 
 routes.post('/agendamento', AgendamentoController.create)
 routes.get('/agendamento', AgendamentoController.index)
+routes.get('/agendamento/:id', AgendamentoController.getById)
+
 routes.put('/agendamento/:id', AgendamentoController.update)
 routes.delete('/agendamento/:id', AgendamentoController.delete)
 
