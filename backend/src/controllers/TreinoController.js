@@ -1,3 +1,4 @@
+const { format } = require('mysql')
 const connection = require('../database/connection')
 const { getById } = require('./AlunoController')
 
@@ -231,24 +232,51 @@ module.exports = {
       .where('treino.id', '=', id )
       .join('aluno_treino', 'treino.id', '=', 'aluno_treino.treino_id')
 
-    const exerciciosBco = await connection('treino_exercicio')
+    const exerciciosRepet = await connection('treino_exercicio')
       .where('treino_exercicio.treino_id', '=', id)
-      // .join('exercicio', 'treino_exercicio.exercicio_id', '=', 'exercicio.id')
+      .join('exercicio', 'treino_exercicio.exercicio_id', '=', 'exercicio.id')
       // .join('tempo', 'treino_exercicio.tempo_id', '=', 'tempo.id')
       .join('repeticao', 'treino_exercicio.repeticao_id', '=', 'repeticao.id')
+    
+    
+    const exerciciosTempo = await connection('treino_exercicio')
+      .where('treino_exercicio.treino_id', '=', id)
+      .join('exercicio', 'treino_exercicio.exercicio_id', '=', 'exercicio.id')
+      .join('tempo', 'treino_exercicio.tempo_id', '=', 'tempo.id')
+      // .join('repeticao', 'treino_exercicio.repeticao_id', '=', 'repeticao.id')
       
+
+    const exercicioRow = [...exerciciosRepet, ...exerciciosTempo]
+    const exercicios = exercicioRow.map(ex => {
+      let detalhes
+      if(ex.tipo === "R"){
+        detalhes = {
+          series: ex.series,
+          repeticao: ex.repeticao,
+          carga: ex.carga,
+          observacoes: ex.observacoes
+        }
+      }else {
+        detalhes = {
+          tempo: ex.tempo,
+          observacoes: ex.observacoes
+        }
+      }
+      const formatado = {
+        exercicio_id: ex.exercicio_id,
+        // exercicio_nome: ex.nome,
+        detalhes
+      }
+      return formatado
+    })
 
 
     const final = {
-      nome: treino.nome,
-      exercicios:[{
-        exercicio_id: "",
-        detalhes: {
-
-        }
-      }]
+      nome: treino[0].nome,
+      aluno_id: treino[0].aluno_id,
+      exercicios,
     }
 
-      return response.json(exerciciosBco)
+      return response.json(final)
   }
 }

@@ -77,7 +77,7 @@ function Avaliacao() {
 
     function btnGerarRelatorio(e) {
         e.preventDefault();
-        history.push("/relatorio");
+        history.push(`/relatorio/${aluno}`);
     }
 
     function btnAdicionarClick(e) {
@@ -167,7 +167,7 @@ function Avaliacao() {
                             renderInput={(params) => <TextField {...params} label="Aluno" variant="outlined" />}
                             onChange={selecionaAluno}
                         />
-                        <button className="btntitulo" onClick={btnGerarRelatorio}>Gerar Relatório</button>
+                        <button disabled={aluno && db.length !== 0 ? false : true} className='btntitulo' onClick={btnGerarRelatorio}>Gerar Relatório</button>
                     </div>
                     <div className="tabela">
                         <TableContainer component={Paper} className={classes.container}>

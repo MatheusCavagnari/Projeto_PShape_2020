@@ -19,7 +19,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Swal from 'sweetalert2'
-import { useHistory } from 'react-router'
+import { useHistory, useParams } from 'react-router'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,18 +43,18 @@ function intersection(a, b) {
   return a.filter((value) => b.indexOf(value) !== -1);
 }
 
-function CadastroTreino() {
+function EditarTreino() {
   const [nome, setNome] = useState('');
   const [alunos, setAlunos] = useState([]);
-  const [aluno, setAluno] = useState('');
+  const [aluno, setAluno] = useState({});
   const [exercicios, setExercicos] = useState([]);
   const classes = useStyles();
   const [checked, setChecked] = React.useState([]);
   const [left, setLeft] = React.useState([]);
   const [right, setRight] = React.useState([]);
   const history = useHistory();
-
-
+  const { id } = useParams();
+  
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
 
@@ -214,45 +214,14 @@ function CadastroTreino() {
     const abc = e.target.id;
     const index = abc.slice(22);
     if (index) {
-      setAluno(alunos[parseInt(index)].id)
-      console.log(alunos[parseInt(index)].id)
+      setAluno(alunos[parseInt(index)])
+      // console.log(alunos[parseInt(index)].id)
     } else {
       setAluno([])
     }
   }
 
-
-  async function CadastroTreino(e) {
-    e.preventDefault()
-    const nomeTreino = nome ? nome : null
-    try{
-      if(aluno){
-        await api.post(`/treino?aluno=${aluno}`, {
-          nome: nomeTreino,
-          exercicios
-        })
-      } else {
-        await api.post(`/treino`, {
-          nome: nomeTreino,
-          exercicios
-        })
-      }
-      Swal.fire(
-        'Adicionado!',
-        'Seu Treino foi adicionado com sucesso.',
-        'success'
-      ).then(async (result) => {
-        if(result.isConfirmed) {
-            history.push('/treino')
-        }
-    })
-
-    }catch (err) {
-      alert(`Aconteceu algum erro ${err.response.data}`)
-      console.log(err)
-    }
-  }
-
+  
   useEffect(() => {
     const listAluno = async () => {
       await api.get('/alunos', { headers: { personal: localStorage.getItem('personal') } })
@@ -267,16 +236,77 @@ function CadastroTreino() {
     const listExercicio = async () => {
       await api.get('/exercicio', { headers: { personal: localStorage.getItem('personal') } })
         .then(response => {
-          // console.log(response.data)
+          console.log(response.data)
           setLeft(response.data)
         }).catch(err => {
           console.log(err)
         })
     }
+    let acum = []
+    async function exerciciosBanco(exercicio) {
+      const bco = await api.get(`/exercicio/${exercicio.exercicio_id}`, { headers: { personal: localStorage.getItem('personal') } })
+        // setRight(right.push(bco.data[0]))
+        acum.push(bco.data[0])
+        
+    }
+    
+    const bancoBusca = async () => {
+      const response = (await api.get(`/treino/${id}`)).data
+      console.log(response)
+      if(response.aluno_id) {
+        const alunoTreino = (await api.get(`/alunos/${response.aluno_id}`)).data
+        setAluno(alunoTreino)
+      }
 
+      response.exercicios.forEach(exerciciosBanco)
+      setNome(response.nome)
+      console.log(acum)
+
+    }
+    bancoBusca();
     listAluno()
     listExercicio()
-  }, [])
+
+  }, [id])
+
+  async function btnEditarAluno(e) {
+    e.preventDefault()
+
+    // try {
+    //   api.put(`/alunos/${id}`, {
+    //     nome,
+    //     telefone,
+    //     whatsapp,
+    //     data_nasc: dataNasc,
+    //     sexo,
+    //     objetivo,
+    //     observacoes
+    //   }, { headers: { personal: localStorage.getItem('personal') } })
+
+
+
+    //   Swal.fire(
+    //     'Alterado!',
+    //     'Aluno alterado com sucesso.',
+    //     'success'
+    //   ).then(async (result) => {
+    //     if (result.isConfirmed) {
+    //       history.push('/aluno')
+    //     }
+    //   })
+
+
+    // } catch (err) {
+    //   alert(`Aconteceu algum erro ${err.response.data}`)
+    //   console.log(err)
+    // }
+
+  }
+
+  function AlterarTreino(e){
+    e.preventDefault()
+  }
+
 
   function btnCancelar(e) {
     e.preventDefault()
@@ -287,11 +317,11 @@ function CadastroTreino() {
   return (
     <div id="page">
       <Header classname="header" />
-      <Menu page="2"/>
+      <Menu page="2" />
       <div className="main">
         <div className="boxAlt">
-          <h2>Cadastro de Treino</h2>
-          <form >
+          <h2>Editar Treino</h2>
+          <form>
 
             <div className="autocomplete">
               <Autocomplete
@@ -300,7 +330,8 @@ function CadastroTreino() {
                 options={alunos}
                 getOptionLabel={(option) => option.nome}
                 style={{ width: "100%" }}
-                noOptionsText="Sem opções"
+                // defaultValue={alunos.find(v => v.id == aluno)}
+                // value={aluno}
                 renderInput={(params) => <TextField {...params} label="Aluno" />}
                 onChange={selecionaAluno}
               />
@@ -340,10 +371,11 @@ function CadastroTreino() {
               <Grid item>Exercícios Adicionados{customList(right)}</Grid>
             </Grid>
             <div className="horizontalBox buttons">
-              <button onClick={CadastroTreino}>Cadastrar</button>
+              <button onClick={AlterarTreino}>Salvar</button>
               <button className="cancel" onClick={btnCancelar}>Cancelar</button>
             </div>
           </form>
+
         </div>
       </div>
       <Footer classname="footer" />
@@ -351,4 +383,4 @@ function CadastroTreino() {
   )
 }
 
-export default CadastroTreino
+export default EditarTreino

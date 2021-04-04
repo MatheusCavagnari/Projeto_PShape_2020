@@ -190,6 +190,8 @@ export default function Agenda() {
   function ListaAgendamentosDia(arg) {
     arg.jsEvent.preventDefault()
     alert(arg.event.url)
+    // console.log(agendamentos)
+    console.log(arg.event.id)
   }
 
   return (

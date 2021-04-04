@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom';
 import  { Chart } from 'react-google-charts'
 
+import api from '../../../services/api'
 import Menu from '../../Menu'
 import Header from '../../Header'
 import Footer from '../../Footer'
@@ -9,20 +11,43 @@ import './styles.css'
 
 export default function Relatorio() {
   const aluno = 'Relatorio Pedro'
+  const { id } = useParams()
+  const [options, setOptions] = useState({
+    title: 'Gráfico de Pizza'
+  })
+  const [data, setData] = useState([])
+  const [dataImc, setDataImc] = useState([])
+  // const []
+
+  useEffect(() => {
+    const dadaosAvalBanco = async () => {
+      const avaliacoes = await api.get(`/avaliacao?aluno=${id}`)
+      console.log(avaliacoes.data)
+      let acumPeso = [['Data', 'peso']]     
+      let acumImc = [['Data', 'IMC']]     
+      avaliacoes.data.forEach(avaliacao => {
+        const peso = avaliacao.peso
+        const altura = avaliacao.altura
+
+        const IMC = peso / (altura * altura)
+
+        const linhaPeso = [avaliacao.data_avaliacao, avaliacao.peso]
+        const linhaImc = [avaliacao.data_avaliacao, IMC]
+        acumPeso.push(linhaPeso)
+        acumImc.push(linhaImc)
+      });
+      console.log(acumPeso)
+      setData(acumPeso)
+      setDataImc(acumImc)
+    }
+
+    dadaosAvalBanco()
+  }, [id])
 
   function imprimir() {
     console.log("imprimir")
   }
 
-  const [options, setOptions] = useState({
-    title: 'Gráfico de Pizza'
-  })
-  const [data, setData] = useState([
-    ['Linguagens', 'Quantidade'],
-    ['React', 100],
-    ['Angular', 80],
-    ['Vue', 50],
-  ])
 
   return (
     <div id="page">
@@ -42,24 +67,24 @@ export default function Relatorio() {
               width={'500px'}
               height={'300px'}
               chartType="BarChart"
-              data={data}
-              options={options}
+              data={dataImc}
+              options={{title: "IMC"}}
             />
           <Chart
               width={'500px'}
               height={'300px'}
               chartType="LineChart"
               data={data}
-              options={options}
+              options={{title: "Peso"}}
             />
           </div>
-          <Chart
+          {/* <Chart
               width={'500px'}
               height={'300px'}
               chartType="PieChart"
               data={data}
               options={options}
-            />
+            /> */}
           
         </div>
       </div>

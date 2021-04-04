@@ -143,7 +143,7 @@ function Treino() {
   }, [])
 
   function editarTreino(id) {
-    console.log(id)
+    history.push(`/editarTreino/${id}`)
   }
 
 
