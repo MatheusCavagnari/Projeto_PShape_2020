@@ -195,13 +195,13 @@ function Aluno() {
                                       </StyledTableCell>
                                       <StyledTableCell align="left">{row.telefone}</StyledTableCell>
                                       <StyledTableCell align="center">                                        
-                                        <button className="btnAzul" title="Treino">
+                                        <button className="btnAzul" title="Treino" onClick={() => {history.push(`/treino`)}}>
                                             <img src={Braco} alt="Treino" className="icone"/>
                                         </button>
-                                        <button className="btnAzul" title="Avaliação">
+                                        <button className="btnAzul" title="Avaliação" onClick={() => {history.push(`/avaliacao`)}}>
                                           <img src={Vetor} alt="Avaliação" className="icone"/>
                                         </button>
-                                        <button className="btnAzul" title="Relatório">
+                                        <button className="btnAzul" title="Relatório" onClick={() => {history.push(`/relatorio/${row.id}`)}}>
                                             <FontAwesomeIcon icon={faChartPie} className="icone"/>
                                         </button>
                                         <button className="btnAzul" title="Detalhes">
