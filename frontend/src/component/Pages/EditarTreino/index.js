@@ -236,7 +236,7 @@ function EditarTreino() {
     const listExercicio = async () => {
       await api.get('/exercicio', { headers: { personal: localStorage.getItem('personal') } })
         .then(response => {
-          console.log(response.data)
+          // console.log(response.data)
           setLeft(response.data)
         }).catch(err => {
           console.log(err)
@@ -251,16 +251,16 @@ function EditarTreino() {
     }
     
     const bancoBusca = async () => {
-      const response = (await api.get(`/treino/${id}`)).data
-      console.log(response)
-      if(response.aluno_id) {
+      const response = await api.get(`/treino/${id}`)
+      console.log(response.data.aluno_id)
+      if(response.data.aluno_id) {
         const alunoTreino = (await api.get(`/alunos/${response.aluno_id}`)).data
-        setAluno(alunoTreino)
+        console.log(response.aluno_id)
       }
 
       response.exercicios.forEach(exerciciosBanco)
       setNome(response.nome)
-      console.log(acum)
+      // console.log(acum)
 
     }
     bancoBusca();
