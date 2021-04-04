@@ -123,7 +123,7 @@ function EditarExercicio() {
                         </RadioGroup>
 
                         <div className="horizontalBox buttons">
-                            <button>Cadastrar</button>
+                            <button>Salvar</button>
 
                             <button onClick={cancelar} className="cancel">Cancelar</button>
                         </div>
