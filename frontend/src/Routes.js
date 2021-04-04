@@ -19,12 +19,9 @@ import CadastroAvaliacao from './component/Pages/CadastroAvaliacao'
 import EditarExercicio from './component/Pages/EditarExercicio' 
 import EditarAluno from './component/Pages/EditarAluno' 
 import EditarAvaliacao from './component/Pages/EditarAvaliacao' 
-<<<<<<< HEAD
 import EditarTreino from './component/Pages/EditarTreino' 
 
-=======
 import DetalhesAvaliacao from './component/Pages/DetalhesAvaliacao'
->>>>>>> ed628ac9ab2f24a7a2c2f8b741158ddbf6a717f6
 
 export default function Routes() {
   return (
