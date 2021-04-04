@@ -50,7 +50,7 @@ function DetalhesAvaliacao() {
                 setPeso(response.data[0]?.peso)
                 setData(response.data[0]?.data_avaliacao)
                 setAluno(response.data[0]?.aluno_id)
-
+                console.log("teste",aluno_id);
                
             })
             .catch(err => {
@@ -88,7 +88,7 @@ function DetalhesAvaliacao() {
             <div className="main">
                 <div className="boxAlt">
                     <h2>Detalhes da Avaliação</h2>
-                    
+                    <h3 value ={aluno_id}> </h3>
                    
                     <div className="horizontalBox">
                             <TextField disabled id="standard-basic nome"
@@ -190,7 +190,8 @@ function DetalhesAvaliacao() {
                             />
                         </div>
                         <div className="horizontalBox buttons">
-                            <button onClick={cancelar} className="cancel">Cancelar</button>
+                            
+                            <button onClick={cancelar} className="cancelDe">Voltar</button>
                         </div>
 
                 </div>
