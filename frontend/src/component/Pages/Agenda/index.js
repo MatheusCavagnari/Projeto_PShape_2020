@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useHistory } from "react-router-dom";
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from "@fullcalendar/interaction";
@@ -6,6 +7,7 @@ import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField'
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import swal from 'sweetalert2'
 
 import Menu from '../../Menu'
 import Header from '../../Header'
@@ -14,6 +16,8 @@ import Titulo from '../../Titulo'
 import api from '../../../services/api'
 
 import './styles.css'
+
+
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -28,8 +32,8 @@ const useStyles = makeStyles((theme) => ({
 
 
 function getModalStyle() {
-  const top = 50 ;
-  const left = 50 ;
+  const top = 50;
+  const left = 50;
 
   return {
     top: `${top}%`,
@@ -41,6 +45,8 @@ function getModalStyle() {
 export default function Agenda() {
 
   const [openModal, setOpenModal] = React.useState(false);
+
+  const [openModalEdit, setOpenModalEdit] = React.useState(false);
   const [agendamentos, setAgendamentos] = useState([])
   const classes = useStyles();
   const [modalStyle] = useState(getModalStyle);
@@ -50,12 +56,14 @@ export default function Agenda() {
   const [tipo, setTipo] = useState("")
   const [observacoes, setObservacoes] = useState("")
   const [horario, setHoaraio] = useState("")
+  const [observacoesEdit, setObservacoesEdit] = useState("")
+  const [horarioEdit, setHoaraioEdit] = useState("")
 
 
   const tipos = [{
     title: "Avaliação",
     value: "A"
-  },{
+  }, {
     title: "Treino",
     value: "T"
   }]
@@ -64,13 +72,17 @@ export default function Agenda() {
     setOpenModal(false);
   };
 
+  const handleCloseEdit = () => {
+    setOpenModalEdit(false);
+  };
+
   function selecionaAluno(e) {
     const abc = e.target.id;
     const index = abc.slice(22);
     if (index) {
-        setAluno(alunos[parseInt(index)])
+      setAluno(alunos[parseInt(index)])
     } else {
-        setAluno([])
+      setAluno([])
     }
   }
 
@@ -78,9 +90,9 @@ export default function Agenda() {
     const abc = e.target.id;
     const index = abc.slice(23);
     if (index) {
-        setTipo(tipos[parseInt(index)].value)
+      setTipo(tipos[parseInt(index)].value)
     } else {
-        setAluno([])
+      setAluno([])
     }
   }
 
@@ -114,10 +126,10 @@ export default function Agenda() {
           <label htmlFor="horarioAgned">Horário</label>
           <TextField id="horarioAgned" type="time" onChange={e => setHoaraio(e.target.value)}></TextField>
         </div>
-        <TextField 
+        <TextField
           multiline
-          variant="outlined" 
-          placeholder="Observações" 
+          variant="outlined"
+          placeholder="Observações"
           className="txtArea"
           onChange={e => setObservacoes(e.target.value)}
         />
@@ -128,6 +140,79 @@ export default function Agenda() {
       </div>
     </div>
   );
+
+  var tipoEdit;
+
+  let edit = (
+    <div style={modalStyle} className={classes.paper}>
+      <div className="modalBox">
+        <div className="tituloBox">
+          <h2>Editar Agendamento</h2>
+          <h2 id="simple-modal-title">{data}</h2>
+        </div>
+        <Autocomplete
+          id="combo-box-demo"
+          options={alunos}
+          getOptionLabel={(option) => option.nome}
+          getOptionSelected={(option, value) => option.id === value.id}
+          style={{ width: "100%" }}
+          noOptionsText="Sem opções"
+          renderInput={(params) => <TextField {...params} label="Aluno" />}
+          onChange={selecionaAluno}
+        />
+        <Autocomplete
+          id="combo-box-demo-"
+          options={tipos}
+          getOptionLabel={(option) => option.title}
+          getOptionSelected={(option, value) => option.value === value.value}
+          style={{ width: "100%" }}
+          defaultValue={tipos[tipo]}
+          renderInput={(params) => <TextField {...params} label="Tipo agendamento" />}
+          onChange={selecionaTipo}
+        />
+        <div className="horzBox">
+          <label htmlFor="horarioAgned">Horário</label>
+          <TextField id="horarioAgned" value={horario}  type="time" onChange={e => setHoaraio(e.target.value)}></TextField>
+        </div>
+        <TextField
+          multiline
+          variant="outlined"
+          placeholder="Observações"
+          className="txtArea"
+          value={observacoes}
+          onChange={e => setObservacoes(e.target.value)}
+        />
+        <div className="horzBox">
+          <button className="button" onClick={editarAgendamento}>Salvar</button>
+          <button className="btnCancelar" onClick={handleCloseEdit}>Cancelar</button>
+        </div>
+      </div>
+    </div>
+  );
+
+
+  async function editarAgendamento(e) {
+    e.preventDefault()
+    const dataHora = data + ' ' + horario
+    const final = {
+      tipo,
+      observacoes,
+      aluno_id: aluno.id,
+      data_hora_execucao: null,
+      data_hora_agendamento: dataHora
+    }
+
+    try {
+      await api.put(`/agendamento/${id}`, final, { headers: { personal: localStorage.getItem('personal') } })
+      alert(`Agendamento cadastrado com sucesso!`)
+
+      handleClose()
+    } catch (err) {
+      alert(`Aconteceu algum erro ${err.response.data}`)
+      console.log(err)
+    }
+  }
+
 
   async function cadastroAgendamento(e) {
     e.preventDefault()
@@ -140,12 +225,12 @@ export default function Agenda() {
       data_hora_agendamento: dataHora
     }
 
-    try{
-      await api.post('/agendamento', final, {headers: { personal: localStorage.getItem('personal') }})
+    try {
+      await api.post('/agendamento', final, { headers: { personal: localStorage.getItem('personal') } })
       alert(`Agendamento cadastrado com sucesso!`)
 
       handleClose()
-    }catch (err) {
+    } catch (err) {
       alert(`Aconteceu algum erro ${err.response.data}`)
       console.log(err)
     }
@@ -187,11 +272,91 @@ export default function Agenda() {
     setOpenModal(true)
   }
 
-  function ListaAgendamentosDia(arg) {
+  const history = useHistory();
+  const [id, setId] = useState({})
+
+  //useEffect(() =>  {
+
+//}, [id])
+
+  async function ListaAgendamentosDia(arg) {
     arg.jsEvent.preventDefault()
-    alert(arg.event.url)
-    // console.log(agendamentos)
-    console.log(arg.event.id)
+    //console.log(arg)
+    //alert(arg.event.url)
+
+    swal.fire({
+      title: 'Você deseja?',
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: `Editar`,
+      denyButtonText: `Excluir`,
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+       
+
+        const bancoBusca = async () => {
+          await api.get(`/agendamento/${arg.event.id}`, { headers: { personal: 1 } })
+              .then(response => {
+                console.log(response.data[0])
+                var dataHora  = response.data[0].data_hora_agendamento;
+                var hora = dataHora.split(" ");
+               
+                if( response.data[0]?.tipo == 'T'){
+                  tipoEdit = 1;
+                }else{
+                  tipoEdit = 0;
+                }
+
+                setTipo(tipoEdit)
+                setHoaraio(hora[1])
+                setData(hora[0])
+                setObservacoes(response.data[0]?.observacoes)
+                setId(response.data[0]?.id)
+                setOpenModalEdit(true)
+                  
+              })
+              .catch(err => {
+                  console.log(err)
+              })
+      }
+      bancoBusca()
+
+        console.log(arg.event.id)
+        //setId(arg.event.id)
+
+       
+
+       
+      } else if (result.isDenied) {
+        swal.fire({
+          title: 'Você tem certeza?',
+          text: "Você não poderá reverter isso!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Sim, Exclua!',
+          cancelButtonText: 'Cancelar'
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            const resposta =
+            await api.delete(`/agendamento/${arg.event.id}`)
+
+            if(resposta.status == 204){
+              swal.fire(
+                'Excluido!',
+                'Seu agendamento foi excluido.',
+                'success'
+              )
+            }
+
+          }
+        })
+      }
+    })
+
   }
 
   return (
@@ -228,6 +393,15 @@ export default function Agenda() {
         aria-describedby="simple-modal-description"
       >
         {body}
+      </Modal>
+
+      <Modal
+        open={openModalEdit}
+        onClose={handleCloseEdit}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+        {edit}
       </Modal>
     </div>
   )
