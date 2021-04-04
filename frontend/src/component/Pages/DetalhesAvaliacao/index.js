@@ -87,28 +87,27 @@ function DetalhesAvaliacao() {
             <Menu page="1" />
             <div className="main">
                 <div className="boxAlt">
-                    <h2>Detalhes Avaliação</h2>
+                    <h2>Detalhes da Avaliação</h2>
                     
                    
                     <div className="horizontalBox">
-                            <TextField id="standard-basic nome"
+                            <TextField disabled id="standard-basic nome"
                                 label="Altura"
                                 name="altura"
-                                required
                                 value={altura}
-                                onChange={e => setAltura(e.target.value)}
+                               
                             />
                             <TextField id="standard-basic nome"
                                 label="Peso "
                                 name="peso"
-                                required
+                                disabled
                                 value={peso}
                                 onChange={e => setPeso(e.target.value)}
                             />
                             <TextField id="standard-basic nome"
                                 label="Data"
                                 name="data"
-                                required
+                                disabled
                                 value={data_avaliacao}
                                 onChange={e => setData(e.target.value)}
                                 type="date"
@@ -123,21 +122,21 @@ function DetalhesAvaliacao() {
                             <TextField id="standard-basic nome"
                                 label="Dobra Abdominal"
                                 name="abdominal"
-                                required
+                                disabled
                                 value={dobra_abdominal}
                                 onChange={e => setAbdominal(e.target.value)}
                             />
                             <TextField id="standard-basic nome"
                                 label="Dobra Axilar "
                                 name="axilar"
-                                required
+                                disabled
                                 value={dobra_axilar}
                                 onChange={e => setAxilar(e.target.value)}
                             />
                             <TextField id="standard-basic nome"
                                 label="Dobra Biciptal"
                                 name="biciptal"
-                                required
+                                disabled
                                 value={dobra_bicipal}
                                 onChange={e => setBiciptal(e.target.value)}
                             />
@@ -147,21 +146,21 @@ function DetalhesAvaliacao() {
                             <TextField id="standard-basic nome"
                                 label="Dobra da Coxa"
                                 name="coxa"
-                                required
+                                disabled
                                 value={dobra_coxa}
                                 onChange={e => setCoxa(e.target.value)}
                             />
                             <TextField id="standard-basic nome"
                                 label="Dobra Panturrilha"
                                 name="panturrilha"
-                                required
+                                disabled
                                 value={dobra_panturrilha}
                                 onChange={e => setPanturrilha(e.target.value)}
                             />
                             <TextField id="standard-basic nome"
                                 label="Dobra Subescapular"
                                 name="subescapular"
-                                required
+                                disabled
                                 value={dobra_subescapular}
                                 onChange={e => setSubescapular(e.target.value)}
                             />
@@ -171,21 +170,21 @@ function DetalhesAvaliacao() {
                             <TextField id="standard-basic nome"
                                 label="Dobra Supra-ilíaca"
                                 name="supraIliaca"
-                                required
+                                disabled
                                 value={ dobra_supra_iliaca}
                                 onChange={e => setSupraIliaca(e.target.value)}
                             />
                             <TextField id="standard-basic nome"
                                 label="Dobra Torácica"
                                 name="toracica"
-                                required
+                                disabled
                                 value={dobra_toracica}
                                 onChange={e => setToracica(e.target.value)}
                             />
                             <TextField id="standard-basic nome"
                                 label="Dobra Tricipal"
                                 name="tricipal"
-                                required
+                                disabled
                                 value={dobra_tricipal}
                                 onChange={e => setTricipal(e.target.value)}
                             />
@@ -201,4 +200,4 @@ function DetalhesAvaliacao() {
     )
 }
 
-export default DetalhesAvaliacao
+export default DetalhesAvaliacao;

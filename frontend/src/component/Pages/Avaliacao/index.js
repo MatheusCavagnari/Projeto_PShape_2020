@@ -75,6 +75,10 @@ function Avaliacao() {
         history.push(`/editarAvaliacao/${id}`);
     }
 
+    function btnDetalhesClick(id) {
+        history.push(`/detalhesAvaliacao/${id}`);
+    }
+
     function btnGerarRelatorio(e) {
         e.preventDefault();
         history.push("/relatorio");
@@ -187,7 +191,7 @@ function Avaliacao() {
                                             </StyledTableCell>
                                             <StyledTableCell align="center">
                                                 <button className="btnAzul">
-                                                    <FontAwesomeIcon icon={faPlus} className="icone" />
+                                                    <FontAwesomeIcon onClick={() => btnDetalhesClick(row.id)} icon={faPlus} className="icone" />
                                                 </button>
                                                 <button className="btnEdit">
                                                     <FontAwesomeIcon onClick={() => btnEditarClick(row.id)} icon={faEdit} className="icone" />

@@ -19,7 +19,7 @@ import CadastroAvaliacao from './component/Pages/CadastroAvaliacao'
 import EditarExercicio from './component/Pages/EditarExercicio' 
 import EditarAluno from './component/Pages/EditarAluno' 
 import EditarAvaliacao from './component/Pages/EditarAvaliacao' 
-
+import DetalhesAvaliacao from './component/Pages/DetalhesAvaliacao'
 
 export default function Routes() {
   return (
@@ -42,6 +42,8 @@ export default function Routes() {
       <Route path="/editarExercicio/:id" component={EditarExercicio} />
       <Route path="/editarAluno/:id" component={EditarAluno} />
       <Route path="/editarAvaliacao/:id" component={EditarAvaliacao} />
+      <Route path="/detalhesAvaliacao/:id" component={DetalhesAvaliacao} />
+      
     </Router>
   );
 }
