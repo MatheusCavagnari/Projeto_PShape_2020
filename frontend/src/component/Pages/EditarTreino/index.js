@@ -255,11 +255,11 @@ function EditarTreino() {
       console.log(response.data.aluno_id)
       if(response.data.aluno_id) {
         const alunoTreino = (await api.get(`/alunos/${response.aluno_id}`)).data
-        console.log(response.aluno_id)
+        console.log(response.data.aluno_id)
       }
 
-      response.exercicios.forEach(exerciciosBanco)
-      setNome(response.nome)
+      // response.exercicios.forEach(exerciciosBanco)
+      setNome(response.data.nome)
       // console.log(acum)
 
     }

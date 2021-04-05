@@ -12,9 +12,7 @@ import './styles.css'
 export default function Relatorio() {
   const aluno = 'Relatorio Pedro'
   const { id } = useParams()
-  const [options, setOptions] = useState({
-    title: 'Gráfico de Pizza'
-  })
+
   const [data, setData] = useState([])
   const [dataImc, setDataImc] = useState([])
   // const []
