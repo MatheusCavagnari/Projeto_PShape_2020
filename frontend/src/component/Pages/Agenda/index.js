@@ -297,7 +297,7 @@ export default function Agenda() {
        
 
         const bancoBusca = async () => {
-          await api.get(`/agendamento/${arg.event.id}`, { headers: { personal: 1 } })
+          await api.get(`/agendamento/${arg.event.id}`, { headers: { personal: localStorage.getItem('personal') } })
               .then(response => {
                 console.log(response.data[0])
                 var dataHora  = response.data[0].data_hora_agendamento;

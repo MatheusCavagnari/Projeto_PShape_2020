@@ -31,7 +31,7 @@ function EditarExercicio() {
     
     useEffect(() =>  {
         const bancoBusca = async () => {
-            await api.get(`/exercicio/${id}`, { headers: { personal: personal_id } })
+            await api.get(`/exercicio/${id}`, { headers: { personal:  localStorage.getItem('personal') } })
                 .then(response => {
     
                     setNome(response.data[0]?.nome);

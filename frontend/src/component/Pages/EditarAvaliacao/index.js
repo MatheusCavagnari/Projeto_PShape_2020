@@ -30,7 +30,8 @@ function EditarAvaliacao() {
     const history = useHistory();
     const { id } = useParams();
 
-    
+       
+    const [alunos, setAlunos] = useState([]);
     
     useEffect(() => {
         
@@ -48,7 +49,24 @@ function EditarAvaliacao() {
                     setToracica(response.data[0]?.dobra_toracica)
                     setTricipal(response.data[0]?.dobra_tricipal)
                     setPeso(response.data[0]?.peso)
-                    setData(response.data[0]?.data_avaliacao)              
+                    setData(response.data[0]?.data_avaliacao)   
+                    
+                    
+                    const alunoSel = async () => {
+                        await api.get(`/alunos/${response.data[0]?.aluno_id}`, { headers: { personal: localStorage.getItem('personal') } })
+                          .then(responseAluno => {
+                            setAlunos(responseAluno.data[0]?.nome);
+                            console.log(responseAluno.data[0]?.nome)
+                            document.getElementById("nomeAluno").innerHTML = 'Nome: ' + responseAluno.data[0]?.nome;
+    
+                            //setAluno(response.data[0]?.aluno_id)
+                          })
+                          .catch(err => {
+                            console.log(err)
+                          })
+                      }
+                      alunoSel();
+
                 })
                 .catch(err => {
                     console.log(err)
@@ -109,6 +127,12 @@ function EditarAvaliacao() {
                 <div className="boxAlt">
                     <h2>Editar Avaliação</h2>
                     <form onSubmit={btnAddAvalicao}>
+
+                    <div classname="horizontalBox">
+                        <h3  id="nomeAluno">  </h3>
+                    </div>
+
+                    
                    
                     <div className="horizontalBox">
                             <TextField id="standard-basic nome"

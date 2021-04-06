@@ -49,8 +49,23 @@ function DetalhesAvaliacao() {
                 setTricipal(response.data[0]?.dobra_tricipal)
                 setPeso(response.data[0]?.peso)
                 setData(response.data[0]?.data_avaliacao)
-                setAluno(response.data[0]?.aluno_id)
+                
                 console.log("teste",aluno_id);
+
+                const alunoSel = async () => {
+                    await api.get(`/alunos/${response.data[0]?.aluno_id}`, { headers: { personal: localStorage.getItem('personal') } })
+                      .then(responseAluno => {
+                        setAlunos(responseAluno.data[0]?.nome);
+                        console.log(responseAluno.data[0]?.nome)
+                        document.getElementById("nomeAluno").innerHTML = 'Nome: ' + responseAluno.data[0]?.nome;
+
+                        //setAluno(response.data[0]?.aluno_id)
+                      })
+                      .catch(err => {
+                        console.log(err)
+                      })
+                  }
+                  alunoSel();
                
             })
             .catch(err => {
@@ -70,15 +85,7 @@ function DetalhesAvaliacao() {
     
 
 
-      function selecionaAluno(e) {
-        const abc = e.target.id;
-        const index = abc.slice(22);
-        if(index){
-            setAluno(alunos[parseInt(index)].id)
-          } else {
-            setAluno([])
-          }
-    }
+
 
 
     return (
@@ -88,9 +95,14 @@ function DetalhesAvaliacao() {
             <div className="main">
                 <div className="boxAlt">
                     <h2>Detalhes da Avaliação</h2>
-                    <h3 value ={aluno_id}> </h3>
+                    <form>
+                    <div classname="horizontalBox">
+                        <h3  id="nomeAluno">  </h3>
+                    </div>
                    
+                    
                     <div className="horizontalBox">
+                        
                             <TextField disabled id="standard-basic nome"
                                 label="Altura"
                                 name="altura"
@@ -189,6 +201,7 @@ function DetalhesAvaliacao() {
                                 onChange={e => setTricipal(e.target.value)}
                             />
                         </div>
+                        </form>
                         <div className="horizontalBox buttons">
                             
                             <button onClick={cancelar} className="cancelDe">Voltar</button>
