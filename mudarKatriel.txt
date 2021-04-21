@@ -1,0 +1,4 @@
+aluno
+  detalhes, botoes p/ pag., flag deleçao
+treino
+  deleçao(flag?), editar, infos detalhe exercicio, detalhes

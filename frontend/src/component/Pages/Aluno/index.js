@@ -14,7 +14,7 @@ import swal from 'sweetalert2'
 
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrashAlt, faEdit, faChartPie, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faTrashAlt, faEdit, faChartPie, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 
 import Vetor from "../../../img/vetorBtn.svg";
 import Braco from "../../../img/bracoBtn.svg";
@@ -205,7 +205,7 @@ function Aluno() {
                                             <FontAwesomeIcon icon={faChartPie} className="icone"/>
                                         </button>
                                         <button className="btnAzul" title="Detalhes">
-                                            <FontAwesomeIcon icon={faPlus} className="icone"/>
+                                            <FontAwesomeIcon icon={faInfoCircle} className="icone"/>
                                         </button>
                                         <button className="btnEdit" onClick={() => AlterarAluno(row.id)} title="Editar">
                                             <FontAwesomeIcon icon={faEdit} className="icone"/>

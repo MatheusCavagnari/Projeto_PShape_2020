@@ -93,7 +93,7 @@ function CadastroAluno() {
                 label="Data nascimento" 
                 type="date"
                 name="dataNasc" 
-
+                format='DD-MM-YYYY'
                 required 
                 InputLabelProps={{
                   shrink: true,
@@ -109,8 +109,8 @@ function CadastroAluno() {
                     value={sexo}
                     onChange={e => setSexo(e.target.value)}
                   >
-                    <MenuItem value="M">Masculino</MenuItem>
                     <MenuItem value="F">Feminino</MenuItem>
+                    <MenuItem value="M">Masculino</MenuItem>
                   </Select>
                 </FormControl>
               {/* <TextField id="standard-basic nome" 

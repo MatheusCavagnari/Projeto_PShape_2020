@@ -203,6 +203,7 @@ module.exports = {
         .join('treino', 'aluno_treino.treino_id', '=', 'treino.id')
         .where('aluno_treino.aluno_id', '=', aluno_id )
         .andWhere('treino.nome', '=', nomeTreino)
+        .orderBy('treino.nome')
       return response.json(treinos)
     }else if(aluno_id){
       const treinos = await connection('aluno_treino')
@@ -215,10 +216,12 @@ module.exports = {
         .whereNull('aluno_treino.aluno_id')
         .join('treino', 'aluno_treino.treino_id', '=', 'treino.id')
         .where("treino.nome", "=", nomeTreino)
+        .orderBy('treino.nome')
       return response.json(treinos)
     }else {
       const treinos = await connection('treino')
         .whereNotNull('treino.nome')
+        .orderBy('treino.nome')
       return response.json(treinos)
     }
     

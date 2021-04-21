@@ -50,6 +50,7 @@ module.exports = {
     const personal_id = request.headers.personal
     const alunos = await connection('alunos')
       .where('alunos.personal_id', '=', personal_id)
+      .orderBy('nome')
 
     return response.json(alunos)
   },

@@ -12,7 +12,7 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import { faEdit, faTrashAlt, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 
 import Menu from "../../Menu";
 import Header from "../../Header";
@@ -199,7 +199,7 @@ function Treino() {
                       </StyledTableCell>
                       <StyledTableCell align="center">
                         <button className="btnAzul">
-                          <FontAwesomeIcon icon={faPlus} className="icone" />
+                          <FontAwesomeIcon icon={faInfoCircle} className="icone" />
                         </button>
                         <button className="btnEdit" onClick={() => editarTreino(row.id)}>
                           <FontAwesomeIcon icon={faEdit} className="icone" />

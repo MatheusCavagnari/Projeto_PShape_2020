@@ -153,8 +153,8 @@ function EditarAluno() {
                   value={sexo}
                   onChange={e => setSexo(e.target.value)}
                 >
-                  <MenuItem value="M">Masculino</MenuItem>
                   <MenuItem value="F">Feminino</MenuItem>
+                  <MenuItem value="M">Masculino</MenuItem>
                 </Select>
               </FormControl>
             </div>

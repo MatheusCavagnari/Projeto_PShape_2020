@@ -12,7 +12,7 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faEdit } from '@fortawesome/free-solid-svg-icons'
+import { faEdit, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 
 import Menu from "../../Menu";
 import Header from "../../Header";
@@ -191,7 +191,7 @@ function Avaliacao() {
                                             </StyledTableCell>
                                             <StyledTableCell align="center">
                                                 <button className="btnAzul">
-                                                    <FontAwesomeIcon onClick={() => btnDetalhesClick(row.id)} icon={faPlus} className="icone" />
+                                                    <FontAwesomeIcon onClick={() => btnDetalhesClick(row.id)} icon={faInfoCircle} className="icone" />
                                                 </button>
                                                 <button className="btnEdit">
                                                     <FontAwesomeIcon onClick={() => btnEditarClick(row.id)} icon={faEdit} className="icone" />
