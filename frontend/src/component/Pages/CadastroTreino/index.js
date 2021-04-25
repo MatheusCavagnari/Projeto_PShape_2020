@@ -92,7 +92,7 @@ function CadastroTreino() {
           },
           {
             title,
-            text: 'Selecione a carga'
+            text: 'Selecione a carga (kg)'
           },
           {
             title,
@@ -133,7 +133,7 @@ function CadastroTreino() {
         }).queue([
           {
             title,
-            text: 'Selecione quanto tempo',
+            text: 'Selecione quanto tempo (min.)',
             input: "number",
             
           },
@@ -316,6 +316,7 @@ function CadastroTreino() {
               <Grid item>
                 <Grid container direction="column" alignItems="center">
                   <Button
+                    radioGroup='todos'
                     variant="outlined"
                     size="small"
                     className={classes.button}
@@ -326,6 +327,7 @@ function CadastroTreino() {
                     &gt;
           </Button>
                   <Button
+                    radioGroup='selecionados'
                     variant="outlined"
                     size="small"
                     className={classes.button}

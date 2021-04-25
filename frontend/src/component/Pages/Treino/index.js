@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -59,18 +59,22 @@ const StyledTableCell = withStyles((theme) => ({
   },
 }))(TableCell);
 
-
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
 
 
 
 function Treino() {
   const [db, setdb] = useState([]);
   const [alunos, setAlunos] = useState([]);
-  const [aluno, setAluno] = useState('');
+  const [alunoId, setAlunoId] = useState({});
   const [nomesTreinos, setNomesTreinos] = useState([])
   const [treino, setTreino] = useState('');
   const classes = useStyles();
   const history = useHistory();
+
+  const  aluno  = useQuery().get('aluno');
 
   function btnAdicionarTreino(e) {
     e.preventDefault();
@@ -81,9 +85,9 @@ function Treino() {
     const abc = e.target.id;
     const index = abc.slice(22);
     if (index) {
-      setAluno(alunos[parseInt(index)].id)
+      setAlunoId(alunos[parseInt(index)])
     } else {
-      setAluno([])
+      setAlunoId([])
     }
   }
 
@@ -94,7 +98,7 @@ function Treino() {
       // console.log(nomesTreinos[parseInt(index)].nome)
       setTreino(nomesTreinos[parseInt(index)].nome)
     } else {
-      setAluno([])
+      setTreino([])
     }
   }
 
@@ -106,19 +110,42 @@ function Treino() {
 
   useEffect(() => {
     const listaAlunosETreino = async () => {
-
-      const treinosFiltrados = await api.get(`/treino?aluno=${aluno}&nome=${treino}`, { headers: { personal: localStorage.getItem('personal') } })
-
-      try {
-        setdb(treinosFiltrados.data)
-      } catch (e) {
-        setdb([])
+      if(alunoId){
+        const treinosFiltrados = await api.get(`/treino?aluno=${alunoId.id}&nome=${treino}`, { headers: { personal: localStorage.getItem('personal') } })
+  
+        try {
+          setdb(treinosFiltrados.data)
+        } catch (e) {
+          setdb([])
+        }
+      } else {
+        const treinosFiltrados = await api.get(`/treino?aluno&nome`, { headers: { personal: localStorage.getItem('personal') } })
+  
+        try {
+          setdb(treinosFiltrados.data)
+        } catch (e) {
+          setdb([])
+        }
       }
     }
     listaAlunosETreino()
-  }, [aluno, treino])
+  }, [alunoId, treino])
 
   useEffect(() => {
+    if(aluno) {
+      const alunoQuery = async () => {
+          await api.get(`/alunos/${aluno}`,{ headers: { personal: localStorage.getItem('personal') } } )
+              .then( response => {
+                  setAlunoId(response.data[0])
+                  console.log(response.data[0])
+              })
+              .catch(err => {
+                  console.log(err)
+              })
+      }
+      alunoQuery()
+  }
+
     const ListAlunos = async () => {
       await api.get('/alunos', { headers: { personal: localStorage.getItem('personal') } })
         .then(response => {
@@ -167,6 +194,7 @@ function Treino() {
               style={{ width: "90%" }}
               renderInput={(params) => <TextField {...params} label="Aluno" variant="outlined" />}
               onChange={selecionaAluno}
+              value={alunoId}
             />
             <Autocomplete
               id="combo-box"

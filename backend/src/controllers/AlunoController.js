@@ -41,7 +41,7 @@ module.exports = {
   async delete(request, response) {
     const { id } = request.params
 
-    await connection ('alunos').where('id', id).delete()
+    await connection ('alunos').where('id', id).update({ativo: 0})
 
     return response.status(204).send()
   },
@@ -50,6 +50,7 @@ module.exports = {
     const personal_id = request.headers.personal
     const alunos = await connection('alunos')
       .where('alunos.personal_id', '=', personal_id)
+      .andWhere('alunos.ativo', '=', 1)
       .orderBy('nome')
 
     return response.json(alunos)
