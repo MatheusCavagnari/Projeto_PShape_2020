@@ -154,41 +154,13 @@ module.exports = {
   async delete(request, response) {
     const { id } = request.params
 
-    const exerciciosRepeticaoBco = await connection('treino_exercicio')
-      .where('treino_exercicio.treino_id', '=', id)
-      .select('repeticao_id')
-      
-      
-      const exerciciosTempoBco = await connection('treino_exercicio')
-      .where('treino_exercicio.treino_id', '=', id)
-      .select('tempo_id')
-
-      await connection('treino_exercicio')
-      .where('treino_exercicio.treino_id', '=', id)
-      .del()
-
-
-      exerciciosRepeticaoBco.forEach(async exercicio => {
-        if(exercicio.repeticao_id !== null){
-          await connection('repeticao')
-            .where('repeticao.id', '=', exercicio.repeticao_id)
-            .del()
-        }
-        // console.log("repeticao =",exercicio.repeticao_id)
-      })
-
-      exerciciosTempoBco.forEach(async exercicio => {
-        if(exercicio.tempo_id !== null){
-          await connection('tempo')
-            .where('tempo.id', '=', exercicio.tempo_id)
-            .del()
-        }
-        // console.log("tempo =", exercicio.tempo_id)
-      })
-
       await connection('treino')
         .where('treino.id', '=', id)
-        .del()
+        .update({ativo: 0})
+      
+        await connection('aluno_treino')
+        .where('aluno_treino.treino_id', '=', id)
+        .update({ativo: 0})
 
   
     return response.status(204).send()
@@ -203,11 +175,16 @@ module.exports = {
         .join('treino', 'aluno_treino.treino_id', '=', 'treino.id')
         .where('aluno_treino.aluno_id', '=', aluno_id )
         .andWhere('treino.nome', '=', nomeTreino)
+        .andWhere('aluno_treino.ativo', '=', 1)
+        .andWhere('treino.ativo', '=', 1)
+        .orderBy('treino.nome')
       return response.json(treinos)
     }else if(aluno_id){
       const treinos = await connection('aluno_treino')
         .join('treino', 'aluno_treino.treino_id', '=', 'treino.id')
         .where('aluno_treino.aluno_id', '=', aluno_id )
+        .andWhere('aluno_treino.ativo', '=', 1)
+        .orderBy('aluno_treino.data')
       return response.json(treinos)
     }else if(nomeTreino) {
       const treinos = await connection('aluno_treino')
@@ -215,10 +192,14 @@ module.exports = {
         .whereNull('aluno_treino.aluno_id')
         .join('treino', 'aluno_treino.treino_id', '=', 'treino.id')
         .where("treino.nome", "=", nomeTreino)
+        .andWhere('treino.ativo', '=', 1)
+        .orderBy('treino.nome')
       return response.json(treinos)
     }else {
       const treinos = await connection('treino')
         .whereNotNull('treino.nome')
+        .andWhere('treino.ativo', '=', 1)
+        .orderBy('treino.nome')
       return response.json(treinos)
     }
     

@@ -57,7 +57,7 @@ function DetalhesAvaliacao() {
                       .then(responseAluno => {
                         setAlunos(responseAluno.data[0]?.nome);
                         console.log(responseAluno.data[0]?.nome)
-                        document.getElementById("nomeAluno").innerHTML = 'Nome: ' + responseAluno.data[0]?.nome;
+                        document.getElementById("nomeAluno").innerHTML =responseAluno.data[0]?.nome;
 
                         //setAluno(response.data[0]?.aluno_id)
                       })
@@ -201,11 +201,11 @@ function DetalhesAvaliacao() {
                                 onChange={e => setTricipal(e.target.value)}
                             />
                         </div>
-                        </form>
                         <div className="horizontalBox buttons">
                             
-                            <button onClick={cancelar} className="cancelDe">Voltar</button>
+                            <button onClick={cancelar} className="salvar">Voltar</button>
                         </div>
+                        </form>
 
                 </div>
             </div>

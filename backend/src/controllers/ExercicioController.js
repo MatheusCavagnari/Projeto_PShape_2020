@@ -47,7 +47,8 @@ module.exports = {
 
     await connection('exercicio')
       .where('id', id)
-      .delete()
+      .update({ativo: 0})
+      
 
     return response.status(204).send()
   },
@@ -56,6 +57,8 @@ module.exports = {
     const personal_id = request.headers.personal
     const exercicios = await connection('exercicio')
       .where('exercicio.personal_id', '=', personal_id)
+      .andWhere('exercicio.ativo', '=', 1)
+      .orderBy('nome')
 
     return response.json(exercicios)
 

@@ -1,5 +1,5 @@
-import React, {useState} from 'react'
-import { useHistory } from 'react-router-dom'
+import React, {useState, useEffect} from 'react'
+import { useHistory, useParams } from 'react-router-dom'
 
 import Header from '../../Header'
 import Footer from '../../Footer'
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CadastroAluno() {
+function DetalhesAluno() {
   const classes = useStyles();
   const [nome, setNome] = useState('');
   const [telefone, setTelefone] = useState('');
@@ -32,31 +32,32 @@ function CadastroAluno() {
   const [observacoes, setObservacoes] = useState('');
 
   const history = useHistory()
+  const { id } = useParams();
 
-  function btnCancelar(e) {
+  useEffect(() => {
+    
+    const bancoBusca = async () => {
+      await api.get(`/alunos/${id}`, { headers: { personal: localStorage.getItem('personal') } })
+        .then(response => {
+          setNome(response.data[0]?.nome);
+          setTelefone(response.data[0]?.telefone);
+          setWhatsapp(response.data[0]?.whatsapp);
+          setObjetivo(response.data[0]?.objetivo);
+          setObservacoes(response.data[0]?.observacoes);
+          setSexo(response.data[0]?.sexo);
+          setDataNasc(response.data[0]?.data_nasc);
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
+    bancoBusca();
+
+  }, [id])
+
+  function btnVoltar(e) {
     e.preventDefault()
     history.push('/aluno')
-  }
-
-  async function cadastrarAluno(e) {
-    e.preventDefault()
-    
-    try {
-      await api.post('/alunos', {
-        nome,
-        telefone,
-        whatsapp,
-        data_nasc: dataNasc,
-        sexo,
-        objetivo,
-        observacoes
-      }, {headers: { personal: localStorage.getItem('personal') }})
-      alert(`Aluno ${nome} cadastrado com sucesso!`)
-      history.push('/aluno')
-    } catch (err) {
-      alert(`Aconteceu algum erro ${err.response.data}`)
-      console.log(err)
-    }
   }
 
   return (
@@ -65,23 +66,23 @@ function CadastroAluno() {
       <Menu page="0"/>
       <div className="main">
         <div className="boxAlt">
-          <h2>Cadastro de aluno</h2>
-          <form onSubmit={cadastrarAluno}>
-            <TextField id="standard-basic nome" 
+          <h2>Detalhes do aluno</h2>
+          <form>
+            <TextField disabled id="standard-basic nome" 
               label="Nome" 
               name="nome" 
-              required 
+               
               value={nome}
               onChange={e => setNome(e.target.value)}
               />
             <div className="horizontalBox">
-              <TextField id="standard-basic nome" 
+              <TextField disabled id="standard-basic nome" 
                 label="Telefone" 
                 name="telefone" 
                 value={telefone}
               onChange={e => setTelefone(e.target.value)}
                 />
-              <TextField id="standard-basic nome" 
+              <TextField disabled id="standard-basic nome" 
                 label="Whatsapp" 
                 name="whatsapp" 
                 value={whatsapp}
@@ -89,12 +90,12 @@ function CadastroAluno() {
                 />
             </div>
             <div className="horizontalBox">
-              <TextField id="standard-basic nome" 
+              <TextField disabled id="standard-basic nome" 
                 label="Data nascimento" 
                 type="date"
                 name="dataNasc" 
                 format='DD-MM-YYYY'
-                required 
+                
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -102,9 +103,10 @@ function CadastroAluno() {
               onChange={e => setDataNasc(e.target.value)}
                 />
                 <FormControl className={classes.FormControl}>
-                  <InputLabel id="label-sexo">Sexo *</InputLabel>
+                  <InputLabel disabled id="label-sexo">Sexo</InputLabel>
                   <Select
                     labelId="label-sexo"
+                    disabled
                     required
                     value={sexo}
                     onChange={e => setSexo(e.target.value)}
@@ -113,22 +115,15 @@ function CadastroAluno() {
                     <MenuItem value="M">Masculino</MenuItem>
                   </Select>
                 </FormControl>
-              {/* <TextField id="standard-basic nome" 
-                label="Sexo" 
-                name="sexo" 
-                required 
-                value={sexo}
-              onChange={e => setSexo(e.target.value)}
-                /> */}
             </div>
-            <TextField id="standard-basic nome" 
+            <TextField disabled id="standard-basic nome" 
               label="Objetivo" 
               name="objetivo" 
               // required 
               value={objetivo}
               onChange={e => setObjetivo(e.target.value)}
               />
-            <TextField id="standard-basic nome" 
+            <TextField disabled id="standard-basic nome" 
               label="Observações" 
               name="observacoes" 
               // required 
@@ -136,8 +131,8 @@ function CadastroAluno() {
               onChange={e => setObservacoes(e.target.value)}
               />
             <div className="horizontalBox botoes">
-            <button onClick={btnCancelar} className="cancel" >Cancelar</button>
-                <button type="submit" className="salvar" >Cadastrar</button>
+            <button onClick={btnVoltar} className="salvar" >Voltar</button>
+                
                 
             </div>
           </form>
@@ -148,4 +143,4 @@ function CadastroAluno() {
   )
 }
 
-export default CadastroAluno
+export default DetalhesAluno

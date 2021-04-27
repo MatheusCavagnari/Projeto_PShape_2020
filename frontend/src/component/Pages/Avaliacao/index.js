@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -12,7 +12,7 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faEdit } from '@fortawesome/free-solid-svg-icons'
+import { faEdit, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 
 import Menu from "../../Menu";
 import Header from "../../Header";
@@ -59,16 +59,21 @@ const StyledTableCell = withStyles((theme) => ({
     },
 }))(TableCell);
 
-
+function useQuery() {
+    return new URLSearchParams(useLocation().search);
+}
 
 
 
 function Avaliacao() {
     const [db, setdb] = useState([]);
     const [alunos, setAlunos] = useState([]);
-    const [aluno, setAluno] = useState('');
+    const [alunoId, setAlunoId] = useState({});
     const classes = useStyles();
     const history = useHistory();
+
+    const  aluno  = useQuery().get('aluno');
+
 
     function btnEditarClick(id) {
 
@@ -81,7 +86,7 @@ function Avaliacao() {
 
     function btnGerarRelatorio(e) {
         e.preventDefault();
-        history.push(`/relatorio/${aluno}`);
+        history.push(`/relatorio/${alunoId.id}`);
     }
 
     function btnAdicionarClick(e) {
@@ -93,9 +98,9 @@ function Avaliacao() {
         const abc = e.target.id;
         const index = abc.slice(22);
         if (index) {
-            setAluno(alunos[parseInt(index)].id)
+            setAlunoId(alunos[parseInt(index)])
         } else {
-            setAluno([])
+            setAlunoId([])
         }
     }
 
@@ -106,9 +111,9 @@ function Avaliacao() {
     // let alunoId = query.get("aluno")
 
     useEffect(() => {
+        
         const listaDeAlunos = async () => {
-            // console.log(query.get("aluno"))
-            await api.get(`/avaliacao?aluno=${aluno}`, { headers: { personal: localStorage.getItem('personal') } })
+            await api.get(`/avaliacao?aluno=${alunoId.id}`, { headers: { personal: localStorage.getItem('personal') } })
                 .then(response => {
                     setdb(response.data)
                 })
@@ -117,11 +122,23 @@ function Avaliacao() {
                 })
         }
         listaDeAlunos()
-    }, [aluno])
+    }, [alunoId])
 
 
     useEffect(() => {
         // console.log(searchPaams, )
+        if(aluno) {
+            const alunoQuery = async () => {
+                await api.get(`/alunos/${aluno}`,{ headers: { personal: localStorage.getItem('personal') } } )
+                    .then( response => {
+                        setAlunoId(response.data[0])
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+            }
+            alunoQuery()
+        }
         const avalAluno = async () => {
             await api.get('/alunos', { headers: { personal: localStorage.getItem('personal') } })
                 .then(response => {
@@ -130,10 +147,11 @@ function Avaliacao() {
                 .catch(err => {
                     console.log(err)
                 })
-
+            
         }
-
+        
         avalAluno()
+
     }, [])
 
     // useEffect(() => {
@@ -170,8 +188,9 @@ function Avaliacao() {
                             style={{ width: "90%" }}
                             renderInput={(params) => <TextField {...params} label="Aluno" variant="outlined" />}
                             onChange={selecionaAluno}
+                            value={alunoId}
                         />
-                        <button disabled={aluno && db.length !== 0 ? false : true} className='btntitulo' onClick={btnGerarRelatorio}>Gerar Relatório</button>
+                        <button disabled={alunoId && db.length !== 0 ? false : true} className='btntitulo' onClick={btnGerarRelatorio}>Gerar Relatório</button>
                     </div>
                     <div className="tabela">
                         <TableContainer component={Paper} className={classes.container}>
@@ -191,7 +210,7 @@ function Avaliacao() {
                                             </StyledTableCell>
                                             <StyledTableCell align="center">
                                                 <button className="btnAzul">
-                                                    <FontAwesomeIcon onClick={() => btnDetalhesClick(row.id)} icon={faPlus} className="icone" />
+                                                    <FontAwesomeIcon onClick={() => btnDetalhesClick(row.id)} icon={faInfoCircle} className="icone" />
                                                 </button>
                                                 <button className="btnEdit">
                                                     <FontAwesomeIcon onClick={() => btnEditarClick(row.id)} icon={faEdit} className="icone" />

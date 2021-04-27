@@ -1,0 +1,5 @@
+aluno
+   
+treino
+  deleçao**ver, editar, infos detalhe exercicio, detalhes
+exercicio
