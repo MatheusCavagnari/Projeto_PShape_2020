@@ -13,7 +13,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import api from '../../../services/api'
 
 function CadastroAvaliacao() {
-    const [ aluno_id, setAluno] = useState('');
+    const [aluno_id, setAluno] = useState('');
     const [dobra_abdominal, setAbdominal] = useState('');
     const [dobra_axilar, setAxilar] = useState('');
     const [dobra_bicipal, setBiciptal] = useState('');
@@ -27,7 +27,7 @@ function CadastroAvaliacao() {
     const [altura, setAltura] = useState('');
     const [data_avaliacao, setData] = useState('');
 
-   
+
     const [alunos, setAlunos] = useState([]);
 
 
@@ -48,22 +48,22 @@ function CadastroAvaliacao() {
 
         avalAluno()
     }, [])
-    
+
     function cancelar(e) {
-      e.preventDefault()
-      history.push('/avaliacao')
+        e.preventDefault()
+        history.push('/avaliacao')
     }
-    
-    
+
+
 
     async function btnAddAvalicao(e) {
         e.preventDefault()
 
-        try{
+        try {
             await api.post(`/avaliacao?aluno=${aluno_id} `, {
-                peso, 
-                altura, 
-                dobra_tricipal, 
+                peso,
+                altura,
+                dobra_tricipal,
                 dobra_bicipal,
                 dobra_toracica,
                 dobra_panturrilha,
@@ -75,32 +75,34 @@ function CadastroAvaliacao() {
                 data_avaliacao,
             })
 
-            swal.fire(
-                'Adicionado!',
-                'Sua Avaliação foi adicionada com sucesso.',
-                'success'
-              ).then(async (result) => {
-                if(result.isConfirmed) {
-                    history.push('/avaliacao')
-                }
+            swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Avaliação foi adicionada com sucesso.',
+                showConfirmButton: false,
+                timer: 1500
+            }).then(async (result) => {
+
+                history.push('/avaliacao')
+
             })
-      
-           
-          } catch (err) {
+
+
+        } catch (err) {
             alert(`Aconteceu algum erro ${err.response.data}`)
             console.log(err)
-          }
+        }
 
-      }
+    }
 
-      function selecionaAluno(e) {
+    function selecionaAluno(e) {
         const abc = e.target.id;
         const index = abc.slice(22);
-        if(index){
+        if (index) {
             setAluno(alunos[parseInt(index)].id)
-          } else {
+        } else {
             setAluno([])
-          }
+        }
     }
 
 
@@ -112,18 +114,18 @@ function CadastroAvaliacao() {
                 <div className="boxAlt">
                     <h2>Cadastro de Avaliação</h2>
                     <form onSubmit={btnAddAvalicao}>
-                        <div > 
-                        <Autocomplete
-                            id="combo-box-demo"
-                            options={alunos}
-                            getOptionLabel={(option) => option.nome}
-                            
-                            renderInput={(params) => <TextField {...params} label="Aluno*" variant="outlined" />}
-                            onChange={selecionaAluno}
-                        />
+                        <div >
+                            <Autocomplete
+                                id="combo-box-demo"
+                                options={alunos}
+                                getOptionLabel={(option) => option.nome}
+
+                                renderInput={(params) => <TextField {...params} label="Aluno*" variant="outlined" />}
+                                onChange={selecionaAluno}
+                            />
                         </div>
-                   
-                    <div className="horizontalBox">
+
+                        <div className="horizontalBox">
                             <TextField id="standard-basic nome"
                                 label="Altura (m)"
                                 name="altura"
@@ -150,7 +152,7 @@ function CadastroAvaliacao() {
 
                                 InputLabelProps={{
                                     shrink: true,
-                                  }}
+                                }}
                             />
 
                         </div>
@@ -213,7 +215,7 @@ function CadastroAvaliacao() {
                                 label="D Supra-ilíaca (mm)"
                                 name="supraIliaca"
                                 required
-                                value={ dobra_supra_iliaca}
+                                value={dobra_supra_iliaca}
                                 type="number"
                                 onChange={e => setSupraIliaca(e.target.value)}
                             />

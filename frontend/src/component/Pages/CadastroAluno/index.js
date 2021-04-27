@@ -1,13 +1,14 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import Header from '../../Header'
 import Footer from '../../Footer'
 import Menu from '../../Menu'
 import api from '../../../services/api'
+import swal from 'sweetalert2'
 
 import './styles.css'
-import  TextField from '@material-ui/core/TextField'
+import TextField from '@material-ui/core/TextField'
 import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -40,7 +41,7 @@ function CadastroAluno() {
 
   async function cadastrarAluno(e) {
     e.preventDefault()
-    
+
     try {
       await api.post('/alunos', {
         nome,
@@ -50,9 +51,22 @@ function CadastroAluno() {
         sexo,
         objetivo,
         observacoes
-      }, {headers: { personal: localStorage.getItem('personal') }})
-      alert(`Aluno ${nome} cadastrado com sucesso!`)
-      history.push('/aluno')
+      }, { headers: { personal: localStorage.getItem('personal') } })
+
+
+      swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Aluno adicionado com sucesso.',
+        showConfirmButton: false,
+        timer: 1500
+      }).then(async (result) => {
+
+        history.push('/aluno')
+
+      })
+
+
     } catch (err) {
       alert(`Aconteceu algum erro ${err.response.data}`)
       console.log(err)
@@ -62,57 +76,57 @@ function CadastroAluno() {
   return (
     <div id="page">
       <Header classname="header" />
-      <Menu page="0"/>
+      <Menu page="0" />
       <div className="main">
         <div className="boxAlt">
           <h2>Cadastro de aluno</h2>
           <form onSubmit={cadastrarAluno}>
-            <TextField id="standard-basic nome" 
-              label="Nome" 
-              name="nome" 
-              required 
+            <TextField id="standard-basic nome"
+              label="Nome"
+              name="nome"
+              required
               value={nome}
               onChange={e => setNome(e.target.value)}
-              />
+            />
             <div className="horizontalBox">
-              <TextField id="standard-basic nome" 
-                label="Telefone" 
-                name="telefone" 
+              <TextField id="standard-basic nome"
+                label="Telefone"
+                name="telefone"
                 value={telefone}
-              onChange={e => setTelefone(e.target.value)}
-                />
-              <TextField id="standard-basic nome" 
-                label="Whatsapp" 
-                name="whatsapp" 
+                onChange={e => setTelefone(e.target.value)}
+              />
+              <TextField id="standard-basic nome"
+                label="Whatsapp"
+                name="whatsapp"
                 value={whatsapp}
-              onChange={e => setWhatsapp(e.target.value)}
-                />
+                onChange={e => setWhatsapp(e.target.value)}
+              />
             </div>
             <div className="horizontalBox">
-              <TextField id="standard-basic nome" 
-                label="Data nascimento" 
+              <TextField id="standard-basic nome"
+                label="Data nascimento"
                 type="date"
-                name="dataNasc" 
+                name="dataNasc"
                 format='DD-MM-YYYY'
-                required 
+                required
                 InputLabelProps={{
                   shrink: true,
                 }}
                 value={dataNasc}
-              onChange={e => setDataNasc(e.target.value)}
-                />
-                <FormControl className={classes.FormControl}>
-                  <InputLabel id="label-sexo">Sexo *</InputLabel>
-                  <Select
-                    labelId="label-sexo"
-                    required
-                    value={sexo}
-                    onChange={e => setSexo(e.target.value)}
-                  >
-                    <MenuItem value="F">Feminino</MenuItem>
-                    <MenuItem value="M">Masculino</MenuItem>
-                  </Select>
-                </FormControl>
+                onChange={e => setDataNasc(e.target.value)}
+              />
+              <FormControl className={classes.FormControl}>
+                <InputLabel id="label-sexo">Sexo *</InputLabel>
+                <Select
+                  labelId="label-sexo"
+                  required
+                  value={sexo}
+                  onChange={e => setSexo(e.target.value)}
+                >
+                  <MenuItem value="F">Feminino</MenuItem>
+                  <MenuItem value="M">Masculino</MenuItem>
+                </Select>
+              </FormControl>
               {/* <TextField id="standard-basic nome" 
                 label="Sexo" 
                 name="sexo" 
@@ -121,24 +135,24 @@ function CadastroAluno() {
               onChange={e => setSexo(e.target.value)}
                 /> */}
             </div>
-            <TextField id="standard-basic nome" 
-              label="Objetivo" 
-              name="objetivo" 
+            <TextField id="standard-basic nome"
+              label="Objetivo"
+              name="objetivo"
               // required 
               value={objetivo}
               onChange={e => setObjetivo(e.target.value)}
-              />
-            <TextField id="standard-basic nome" 
-              label="Observações" 
-              name="observacoes" 
+            />
+            <TextField id="standard-basic nome"
+              label="Observações"
+              name="observacoes"
               // required 
               value={observacoes}
               onChange={e => setObservacoes(e.target.value)}
-              />
+            />
             <div className="horizontalBox botoes">
-            <button onClick={btnCancelar} className="cancel" >Cancelar</button>
-                <button type="submit" className="salvar" >Cadastrar</button>
-                
+              <button onClick={btnCancelar} className="cancel" >Cancelar</button>
+              <button type="submit" className="salvar" >Cadastrar</button>
+
             </div>
           </form>
         </div>
