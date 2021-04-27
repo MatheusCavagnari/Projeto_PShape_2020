@@ -23,6 +23,7 @@ import EditarTreino from './component/Pages/EditarTreino'
 
 import DetalhesAvaliacao from './component/Pages/DetalhesAvaliacao'
 import DetalhesAluno from "./component/Pages/DetalhesAluno";
+import DetalhesTreino from "./component/Pages/DetalhesTreino";
 
 export default function Routes() {
   return (
@@ -48,6 +49,7 @@ export default function Routes() {
       <Route path="/editarTreino/:id" component={EditarTreino} />
       <Route path="/detalhesAvaliacao/:id" component={DetalhesAvaliacao} />
       <Route path="/detalhesAluno/:id" component={DetalhesAluno} />
+      <Route path="/detalhestreino/:id" component={DetalhesTreino} />
       
     </Router>
   );

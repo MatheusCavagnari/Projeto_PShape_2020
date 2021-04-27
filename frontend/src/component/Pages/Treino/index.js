@@ -13,6 +13,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faTrashAlt, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
+import swal from 'sweetalert2'
 
 import Menu from "../../Menu";
 import Header from "../../Header";
@@ -172,6 +173,46 @@ function Treino() {
   function editarTreino(id) {
     history.push(`/editarTreino/${id}`)
   }
+  function detalheTreino(id) {
+    history.push(`/detalhesTreino/${id}`)
+  }
+
+  async function deletarTreino(id, alunoId) {
+    swal.fire({
+      title: 'Você tem certeza?',
+      text: "Você não pode reverter isso!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sim, deletar!'
+    }).then(async (result) => {
+      if(result.isConfirmed) {
+        if(alunoId){
+          await api.delete(`/treino/${id}?aluno=${alunoId}`)
+          swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+          )
+        }else {
+          await api.delete(`/treino/${id}`)
+          swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+          )
+        }
+        await api.get('/treino', { headers: { personal: localStorage.getItem('personal') } })
+        .then(response => {
+          setdb(response.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      }
+    })
+  }
 
 
   return (
@@ -226,13 +267,13 @@ function Treino() {
                         {row.data}
                       </StyledTableCell>
                       <StyledTableCell align="center">
-                        <button className="btnAzul">
-                          <FontAwesomeIcon icon={faInfoCircle} className="icone" />
+                        <button className="btnAzul" onClick={() => detalheTreino(row.id)}>
+                          <FontAwesomeIcon icon={faInfoCircle}  className="icone" />
                         </button>
                         <button className="btnEdit" onClick={() => editarTreino(row.id)}>
                           <FontAwesomeIcon icon={faEdit} className="icone" />
                         </button>
-                        <button className="btnDelete">
+                        <button className="btnDelete" onClick={() => deletarTreino(row.id, row.aluno_id)}>
                           <FontAwesomeIcon icon={faTrashAlt} className="icone"/>
                         </button>
                       </StyledTableCell>
