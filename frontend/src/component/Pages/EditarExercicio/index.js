@@ -28,12 +28,12 @@ function EditarExercicio() {
     };
 
     const { id } = useParams();
-    
-    useEffect(() =>  {
+
+    useEffect(() => {
         const bancoBusca = async () => {
-            await api.get(`/exercicio/${id}`, { headers: { personal:  localStorage.getItem('personal') } })
+            await api.get(`/exercicio/${id}`, { headers: { personal: localStorage.getItem('personal') } })
                 .then(response => {
-    
+
                     setNome(response.data[0]?.nome);
                     setMaquina(response.data[0]?.maquina);
                     setTipo(response.data[0]?.tipo);
@@ -43,7 +43,7 @@ function EditarExercicio() {
                 })
         }
 
-        bancoBusca();             
+        bancoBusca();
 
     }, [id])
 
@@ -63,21 +63,22 @@ function EditarExercicio() {
                     nome,
                     maquina,
                     tipo
-                }, 
+                },
+            })
+
+            swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Sua Exercicio foi alterado com sucesso.',
+                showConfirmButton: false,
+                timer: 1500
+            }).then(async (result) => {
+
+                history.push('/exercicio')
+
             })
 
 
-            swal.fire(
-                'Alterado!',
-                'Sua Exercicio foi alterado com sucesso.',
-                'success'
-              ).then(async (result) => {
-                if(result.isConfirmed) {
-                    history.push('/exercicio')
-                }
-            })
-
-           
         } catch (err) {
             alert(`Aconteceu algum erro ${err.response.data}`)
             console.log(err)
@@ -95,7 +96,7 @@ function EditarExercicio() {
     }
 
 
-    return  (
+    return (
         <div id="pageAlt">
             <Header classname="header" />
             <div className="main">
@@ -128,7 +129,7 @@ function EditarExercicio() {
                             <button onClick={cancelar} className="cancel">Cancelar</button>
                         </div>
                     </form>
-                   
+
                 </div>
             </div>
             <Footer classname="footer" />

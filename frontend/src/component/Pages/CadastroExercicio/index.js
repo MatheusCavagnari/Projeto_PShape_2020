@@ -34,17 +34,21 @@ function CadastroExercicio() {
                 nome,
                 maquina,
                 tipo
-            }, {headers: { personal: localStorage.getItem('personal') }})
+            }, { headers: { personal: localStorage.getItem('personal') } })
 
-            swal.fire(
-                'Adicionado!',
-                'Seu Exercício foi adicionado com sucesso.',
-                'success'
-            ).then(async (result) => {
-                if (result.isConfirmed) {
-                    history.push('/exercicio')
-                }
+
+            swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Exercício foi adicionado com sucesso',
+                showConfirmButton: false,
+                timer: 1500
+            }).then(async (result) => {
+
+                history.push('/exercicio')
+
             })
+
 
             //     // console.log(response.data)
 

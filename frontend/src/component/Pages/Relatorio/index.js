@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom';
-import  { Chart } from 'react-google-charts'
+import { Chart } from 'react-google-charts'
 
 import api from '../../../services/api'
 import Menu from '../../Menu'
@@ -10,7 +10,7 @@ import Titulo from '../../Titulo'
 import './styles.css'
 
 export default function Relatorio() {
-  const aluno = 'Relatorio Pedro'
+  const [aluno, setNome] = useState('');
   const { id } = useParams()
 
   const [data, setData] = useState([])
@@ -21,8 +21,8 @@ export default function Relatorio() {
     const dadaosAvalBanco = async () => {
       const avaliacoes = await api.get(`/avaliacao?aluno=${id}`)
       console.log(avaliacoes.data)
-      let acumPeso = [['Data', 'peso']]     
-      let acumImc = [['Data', 'IMC']]     
+      let acumPeso = [['Data', 'peso']]
+      let acumImc = [['Data', 'IMC']]
       avaliacoes.data.forEach(avaliacao => {
         const peso = avaliacao.peso
         const altura = avaliacao.altura
@@ -34,7 +34,29 @@ export default function Relatorio() {
         acumPeso.push(linhaPeso)
         acumImc.push(linhaImc)
       });
-      console.log(acumPeso)
+
+
+
+      const alunoSel = async () => {
+        await api.get(`/alunos/${id}`, { headers: { personal: localStorage.getItem('personal') } })
+          .then(responseAluno => {
+            if (responseAluno.data[0]?.sexo == "F") {
+              var nome = 'da ' + responseAluno.data[0]?.nome;
+            } else {
+              nome = 'do ' + responseAluno.data[0]?.nome;
+            }
+
+            setNome(nome);
+
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      }
+      alunoSel();
+
+
+      //console.log(acumPeso)
       setData(acumPeso)
       setDataImc(acumImc)
     }
@@ -49,11 +71,11 @@ export default function Relatorio() {
 
   return (
     <div id="page">
-      <Header/>
-      <Menu page="1"/>
+      <Header />
+      <Menu page="1" />
       <div className="main">
         <Titulo
-          titulo={aluno}
+          titulo={'Relatório ' + aluno}
           textoBotao="Imprimir"
           classBotao="btntitulo"
           btnClick={imprimir}
@@ -61,19 +83,19 @@ export default function Relatorio() {
         <div className="content">
           <div className="graficos">
 
-          <Chart
+            <Chart
               width={'500px'}
               height={'300px'}
               chartType="BarChart"
               data={dataImc}
-              options={{title: "IMC"}}
+              options={{ title: "IMC" }}
             />
-          <Chart
+            <Chart
               width={'500px'}
               height={'300px'}
               chartType="LineChart"
               data={data}
-              options={{title: "Peso"}}
+              options={{ title: "Peso" }}
             />
           </div>
           {/* <Chart
@@ -83,10 +105,10 @@ export default function Relatorio() {
               data={data}
               options={options}
             /> */}
-          
+
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   )
 }

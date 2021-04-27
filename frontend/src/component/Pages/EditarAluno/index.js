@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import { useHistory } from 'react-router-dom';
-import { useParams } from 'react-router-dom'; 
+import { useParams } from 'react-router-dom';
 import swal from 'sweetalert2'
 
 import Header from '../../Header'
@@ -37,12 +37,12 @@ function EditarAluno() {
   const classes = useStyles()
   const history = useHistory();
   const { id } = useParams();
-  
 
 
-  
+
+
   useEffect(() => {
-    
+
     const bancoBusca = async () => {
       await api.get(`/alunos/${id}`, { headers: { personal: localStorage.getItem('personal') } })
         .then(response => {
@@ -77,17 +77,17 @@ function EditarAluno() {
       }, { headers: { personal: localStorage.getItem('personal') } })
 
 
+      swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Aluno alterado com sucesso.',
+        showConfirmButton: false,
+        timer: 1500
+      }).then(async (result) => {
 
-      swal.fire(
-        'Alterado!',
-        'Aluno alterado com sucesso.',
-        'success'
-      ).then(async (result) => {
-        if (result.isConfirmed) {
-          history.push('/aluno')
-        }
+        history.push('/aluno')
+
       })
-
 
     } catch (err) {
       alert(`Aconteceu algum erro ${err.response.data}`)
@@ -173,8 +173,9 @@ function EditarAluno() {
               onChange={e => setObservacoes(e.target.value)}
             />
             <div className="horizontalBox botoes">
-              <button type="submit" className="salvar" >Salvar</button>
               <button onClick={btnCancelar} className="cancel" >Cancelar</button>
+              <button type="submit" className="salvar" >Salvar</button>
+
             </div>
           </form>
 

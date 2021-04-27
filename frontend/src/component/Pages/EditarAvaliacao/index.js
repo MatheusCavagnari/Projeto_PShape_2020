@@ -30,13 +30,13 @@ function EditarAvaliacao() {
     const history = useHistory();
     const { id } = useParams();
 
-       
+
     const [alunos, setAlunos] = useState([]);
-    
+
     useEffect(() => {
-        
+
         const bancoBusca = async () => {
-            await api.get(`/avaliacao/${id}` )
+            await api.get(`/avaliacao/${id}`)
                 .then(response => {
                     setAltura(response.data[0]?.altura)
                     setAbdominal(response.data[0]?.dobra_abdominal)
@@ -49,23 +49,23 @@ function EditarAvaliacao() {
                     setToracica(response.data[0]?.dobra_toracica)
                     setTricipal(response.data[0]?.dobra_tricipal)
                     setPeso(response.data[0]?.peso)
-                    setData(response.data[0]?.data_avaliacao)   
-                    
-                    
+                    setData(response.data[0]?.data_avaliacao)
+
+
                     const alunoSel = async () => {
                         await api.get(`/alunos/${response.data[0]?.aluno_id}`, { headers: { personal: localStorage.getItem('personal') } })
-                          .then(responseAluno => {
-                            setAlunos(responseAluno.data[0]?.nome);
-                            console.log(responseAluno.data[0]?.nome)
-                            document.getElementById("nomeAluno").innerHTML = 'Nome: ' + responseAluno.data[0]?.nome;
-    
-                            //setAluno(response.data[0]?.aluno_id)
-                          })
-                          .catch(err => {
-                            console.log(err)
-                          })
-                      }
-                      alunoSel();
+                            .then(responseAluno => {
+                                setAlunos(responseAluno.data[0]?.nome);
+                                //console.log(responseAluno.data[0]?.nome)
+                                document.getElementById("nomeAluno").innerHTML = 'Nome: ' + responseAluno.data[0]?.nome;
+
+                                //setAluno(response.data[0]?.aluno_id)
+                            })
+                            .catch(err => {
+                                console.log(err)
+                            })
+                    }
+                    alunoSel();
 
                 })
                 .catch(err => {
@@ -75,20 +75,20 @@ function EditarAvaliacao() {
 
         bancoBusca()
     }, [id])
-    
+
     function cancelar(e) {
-      e.preventDefault()
-      history.push('/avaliacao')
+        e.preventDefault()
+        history.push('/avaliacao')
     }
-    
+
     async function btnAddAvalicao(e) {
         e.preventDefault()
 
-        try{
+        try {
             await api.put(`/avaliacao/${id} `, {
-                peso, 
-                altura, 
-                dobra_tricipal, 
+                peso,
+                altura,
+                dobra_tricipal,
                 dobra_bicipal,
                 dobra_toracica,
                 dobra_panturrilha,
@@ -100,23 +100,27 @@ function EditarAvaliacao() {
                 data_avaliacao,
             })
 
-            swal.fire(
-                'Editado!',
-                'Sua Avaliação foi editada com sucesso.',
-                'success'
-              ).then(async (result) => {
-                if(result.isConfirmed) {
-                    history.push('/avaliacao')
-                }
+            swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Avaliação foi editada com sucesso.',
+                showConfirmButton: false,
+                timer: 1500
+            }).then(async (result) => {
+
+                history.push('/avaliacao')
+
             })
-      
-           
-          } catch (err) {
+
+
+
+
+        } catch (err) {
             alert(`Aconteceu algum erro ${err.response.data}`)
             console.log(err)
-          }
-
         }
+
+    }
 
 
     return (
@@ -128,13 +132,13 @@ function EditarAvaliacao() {
                     <h2>Editar Avaliação</h2>
                     <form onSubmit={btnAddAvalicao}>
 
-                    <div classname="horizontalBox">
-                        <h3  id="nomeAluno">  </h3>
-                    </div>
+                        <div classname="horizontalBox">
+                            <h3 id="nomeAluno">  </h3>
+                        </div>
 
-                    
-                   
-                    <div className="horizontalBox">
+
+
+                        <div className="horizontalBox">
                             <TextField id="standard-basic nome"
                                 label="Altura (m)"
                                 name="altura"
@@ -148,7 +152,7 @@ function EditarAvaliacao() {
                                 name="peso"
                                 required
                                 value={peso}
-                                
+
                                 type="number"
                                 onChange={e => setPeso(e.target.value)}
                             />
@@ -162,7 +166,7 @@ function EditarAvaliacao() {
 
                                 InputLabelProps={{
                                     shrink: true,
-                                  }}
+                                }}
                             />
 
                         </div>
@@ -225,7 +229,7 @@ function EditarAvaliacao() {
                                 label="D Supra-ilíaca (mm)"
                                 name="supraIliaca"
                                 required
-                                value={ dobra_supra_iliaca}
+                                value={dobra_supra_iliaca}
                                 type="number"
                                 onChange={e => setSupraIliaca(e.target.value)}
                             />
