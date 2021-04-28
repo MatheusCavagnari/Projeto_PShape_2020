@@ -1,5 +1,0 @@
-aluno
-   
-treino
-  editar, detalhes treino
-exercicio
