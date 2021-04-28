@@ -7,6 +7,7 @@ import './styles.css'
 
 import Header from '../../Header'
 import Footer from '../../Footer'
+import swal from 'sweetalert2'
 
 export default function Login() {
   const [email, setEmail] = useState('')
@@ -29,7 +30,13 @@ export default function Login() {
 
       //alert(`usuario ${response.data.nome} entrou`)
     } catch (err) {
-      alert(`${err.response.data}`)
+      swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: `${err.response.data}`,
+        showConfirmButton: false,
+        timer: 1500
+      })
     }
   }
 
