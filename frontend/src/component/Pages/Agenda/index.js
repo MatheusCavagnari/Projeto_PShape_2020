@@ -47,7 +47,8 @@ export default function Agenda() {
   const [openModal, setOpenModal] = React.useState(false);
 
   const [openModalEdit, setOpenModalEdit] = React.useState(false);
-  const [agendamentos, setAgendamentos] = useState([])
+  const [agendamentos, setAgendamentos] = useState([]);
+  const [horaAgendamento, sethoraAgendamento] = useState([]);
   const classes = useStyles();
   const [modalStyle] = useState(getModalStyle);
   const [data, setData] = useState({})
@@ -172,7 +173,7 @@ export default function Agenda() {
         />
         <div className="horzBox">
           <label htmlFor="horarioAgned">Horário</label>
-          <TextField id="horarioAgned" value={horario}  type="time" onChange={e => setHoaraio(e.target.value)}></TextField>
+          <TextField id="horarioAgned" value={horario} type="time" onChange={e => setHoaraio(e.target.value)}></TextField>
         </div>
         <TextField
           multiline
@@ -242,6 +243,7 @@ export default function Agenda() {
       await api.get('/agendamento', { headers: { personal: localStorage.getItem('personal') } })
         .then(response => {
           setAgendamentos(response.data)
+
         })
         .catch(err => {
           console.log(err)
@@ -277,7 +279,7 @@ export default function Agenda() {
 
   //useEffect(() =>  {
 
-//}, [id])
+  //}, [id])
 
   async function ListaAgendamentosDia(arg) {
     arg.jsEvent.preventDefault()
@@ -294,41 +296,41 @@ export default function Agenda() {
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
-       
+
 
         const bancoBusca = async () => {
           await api.get(`/agendamento/${arg.event.id}`, { headers: { personal: localStorage.getItem('personal') } })
-              .then(response => {
-                console.log(response.data[0])
-                var dataHora  = response.data[0].data_hora_agendamento;
-                var hora = dataHora.split(" ");
-               
-                if( response.data[0]?.tipo == 'T'){
-                  tipoEdit = 1;
-                }else{
-                  tipoEdit = 0;
-                }
+            .then(response => {
+              console.log(response.data[0])
+              var dataHora = response.data[0].data_hora_agendamento;
+              var hora = dataHora.split(" ");
 
-                setTipo(tipoEdit)
-                setHoaraio(hora[1])
-                setData(hora[0])
-                setObservacoes(response.data[0]?.observacoes)
-                setId(response.data[0]?.id)
-                setOpenModalEdit(true)
-                  
-              })
-              .catch(err => {
-                  console.log(err)
-              })
-      }
-      bancoBusca()
+              if (response.data[0]?.tipo == 'T') {
+                tipoEdit = 1;
+              } else {
+                tipoEdit = 0;
+              }
+
+              setTipo(tipoEdit)
+              setHoaraio(hora[1])
+              setData(hora[0])
+              setObservacoes(response.data[0]?.observacoes)
+              setId(response.data[0]?.id)
+              setOpenModalEdit(true)
+
+            })
+            .catch(err => {
+              console.log(err)
+            })
+        }
+        bancoBusca()
 
         console.log(arg.event.id)
         //setId(arg.event.id)
 
-       
 
-       
+
+
       } else if (result.isDenied) {
         swal.fire({
           title: 'Você tem certeza?',
@@ -342,9 +344,9 @@ export default function Agenda() {
         }).then(async (result) => {
           if (result.isConfirmed) {
             const resposta =
-            await api.delete(`/agendamento/${arg.event.id}`)
+              await api.delete(`/agendamento/${arg.event.id}`)
 
-            if(resposta.status == 204){
+            if (resposta.status == 204) {
               swal.fire(
                 'Excluido!',
                 'Seu agendamento foi excluido.',
