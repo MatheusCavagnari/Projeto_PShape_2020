@@ -153,14 +153,24 @@ module.exports = {
 
   async delete(request, response) {
     const { id } = request.params
+    const  aluno = request.query.aluno
 
-      await connection('treino')
-        .where('treino.id', '=', id)
-        .update({ativo: 0})
-      
+      if(aluno) {
         await connection('aluno_treino')
         .where('aluno_treino.treino_id', '=', id)
+        .andWhere('aluno_treino.aluno_id', '=', aluno)
         .update({ativo: 0})
+      } else {
+        await connection('treino')
+          .where('treino.id', '=', id)
+          .update({ativo: 0})
+        
+        await connection('aluno_treino')
+          .where('aluno_treino.treino_id', '=', id)
+          .andWhereNot('aluno_treino.aluno_id', null)
+          .update({ativo: 0})
+      }
+
 
   
     return response.status(204).send()
