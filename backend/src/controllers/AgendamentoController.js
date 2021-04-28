@@ -8,6 +8,7 @@ module.exports = {
 
     const execucao = data_hora_execucao ? data_hora_execucao : null
 
+
     const agendamento = await connection('agendamento').insert({
       tipo,
       observacoes,
@@ -70,14 +71,16 @@ module.exports = {
         .join('alunos', 'agendamento.aluno_id', '=', 'alunos.id')
         .where('agendamento.personal_id', '=', personal_id)
         .select('agendamento.*', 'alunos.nome')
+        .orderBy('data_hora_agendamento')
 
       agendamentos.forEach((agend) => {
         let titulo;
         let hora = agend.data_hora_agendamento.split(" ")
+        let horaFormatada = hora[1].split(":");
         if (agend.tipo === 'T') {
-          titulo = `Treino ${agend.nome} ${hora[1]} `
+          titulo = `Treino ${agend.nome} ${horaFormatada[0]}:${horaFormatada[1]} `
         } else {
-          titulo = `Avaliação ${agend.nome} ${hora[1]}`
+          titulo = `Avaliação ${agend.nome} ${horaFormatada[0]}:${horaFormatada[1]}`
         }
         const date = agend.data_hora_agendamento.substr(0, 10)
         // estes 3 campos sao adicionados para funcionar o calendario

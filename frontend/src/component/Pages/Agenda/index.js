@@ -59,6 +59,7 @@ export default function Agenda() {
   const [horario, setHoaraio] = useState("")
   const [observacoesEdit, setObservacoesEdit] = useState("")
   const [horarioEdit, setHoaraioEdit] = useState("")
+  const [alunoId, setAlunoId] = useState("")
 
 
   const tipos = [{
@@ -158,6 +159,7 @@ export default function Agenda() {
           getOptionSelected={(option, value) => option.id === value.id}
           style={{ width: "100%" }}
           noOptionsText="Sem opções"
+          value={alunoId}
           renderInput={(params) => <TextField {...params} label="Aluno" />}
           onChange={selecionaAluno}
         />
@@ -194,7 +196,11 @@ export default function Agenda() {
 
   async function editarAgendamento(e) {
     e.preventDefault()
-    const dataHora = data + ' ' + horario
+
+    var dataDesfornatada = data.split("/");
+    var dataFinal = dataDesfornatada[2] + '-' + dataDesfornatada[1] + '-' + dataDesfornatada[0];
+
+    const dataHora = dataFinal + ' ' + horario
     const final = {
       tipo,
       observacoes,
@@ -205,9 +211,11 @@ export default function Agenda() {
 
     try {
       await api.put(`/agendamento/${id}`, final, { headers: { personal: localStorage.getItem('personal') } })
-      alert(`Agendamento cadastrado com sucesso!`)
 
-      handleClose()
+      listAluno()
+      agendamentosBanco()
+
+      handleCloseEdit()
     } catch (err) {
       alert(`Aconteceu algum erro ${err.response.data}`)
       console.log(err)
@@ -215,9 +223,11 @@ export default function Agenda() {
   }
 
 
+
   async function cadastroAgendamento(e) {
     e.preventDefault()
     const dataHora = data.data + ' ' + horario
+
     const final = {
       tipo,
       observacoes,
@@ -229,7 +239,8 @@ export default function Agenda() {
     try {
       await api.post('/agendamento', final, { headers: { personal: localStorage.getItem('personal') } })
       alert(`Agendamento cadastrado com sucesso!`)
-
+      listAluno()
+      agendamentosBanco()
       handleClose()
     } catch (err) {
       alert(`Aconteceu algum erro ${err.response.data}`)
@@ -237,30 +248,31 @@ export default function Agenda() {
     }
   }
 
+  const agendamentosBanco = async () => {
+    await api.get('/agendamento', { headers: { personal: localStorage.getItem('personal') } })
+      .then(response => {
+        setAgendamentos(response.data)
+
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+  const listAluno = async () => {
+    await api.get('/alunos', { headers: { personal: localStorage.getItem('personal') } })
+      .then(response => {
+        setAlunos(response.data)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
 
   useEffect(() => {
-    const agendamentosBanco = async () => {
-      await api.get('/agendamento', { headers: { personal: localStorage.getItem('personal') } })
-        .then(response => {
-          setAgendamentos(response.data)
 
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    }
-    const listAluno = async () => {
-      await api.get('/alunos', { headers: { personal: localStorage.getItem('personal') } })
-        .then(response => {
-          setAlunos(response.data)
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    }
     listAluno()
     agendamentosBanco()
-  }, [agendamentos])
+  }, [])
 
   function clicarData(arg) {
     const meses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
@@ -280,6 +292,11 @@ export default function Agenda() {
   //useEffect(() =>  {
 
   //}, [id])
+
+  function dataFormatada(data) {
+    var dataFormatada = data.split("-");
+    return (dataFormatada[2] + "/" + dataFormatada[1] + "/" + dataFormatada[0])
+  }
 
   async function ListaAgendamentosDia(arg) {
     arg.jsEvent.preventDefault()
@@ -305,6 +322,7 @@ export default function Agenda() {
               var dataHora = response.data[0].data_hora_agendamento;
               var hora = dataHora.split(" ");
 
+
               if (response.data[0]?.tipo == 'T') {
                 tipoEdit = 1;
               } else {
@@ -313,10 +331,21 @@ export default function Agenda() {
 
               setTipo(tipoEdit)
               setHoaraio(hora[1])
-              setData(hora[0])
+              setData(dataFormatada(hora[0]))
               setObservacoes(response.data[0]?.observacoes)
               setId(response.data[0]?.id)
               setOpenModalEdit(true)
+
+              const alunoQuery = async () => {
+                await api.get(`/alunos/${response.data[0].aluno_id}`, { headers: { personal: localStorage.getItem('personal') } })
+                  .then(response => {
+                    setAlunoId(response.data[0])
+                  })
+                  .catch(err => {
+                    console.log(err)
+                  })
+              }
+              alunoQuery()
 
             })
             .catch(err => {
@@ -345,6 +374,8 @@ export default function Agenda() {
           if (result.isConfirmed) {
             const resposta =
               await api.delete(`/agendamento/${arg.event.id}`)
+            listAluno()
+            agendamentosBanco()
 
             if (resposta.status == 204) {
               swal.fire(
