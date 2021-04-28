@@ -85,6 +85,10 @@ function DetalhesTreino() {
     }
     buscaAluno()
   }, [idAluno])
+
+  function btnVoltar() {
+    history.push('/treino')
+  }
   
 
   const titulo = `Detalhes Treino ${nomeTreino} - ${nomeAluno}`
@@ -95,7 +99,9 @@ function DetalhesTreino() {
       <div className="main">
         <Titulo
           titulo={titulo}
-          classBotao="hidden"
+          textoBotao="Voltar"
+          classBotao="btntitulo"
+          btnClick={btnVoltar}
         />
         <div className="tabela">
             <TableContainer component={Paper} className={classes.container}>
