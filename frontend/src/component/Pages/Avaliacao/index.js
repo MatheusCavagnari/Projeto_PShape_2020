@@ -63,7 +63,10 @@ function useQuery() {
     return new URLSearchParams(useLocation().search);
 }
 
-
+function dataFormatada(data) {
+    var dataFormatada = data.split("-");
+    return (dataFormatada[2] + "/" + dataFormatada[1] + "/" + dataFormatada[0])
+}
 
 function Avaliacao() {
     const [db, setdb] = useState([]);
@@ -72,7 +75,7 @@ function Avaliacao() {
     const classes = useStyles();
     const history = useHistory();
 
-    const  aluno  = useQuery().get('aluno');
+    const aluno = useQuery().get('aluno');
 
 
     function btnEditarClick(id) {
@@ -111,7 +114,7 @@ function Avaliacao() {
     // let alunoId = query.get("aluno")
 
     useEffect(() => {
-        
+
         const listaDeAlunos = async () => {
             await api.get(`/avaliacao?aluno=${alunoId.id}`, { headers: { personal: localStorage.getItem('personal') } })
                 .then(response => {
@@ -127,10 +130,10 @@ function Avaliacao() {
 
     useEffect(() => {
         // console.log(searchPaams, )
-        if(aluno) {
+        if (aluno) {
             const alunoQuery = async () => {
-                await api.get(`/alunos/${aluno}`,{ headers: { personal: localStorage.getItem('personal') } } )
-                    .then( response => {
+                await api.get(`/alunos/${aluno}`, { headers: { personal: localStorage.getItem('personal') } })
+                    .then(response => {
                         setAlunoId(response.data[0])
                     })
                     .catch(err => {
@@ -147,9 +150,9 @@ function Avaliacao() {
                 .catch(err => {
                     console.log(err)
                 })
-            
+
         }
-        
+
         avalAluno()
 
     }, [])
@@ -206,7 +209,7 @@ function Avaliacao() {
                                     {db.map((row) => (
                                         <StyledTableRow key={row.id}>
                                             <StyledTableCell align="left">
-                                                {row.data_avaliacao}
+                                                {dataFormatada(row.data_avaliacao)}
                                             </StyledTableCell>
                                             <StyledTableCell align="center">
                                                 <button className="btnAzul">

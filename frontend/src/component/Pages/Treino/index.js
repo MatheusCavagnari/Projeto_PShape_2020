@@ -75,7 +75,7 @@ function Treino() {
   const classes = useStyles();
   const history = useHistory();
 
-  const  aluno  = useQuery().get('aluno');
+  const aluno = useQuery().get('aluno');
 
   function btnAdicionarTreino(e) {
     e.preventDefault();
@@ -90,6 +90,12 @@ function Treino() {
     } else {
       setAlunoId([])
     }
+  }
+
+
+  function dataFormatada(data) {
+    var dataFormatada = data.split("-");
+    return (dataFormatada[2] + "/" + dataFormatada[1] + "/" + dataFormatada[0])
   }
 
   function selecionaTreino(e) {
@@ -111,9 +117,9 @@ function Treino() {
 
   useEffect(() => {
     const listaAlunosETreino = async () => {
-      if(alunoId){
+      if (alunoId) {
         const treinosFiltrados = await api.get(`/treino?aluno=${alunoId.id}&nome=${treino}`, { headers: { personal: localStorage.getItem('personal') } })
-  
+
         try {
           setdb(treinosFiltrados.data)
         } catch (e) {
@@ -121,7 +127,7 @@ function Treino() {
         }
       } else {
         const treinosFiltrados = await api.get(`/treino?aluno&nome`, { headers: { personal: localStorage.getItem('personal') } })
-  
+
         try {
           setdb(treinosFiltrados.data)
         } catch (e) {
@@ -133,19 +139,19 @@ function Treino() {
   }, [alunoId, treino])
 
   useEffect(() => {
-    if(aluno) {
+    if (aluno) {
       const alunoQuery = async () => {
-          await api.get(`/alunos/${aluno}`,{ headers: { personal: localStorage.getItem('personal') } } )
-              .then( response => {
-                  setAlunoId(response.data[0])
-                  console.log(response.data[0])
-              })
-              .catch(err => {
-                  console.log(err)
-              })
+        await api.get(`/alunos/${aluno}`, { headers: { personal: localStorage.getItem('personal') } })
+          .then(response => {
+            setAlunoId(response.data[0])
+            console.log(response.data[0])
+          })
+          .catch(err => {
+            console.log(err)
+          })
       }
       alunoQuery()
-  }
+    }
 
     const ListAlunos = async () => {
       await api.get('/alunos', { headers: { personal: localStorage.getItem('personal') } })
@@ -187,15 +193,15 @@ function Treino() {
       cancelButtonColor: '#d33',
       confirmButtonText: 'Sim, deletar!'
     }).then(async (result) => {
-      if(result.isConfirmed) {
-        if(alunoId){
+      if (result.isConfirmed) {
+        if (alunoId) {
           await api.delete(`/treino/${id}?aluno=${alunoId}`)
           swal.fire(
             'Deleted!',
             'Your file has been deleted.',
             'success'
           )
-        }else {
+        } else {
           await api.delete(`/treino/${id}`)
           swal.fire(
             'Deleted!',
@@ -204,12 +210,12 @@ function Treino() {
           )
         }
         await api.get('/treino', { headers: { personal: localStorage.getItem('personal') } })
-        .then(response => {
-          setdb(response.data)
-        })
-        .catch(err => {
-          console.log(err)
-        })
+          .then(response => {
+            setdb(response.data)
+          })
+          .catch(err => {
+            console.log(err)
+          })
       }
     })
   }
@@ -218,7 +224,7 @@ function Treino() {
   return (
     <div id="page">
       <Header className="header" />
-      <Menu page="2"/>
+      <Menu page="2" />
       <div className="main">
         <Titulo
           titulo="Treino"
@@ -264,17 +270,17 @@ function Treino() {
                         {row.nome}
                       </StyledTableCell>
                       <StyledTableCell align="left">
-                        {row.data}
+                        {dataFormatada(row.data)}
                       </StyledTableCell>
                       <StyledTableCell align="center">
                         <button className="btnAzul" onClick={() => detalheTreino(row.id)}>
-                          <FontAwesomeIcon icon={faInfoCircle}  className="icone" />
+                          <FontAwesomeIcon icon={faInfoCircle} className="icone" />
                         </button>
                         <button className="btnEdit" onClick={() => editarTreino(row.id)}>
                           <FontAwesomeIcon icon={faEdit} className="icone" />
                         </button>
                         <button className="btnDelete" onClick={() => deletarTreino(row.id, row.aluno_id)}>
-                          <FontAwesomeIcon icon={faTrashAlt} className="icone"/>
+                          <FontAwesomeIcon icon={faTrashAlt} className="icone" />
                         </button>
                       </StyledTableCell>
 
