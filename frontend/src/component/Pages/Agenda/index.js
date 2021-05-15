@@ -406,7 +406,7 @@ export default function Agenda() {
         <div className="calendario">
           <FullCalendar
             plugins={[dayGridPlugin, interactionPlugin]}
-            initialView="dayGridMonth"
+            initialView="dayGridWeek"
             dateClick={clicarData}
             contentHeight="auto"
             locale="PT-BR"
