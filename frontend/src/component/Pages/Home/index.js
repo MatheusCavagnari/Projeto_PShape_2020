@@ -1,11 +1,6 @@
 import React from 'react';
-
-import User from "../../../img/Group.svg";
-import Vetor from "../../../img/Vector.svg";
-import Braco from "../../../img/braco.svg";
-import Peso from "../../../img/peso.svg";
-import Agenda from "../../../img/agenda.svg";
-
+import Menu from '../../Menu'
+import { Chart } from 'react-google-charts'
 import './styles.css';
 
 import Header from '../../Header';
@@ -16,21 +11,18 @@ import Titulo from '../../Titulo'
 
 function Home() {
     return (
-        <>
-            <Header/> 
+        <div id="page">
+            <Header />
+            <Menu page="0" />
             <div className="home">
-                <Titulo titulo="Seja bem vindo!" classBotao="hidden" />
-                <div className="meio">               
-                    <BotaoIcone icone={User} nome="Aluno" path="/aluno" />
-                    <BotaoIcone icone={Vetor} nome="Avaliação" path="/avaliacao" />
-                    <BotaoIcone icone={Braco} nome="Treino" path="/treino" />
-                    <BotaoIcone icone={Peso} nome="Exercícios" path="/exercicio" />
-                    <BotaoIcone icone={Agenda} nome="Agenda" path="/agenda" />
-                </div>
-                <Footer/>
-            </div>
+                <div className="meio">
 
-        </>
+
+                </div>
+
+            </div>
+            <Footer className="footer" />
+        </div>
     );
 }
 

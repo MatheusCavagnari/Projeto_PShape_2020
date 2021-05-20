@@ -174,7 +174,7 @@ function Avaliacao() {
     return (
         <div id="page">
             <Header className="header" />
-            <Menu page="1" />
+            <Menu page="2" />
             <div className="main">
                 <Titulo
                     titulo="Avaliação"

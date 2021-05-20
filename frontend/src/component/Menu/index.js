@@ -18,7 +18,7 @@ export default function CenteredTabs(props) {
 
 
   const handleChange = (event, newValue) => {
-      console.log(newValue)
+    console.log(newValue)
     setValue(newValue);
 
   };
@@ -33,9 +33,10 @@ export default function CenteredTabs(props) {
         // backgroundColor="primary"
         centered
       >
+        <Tab href='/' label="Home" />
         <Tab href='/aluno' label="Alunos" />
-        <Tab href='/avaliacao' label="Avaliação" />
-        <Tab href='/treino' label="Treino" />
+        <Tab href='/avaliacao' label="Avaliações" />
+        <Tab href='/treino' label="Treinos" />
         <Tab href='/exercicio' label="Exercícios" />
         <Tab href='/agenda' label="Agenda" />
       </Tabs>

@@ -224,7 +224,7 @@ function Treino() {
   return (
     <div id="page">
       <Header className="header" />
-      <Menu page="2" />
+      <Menu page="3" />
       <div className="main">
         <Titulo
           titulo="Treino"

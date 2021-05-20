@@ -44,16 +44,16 @@ import "./styles.css";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
-      margin: theme.spacing(1),
-      width: 1000,
+    margin: theme.spacing(1),
+    width: 1000,
 
   },
   selectEmpty: {
-      marginTop: theme.spacing(2),
+    marginTop: theme.spacing(2),
   },
   table: {
-      minWidth: 700,
-      
+    minWidth: 700,
+
   },
 }));
 
@@ -88,7 +88,7 @@ function Aluno() {
   const [busca, setBusca] = useState('');
   const classes = useStyles();
   const history = useHistory();
-  
+
   function btnAdicionarClick(e) {
     e.preventDefault();
     history.push("/cadastroAluno");
@@ -98,7 +98,7 @@ function Aluno() {
     console.log(id)
     history.push(`/editarAluno/${id}`);
   }
-  
+
   async function deletarAluno(id) {
     swal.fire({
       title: 'Você tem certeza?',
@@ -109,7 +109,7 @@ function Aluno() {
       cancelButtonColor: '#d33',
       confirmButtonText: 'Sim, deletar!'
     }).then(async (result) => {
-      if(result.isConfirmed) {
+      if (result.isConfirmed) {
         await api.delete(`/alunos/${id}`)
         swal.fire(
           'Deleted!',
@@ -117,12 +117,12 @@ function Aluno() {
           'success'
         )
         await api.get('/alunos', { headers: { personal: localStorage.getItem('personal') } })
-        .then(response => {
-          setdb(response.data)
-        })
-        .catch(err => {
-          console.log(err)
-        })
+          .then(response => {
+            setdb(response.data)
+          })
+          .catch(err => {
+            console.log(err)
+          })
       }
     })
   }
@@ -143,7 +143,8 @@ function Aluno() {
   useEffect(() => {
     const dadosBanco = async () => {
       const bancoBusca = await api.get('/alunos', { headers: { personal: localStorage.getItem('personal') } })
-      const filtrado = bancoBusca.data.filter((linha) => { return linha.nome.toLowerCase().includes(busca.toLowerCase())
+      const filtrado = bancoBusca.data.filter((linha) => {
+        return linha.nome.toLowerCase().includes(busca.toLowerCase())
       })
       setdb(filtrado)
     }
@@ -159,7 +160,7 @@ function Aluno() {
   return (
     <div id="page">
       <Header className="header" />
-      <Menu className="menu" page="0"/>
+      <Menu className="menu" page="1" />
       <div className="main">
         <Titulo
           titulo="Alunos"
@@ -169,61 +170,61 @@ function Aluno() {
         />
         <div className="content">
           <div className="buscaInput">
-            <input 
-              placeholder="Procurar aluno" 
-              id="busca" 
-              value={busca} 
+            <input
+              placeholder="Procurar aluno"
+              id="busca"
+              value={busca}
               onChange={e => setBusca(e.target.value)} />
             <img src={Lupa} alt="Lupa"></img>
           </div>
           <div className="tabela">
-          <TableContainer component={Paper} className={classes.container}>
-                      <Table className={classes.table} aria-label="customized table">
-                          <TableHead>
-                              <TableRow>
-                                  <StyledTableCell align="left">Nome</StyledTableCell>
-                                  <StyledTableCell align="left">Telefone</StyledTableCell>
-                                  <StyledTableCell align="center">Ações</StyledTableCell>
+            <TableContainer component={Paper} className={classes.container}>
+              <Table className={classes.table} aria-label="customized table">
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell align="left">Nome</StyledTableCell>
+                    <StyledTableCell align="left">Telefone</StyledTableCell>
+                    <StyledTableCell align="center">Ações</StyledTableCell>
 
-                              </TableRow>
-                          </TableHead>
-                          <TableBody>
-                              {db.map((row) => (
-                                  <StyledTableRow key={row.nome}>
-                                      <StyledTableCell align="left">
-                                          {row.nome}
-                                      </StyledTableCell>
-                                      <StyledTableCell align="left">{row.telefone}</StyledTableCell>
-                                      <StyledTableCell align="center">                                        
-                                        <button className="btnAzul" title="Treino" onClick={() => {history.push(`/treino?aluno=${row.id}`)}}>
-                                            <img src={Braco} alt="Treino" className="icone"/>
-                                        </button>
-                                        <button className="btnAzul" title="Avaliação" onClick={() => {history.push(`/avaliacao?aluno=${row.id}`)}}>
-                                          <img src={Vetor} alt="Avaliação" className="icone"/>
-                                        </button>
-                                        <button className="btnAzul" title="Relatório" onClick={() => {history.push(`/relatorio/${row.id}`)}}>
-                                            <FontAwesomeIcon icon={faChartPie} className="icone"/>
-                                        </button>
-                                        <button className="btnAzul" title="Detalhes" onClick={() => {history.push(`/detalhesAluno/${row.id}`)}}>
-                                            <FontAwesomeIcon icon={faInfoCircle} className="icone"/>
-                                        </button>
-                                        <button className="btnEdit" onClick={() => AlterarAluno(row.id)} title="Editar">
-                                            <FontAwesomeIcon icon={faEdit} className="icone"/>
-                                        </button>
-                                        <button className="btnDelete" onClick={() => deletarAluno(row.id)} title="Deletar">
-                                            <FontAwesomeIcon icon={faTrashAlt} className="icone"/>
-                                        </button>
-                                      </StyledTableCell>
-                                      
-                                  </StyledTableRow>
-                              ))}
-                          </TableBody>
-                      </Table>
-                  </TableContainer>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {db.map((row) => (
+                    <StyledTableRow key={row.nome}>
+                      <StyledTableCell align="left">
+                        {row.nome}
+                      </StyledTableCell>
+                      <StyledTableCell align="left">{row.telefone}</StyledTableCell>
+                      <StyledTableCell align="center">
+                        <button className="btnAzul" title="Treino" onClick={() => { history.push(`/treino?aluno=${row.id}`) }}>
+                          <img src={Braco} alt="Treino" className="icone" />
+                        </button>
+                        <button className="btnAzul" title="Avaliação" onClick={() => { history.push(`/avaliacao?aluno=${row.id}`) }}>
+                          <img src={Vetor} alt="Avaliação" className="icone" />
+                        </button>
+                        <button className="btnAzul" title="Relatório" onClick={() => { history.push(`/relatorio/${row.id}`) }}>
+                          <FontAwesomeIcon icon={faChartPie} className="icone" />
+                        </button>
+                        <button className="btnAzul" title="Detalhes" onClick={() => { history.push(`/detalhesAluno/${row.id}`) }}>
+                          <FontAwesomeIcon icon={faInfoCircle} className="icone" />
+                        </button>
+                        <button className="btnEdit" onClick={() => AlterarAluno(row.id)} title="Editar">
+                          <FontAwesomeIcon icon={faEdit} className="icone" />
+                        </button>
+                        <button className="btnDelete" onClick={() => deletarAluno(row.id)} title="Deletar">
+                          <FontAwesomeIcon icon={faTrashAlt} className="icone" />
+                        </button>
+                      </StyledTableCell>
+
+                    </StyledTableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
           </div>
         </div>
       </div>
-      <Footer className="footer"/>
+      <Footer className="footer" />
     </div>
   );
 }

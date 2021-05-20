@@ -37,16 +37,16 @@ import "./styles.css";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
-      margin: theme.spacing(1),
-      width: 1000,
+    margin: theme.spacing(1),
+    width: 1000,
 
   },
   selectEmpty: {
-      marginTop: theme.spacing(2),
+    marginTop: theme.spacing(2),
   },
   table: {
-      minWidth: 700,
-      
+    minWidth: 700,
+
   },
 }));
 
@@ -83,7 +83,7 @@ function Exercicio() {
   }
 
   function btnEditarClick(id) {
-    
+
     history.push(`/editarExercicio/${id}`);
   }
 
@@ -110,11 +110,11 @@ function Exercicio() {
       confirmButtonText: 'Sim, deletar!',
       cancelButtonText: 'Cancelar'
     }).then(async (result) => {
-      if(result.isConfirmed) {
+      if (result.isConfirmed) {
         const resposta =
-        await api.delete(`/exercicio/${id}`)
-        
-        if(resposta.status == 204 ){
+          await api.delete(`/exercicio/${id}`)
+
+        if (resposta.status == 204) {
           swal.fire(
             'Excluído!',
             'Seu exercício foi excluído.',
@@ -122,17 +122,17 @@ function Exercicio() {
           )
           console.log(resposta);
           listaDeExercicios();
-        }else{
+        } else {
 
           swal.fire(
             'Não Foi possivel excluir!',
             'Seu exercício não foi excluído.',
             'error'
           )
-          
+
         }
         history.push('/exercicio')
-        
+
       }
     })
 
@@ -141,15 +141,17 @@ function Exercicio() {
 
 
   useEffect(() => {
-    
+
     listaDeExercicios()
   }, [])
 
   useEffect(() => {
     const dadosBanco = async () => {
       const bancoBusca = await api.get('/exercicio', { headers: { personal: localStorage.getItem('personal') } })
-      const filtrado = bancoBusca.data.filter((linha) => { return linha.nome.toLowerCase().includes(busca.toLowerCase())
-        || linha.maquina.toLowerCase().includes(busca.toLowerCase())})
+      const filtrado = bancoBusca.data.filter((linha) => {
+        return linha.nome.toLowerCase().includes(busca.toLowerCase())
+          || linha.maquina.toLowerCase().includes(busca.toLowerCase())
+      })
       setdb(filtrado)
     }
     dadosBanco()
@@ -160,7 +162,7 @@ function Exercicio() {
   return (
     <div id="page">
       <Header className="header" />
-      <Menu page="3"/>
+      <Menu page="4" />
       <div className="main">
         <Titulo
           titulo="Exercícios"
@@ -170,49 +172,49 @@ function Exercicio() {
         />
         <div className="content">
           <div className="buscaInput">
-            <input 
-              placeholder="Procurar exercício" 
-              id="busca" 
-              value={busca} 
+            <input
+              placeholder="Procurar exercício"
+              id="busca"
+              value={busca}
               onChange={e => setBusca(e.target.value)} />
             <img src={Lupa} alt="Lupa"></img>
           </div>
           <div className="tabela">
-          <TableContainer component={Paper} className={classes.container}>
-                      <Table className={classes.table} aria-label="customized table">
-                          <TableHead>
-                              <TableRow>
-                                  <StyledTableCell align="left">Nome</StyledTableCell>
-                                  <StyledTableCell align="left">Máquina</StyledTableCell>
-                                  <StyledTableCell align="center">Ações</StyledTableCell>
+            <TableContainer component={Paper} className={classes.container}>
+              <Table className={classes.table} aria-label="customized table">
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell align="left">Nome</StyledTableCell>
+                    <StyledTableCell align="left">Máquina</StyledTableCell>
+                    <StyledTableCell align="center">Ações</StyledTableCell>
 
-                              </TableRow>
-                          </TableHead>
-                          <TableBody>
-                              {db.map((row) => (
-                                  <StyledTableRow key={row.nome}>
-                                      <StyledTableCell align="left">
-                                          {row.nome}
-                                      </StyledTableCell>
-                                      <StyledTableCell align="left">{row.maquina}</StyledTableCell>
-                                      <StyledTableCell align="center">
-                                        <button className="btnEdit">
-                                            <FontAwesomeIcon onClick={()=>btnEditarClick(row.id)}  icon={faEdit} className="icone"/>
-                                        </button>
-                                        <button className="btnDelete">
-                                            <FontAwesomeIcon onClick={()=>btnDeletarClick(row.id)} icon={faTrashAlt} className="icone"/>
-                                        </button>
-                                      </StyledTableCell>
-                                      
-                                  </StyledTableRow>
-                              ))}
-                          </TableBody>
-                      </Table>
-                  </TableContainer>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {db.map((row) => (
+                    <StyledTableRow key={row.nome}>
+                      <StyledTableCell align="left">
+                        {row.nome}
+                      </StyledTableCell>
+                      <StyledTableCell align="left">{row.maquina}</StyledTableCell>
+                      <StyledTableCell align="center">
+                        <button className="btnEdit">
+                          <FontAwesomeIcon onClick={() => btnEditarClick(row.id)} icon={faEdit} className="icone" />
+                        </button>
+                        <button className="btnDelete">
+                          <FontAwesomeIcon onClick={() => btnDeletarClick(row.id)} icon={faTrashAlt} className="icone" />
+                        </button>
+                      </StyledTableCell>
+
+                    </StyledTableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
           </div>
         </div>
       </div>
-      <Footer className="footer"/>
+      <Footer className="footer" />
     </div>
   );
 }
