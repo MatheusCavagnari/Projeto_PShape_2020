@@ -86,3 +86,14 @@
   transition: 0.2s;
 }
 
+::-webkit-scrollbar-track {
+  background-color: #F4F4F4;
+}
+::-webkit-scrollbar {
+  width: 12px;
+  background: #F4F4F4;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 20px;
+  background: #dad7d7;
+}

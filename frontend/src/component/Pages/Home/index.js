@@ -1,12 +1,12 @@
 import React from 'react';
 import Menu from '../../Menu'
-import { Chart } from 'react-google-charts'
 import './styles.css';
 
 import Header from '../../Header';
 import Footer from '../../Footer';
-import BotaoIcone from '../../BotaoIcone'
-import Titulo from '../../Titulo'
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 
 
 function Home() {
@@ -14,13 +14,31 @@ function Home() {
         <div id="page">
             <Header />
             <Menu page="0" />
-            <div className="home">
-                <div className="meio">
+            <Container maxWidth="md">
+                <Grid container spacing={3}>
+                    <Grid item xs>
+                        <div></div>
+                    </Grid>
+                    <Grid item xs>
+                        <div></div>
+                    </Grid>
+                    <Grid item xs>
+                        <Button variant="contained" color="primary">Agendar aluno</Button>
+                    </Grid>
+                </Grid>
+                <Grid container spacing={3}>
+                    <Grid item xs>
+                        <div>Alunos Ativo</div>
+                    </Grid>
+                    <Grid item xs>
+                        <div>Aulas Agendadas</div>
+                    </Grid>
+                    <Grid item xs>
+                        <div>Número total de Alunos (Grafico)</div>
+                    </Grid>
+                </Grid>
+            </Container>
 
-
-                </div>
-
-            </div>
             <Footer className="footer" />
         </div>
     );

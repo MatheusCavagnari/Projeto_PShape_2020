@@ -408,7 +408,7 @@ export default function Agenda() {
             plugins={[dayGridPlugin, interactionPlugin]}
             initialView="dayGridWeek"
             dateClick={clicarData}
-            contentHeight="auto"
+            contentHeight="300px"
             locale="PT-BR"
             buttonText={{ today: "Hoje" }}
             events={agendamentos}

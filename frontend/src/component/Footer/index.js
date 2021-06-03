@@ -5,7 +5,8 @@ import './styles.css';
 function Footer() {
   return (
     <div className="footer">
-        <h2 id="tel"> Está com algum problema? Entre em contato (XX) XXXX-XXXX </h2>
+      <h3 id="tel">Contato: pshape@gmail.com  </h3>
+
     </div>
   );
 }
