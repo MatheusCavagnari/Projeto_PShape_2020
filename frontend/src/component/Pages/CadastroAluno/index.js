@@ -76,7 +76,7 @@ function CadastroAluno() {
   return (
     <div id="page">
       <Header classname="header" />
-      <Menu page="0" />
+      <Menu page="1" />
       <div className="main">
         <div className="boxAlt">
           <h2>Cadastro de aluno</h2>

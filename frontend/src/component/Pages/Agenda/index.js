@@ -201,6 +201,8 @@ export default function Agenda() {
     var dataFinal = dataDesfornatada[2] + '-' + dataDesfornatada[1] + '-' + dataDesfornatada[0];
 
     const dataHora = dataFinal + ' ' + horario
+
+
     const final = {
       tipo,
       observacoes,
@@ -227,7 +229,7 @@ export default function Agenda() {
   async function cadastroAgendamento(e) {
     e.preventDefault()
     const dataHora = data.data + ' ' + horario
-
+    console.log(dataHora)
     const final = {
       tipo,
       observacoes,
@@ -251,6 +253,8 @@ export default function Agenda() {
   const agendamentosBanco = async () => {
     await api.get('/agendamento', { headers: { personal: localStorage.getItem('personal') } })
       .then(response => {
+
+        console.log(response.data)
         setAgendamentos(response.data)
 
       })

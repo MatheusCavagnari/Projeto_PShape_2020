@@ -64,7 +64,7 @@ module.exports = {
           return agend
         }
       })
-
+      console.log("teste" + agendData)
       return response.json(agendData)
     } else {
       const agendamentos = await connection('agendamento')

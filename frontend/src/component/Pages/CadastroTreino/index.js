@@ -291,7 +291,7 @@ function CadastroTreino() {
   return (
     <div id="page">
       <Header classname="header" />
-      <Menu page="2" />
+      <Menu page="3" />
       <div className="main">
         <div className="boxAlt">
           <h2>Cadastro de Treino</h2>
@@ -329,7 +329,7 @@ function CadastroTreino() {
                     aria-label="move selected right"
                   >
                     &gt;
-          </Button>
+                  </Button>
                   <Button
                     radioGroup='selecionados'
                     variant="outlined"
@@ -340,7 +340,7 @@ function CadastroTreino() {
                     aria-label="move selected left"
                   >
                     &lt;
-          </Button>
+                  </Button>
                 </Grid>
               </Grid>
               <Grid item>Exercícios Adicionados{customList(right)}</Grid>

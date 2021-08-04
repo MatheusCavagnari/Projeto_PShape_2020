@@ -109,7 +109,7 @@ function CadastroAvaliacao() {
     return (
         <div id="page">
             <Header classname="header" />
-            <Menu page="1" />
+            <Menu page="2" />
             <div className="main">
                 <div className="boxAlt">
                     <h2>Cadastro de Avaliação</h2>

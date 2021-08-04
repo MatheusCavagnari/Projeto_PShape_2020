@@ -20,10 +20,11 @@ routes.get('/alunos', AlunoController.index)
 routes.get('/alunos/:id', AlunoController.getById)
 routes.put('/alunos/:id', AlunoController.update)
 routes.delete('/alunos/:id', AlunoController.delete)
+routes.get('/alunosQtd/:id', AlunoController.getNumeroAlunos)
 
 routes.post('/avaliacao', AvaliacaoController.create)
 routes.get('/avaliacao', AvaliacaoController.index)
-routes.get('/avaliacao/:id', AvaliacaoController.getById) 
+routes.get('/avaliacao/:id', AvaliacaoController.getById)
 // routes.get('/avaliacao?data=:data', AvaliacaoController.getAgendamentoByData) 
 routes.put('/avaliacao/:id', AvaliacaoController.update)
 routes.delete('/avaliacao/:id', AvaliacaoController.delete)
@@ -46,4 +47,4 @@ routes.delete('/treino/:id', TreinoController.delete)
 routes.get('/treino', TreinoController.index)
 routes.get('/treino/:id', TreinoController.getById)
 
-module.exports =  routes
+module.exports = routes
