@@ -1,243 +1,106 @@
-Projeto de sistema de informação Personal Shape
+# Personal Shape - Sistema de Informação para Personal Trainers
 
-Banco de dados MySQL
-Criar novo schema com nome "pshape".
+## Descrição
 
-Pasta backend
-comandos no terminal:
-$ npm i
-$ npm install knex -g
-$ npx knex migrate:latest
-$ npm start
+O Personal Shape é um sistema de informação desenvolvido para facilitar o trabalho de Personal Trainers no gerenciamento de alunos, treinos, avaliações físicas e agendamentos. Com esta aplicação, os Personal Trainers podem manter um registro detalhado de seus alunos, criar treinos personalizados, acompanhar o progresso das avaliações físicas e agendar sessões de treinamento.
 
-População de banco
-  Insomnia
+## Funcionalidades
 
-  ----------------------PERSONAL--------------------------------------------------
+- Cadastro e gerenciamento de Personal Trainers.
+- Cadastro e gerenciamento de Alunos.
+- Agendamento de sessões de treinamento para Alunos.
+- Registro e acompanhamento de avaliações físicas.
+- Criação e gerenciamento de treinos personalizados.
 
-  Cadastro personal => POST http://localhost:3333/personal
-    Body: 
-      {
-	      "nome": "Maria Barbosa",
-	      "email": "maria@gmail.com",
-	      "senha": "password",
-	      "confirmarSenha": "password"
-      }
-  Alterar personal => PUT http://localhost:3333/personal/:id
-    Body: 
-      {
-        "nome": "João Silva",
-        "senhaAntiga": "password",
-        "novaSenha": "PASSWORD",
-        "confirmarNovaSenha": "PASSWORD"
-      }
+## Tecnologias Utilizadas
 
-----------------------ALUNOS--------------------------------------------------
-  
-  Cadastro aluno => POST http://localhost:3333/alunos
-    Body: 
-      {
-        "nome": "Tais de Paula",
-        "telefone": "42999999999",
-        "whatsapp": "+5542999999999", 
-        "objetivo": "Ganho de massa", 
-        "observacoes": "", 
-        "sexo": "F", 
-        "data_nasc": "2000-01-01"
-      }
-    Header
-      personal :id 
-  Alterar Aluno => PUT http://localhost:3333/alunos/:id
-    Body: 
-      {
-        "nome": "Luiz Carlos",
-        "telefone": "42999999999",
-        "whatsapp": "+5542999999999", 
-        "objetivo": "Ganho de massa", 
-        "observacoes": "", 
-        "sexo": "M", 
-        "data_nasc": "2000-01-01"
-      }
-    Header
-      personal :id 
-  Deletar Aluno => DELETE http://localhost:3333/alunos/:id
-    Header
-      personal :id 
-  Lista Aluno => GET http://localhost:3333/alunos
-    Header
-      personal :id 
+- Backend:
 
-----------------------AGENDAMENTO--------------------------------------------------
-  
-  Cadastro Agendamento => POST http://localhost:3333/agendamento
-    Body: 
-      {
-        "tipo": "A",
-        "observacoes": "",
-        "data_hora_agendamento": "2020-11-10 08:00:00",
-        "data_hora_execucao": "",
-        "aluno_id": "3"
-      }
-    Header
-      personal :id 
-  Alterar Agendamento => PUT http://localhost:3333/agendamento/:id
-    Body: 
-      {
-        "tipo": "A",
-        "observacoes": "",
-        "data_hora_agendamento": "2020-12-10 10:00:00",
-        "data_hora_execucao": "",
-        "aluno_id": "3"
-      }
-    Header
-      personal :id 
-  Deletar Agendamento => DELETE http://localhost:3333/agendamento/:id
-    Header
-      personal :id 
-  Lista Agendamento => GET http://localhost:3333/agendamento
-    Header
-      personal :id 
+  - Node.js
+  - Express.js
+  - MySQL (Banco de Dados)
+  - Knex.js (Query Builder)
+  - Autenticação (Login) usando JWT (JSON Web Tokens)
 
-----------------------AVALIAÇÃO--------------------------------------------------
+- Frontend:
+  - React.js
+  - Axios (para fazer as requisições HTTP ao backend)
 
-  Cadastro Avaliação => POST http://localhost:3333/avaliacao
-    Body: 
-      {
-        "peso": 80.0, 
-        "altura": 1.80, 
-        "dobra_tricipal": 5, 
-        "dobra_bicipal": 5,
-        "dobra_toracica": 5,
-        "dobra_panturrilha": 5,
-        "dobra_abdominal": 5,
-        "dobra_coxa": 5,
-        "dobra_subescapular": 5,
-        "dobra_supra_iliaca": 5,
-        "dobra_axilar": 5,
-        "data_avaliacao": "2020-01-01"
-      }
-    Query:
-      aluno :id 
-  Alterar Avaliação => PUT http://localhost:3333/avaliacao/:id 
-    Body: 
-      {
-        "peso": 80.0, 
-        "altura": 1.80, 
-        "dobra_tricipal": 5.5, 
-        "dobra_bicipal": 5.5,
-        "dobra_toracica": 5.5,
-        "dobra_panturrilha": 5.5,
-        "dobra_abdominal": 5,
-        "dobra_coxa": 5,
-        "dobra_subescapular": 5,
-        "dobra_supra_iliaca": 5,
-        "dobra_axilar": 5,
-        "data_avaliacao": "2020-01-01"
-      }
-  Deletar Avaliação => DELETE http://localhost:3333/avaliacao/:id
-    Header
-      personal :id 
-  Lista Avaliação => GET http://localhost:3333/avaliacao
-    Query
-      aluno :id 
+## Instalação e Execução
 
-----------------------EXERCÍCIO--------------------------------------------------
+### Backend
 
-  Cadastro Exercício => POST http://localhost:3333/exercicio
-    Body: 
-      {
-        "nome": "Supino Inclinado",
-        "maquina": "Banco de Supino",
-        "tipo": "R"
-      }
-    Header:
-      personal :id 
-  Alterar Exercício => PUT http://localhost:3333/exercicio/:id 
-    Body: 
-      {
-        "nome": "Corrida",
-        "maquina": "Esteira",
-        "tipo": "T"
-      }
-    Header: 
-      personal :id 
-  Deletar Exercício => DELETE http://localhost:3333/exercicio/:id
-    Header
-      personal :id 
-  Lista Exercício => GET http://localhost:3333/exercicio
-    Header
-      personal :id 
+1. Instale as dependências do projeto:
+2. Instale o Knex globalmente:
+3. Rode as migrações para criar o banco de dados e as tabelas necessárias:
 
-----------------------TREINO--------------------------------------------------
+### Frontend
 
-  Cadastro Treino => POST http://localhost:3333/treino
-    Body: 
-      {
-        "nome": "Iniciante",
-        "exercicios": [{
-          "exercicio_id": "2",
-          "detalhes": {
-            "tempo": "30",
-            "observacoes": ""
-          }
-        }, {
-          "exercicio_id": "3",
-          "detalhes": {
-            "series": "5",
-            "repeticao": "15",
-            "carga": "50",
-            "observacoes": ""
-          }
-        }]
-      }
-    Query:
-      aluno :id
-    Header:
-      personal :id 
-  Alterar Treino => PUT http://localhost:3333/treino/:id 
-    Body: 
-      {
-        "nome": "Avançado",
-        "exercicios": [{
-          "exercicio_id": "2",
-          "detalhes": {
-            "tempo": "30",
-            "observacoes": ""
-          }
-        }, {
-          "exercicio_id": "3",
-          "detalhes": {
-            "series": "5",
-            "repeticao": "15",
-            "carga": "50",
-            "observacoes": ""
-          }
-        }]
-      }
-    Query:
-      aluno :id
-    Header: 
-      personal :id 
-  Deletar Treino => DELETE http://localhost:3333/treino/:id
-    Header
-      personal :id 
-  Lista Treino => GET http://localhost:3333/treino
-    Query
-      aluno :id 
-      nome :nomeTreino
+1. Navegue até a pasta "frontend":
+2. Instale as dependências do projeto:
+3. Inicie o frontend:
 
-----------------------AUTENTICAÇÃO----------------------------------------------
+Acesse o aplicativo em seu navegador em http://localhost:3000.
 
-  Login => POST http://localhost:3333/personal/login
-    Body:
-      {
-        "email": "joao@silva.com.br",
-        "senha": "PASSWORD"
-      }
+## Endpoints da API
 
+A API do Personal Shape possui os seguintes endpoints:
 
+- **PERSONAL:**
+- Cadastro personal
+- Alterar personal
 
-Pasta frontend
-comandos no terminal:
-$ npm i
-$ npm start
+- **ALUNOS:**
+- Cadastro aluno
+- Alterar Aluno
+- Deletar Aluno
+- Lista Aluno
+
+- **AGENDAMENTO:**
+- Cadastro Agendamento
+- Alterar Agendamento
+- Deletar Agendamento
+- Lista Agendamento
+
+- **AVALIAÇÃO:**
+- Cadastro Avaliação
+- Alterar Avaliação
+- Deletar Avaliação
+- Lista Avaliação
+
+- **EXERCÍCIO:**
+- Cadastro Exercício
+- Alterar Exercício
+- Deletar Exercício
+- Lista Exercício
+
+- **TREINO:**
+- Cadastro Treino
+- Alterar Treino
+- Deletar Treino
+- Lista Treino
+
+- **AUTENTICAÇÃO:**
+- Login (para acesso ao sistema)
+
+## Como utilizar
+
+1. Faça login utilizando as credenciais do Personal Trainer.
+
+2. Cadastre seus alunos no sistema.
+
+3. Cadastre exercícios e crie treinos personalizados para seus alunos.
+
+4. Realize avaliações físicas para acompanhar o progresso dos alunos.
+
+5. Agende sessões de treinamento para os alunos.
+
+## Contribuição
+
+Contribuições são bem-vindas! Se você encontrar algum bug, tiver alguma sugestão de melhoria ou desejar adicionar novos recursos, sinta-se à vontade para abrir um pull request.
+
+Esperamos que o Personal Shape seja útil para personal trainers no gerenciamento de seus alunos e treinamentos. Caso tenha alguma dúvida ou precise de ajuda, entre em contato.
+
+## Licença
+
+[MIT License](https://opensource.org/licenses/MIT)
